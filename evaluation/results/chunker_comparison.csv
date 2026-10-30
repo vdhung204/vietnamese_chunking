@@ -1,0 +1,3 @@
+method,boundary_precision,boundary_recall,boundary_f1,dependency_violation_rate,recall_at_3,recall_at_5,chunking_seconds
+LlamaIndex SemanticSplitter,0.4,0.4,0.4,0.0,0.75,0.8125,3.2153933999943547
+Ours,1.0,0.8,0.8888888888888888,0.0,0.75,0.9375,2.3725378001108766

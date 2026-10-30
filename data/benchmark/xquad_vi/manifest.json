@@ -1,0 +1,239 @@
+{
+  "source": {
+    "dataset": "XQuAD Vietnamese",
+    "repository": "https://github.com/google-deepmind/xquad",
+    "revision": "7d30520c717524000f0d9d2f9c10a069acd9d285",
+    "sha256": "f619a1eb11fb42d3ab0834259e488a65f585447ef6154437bfb7199d85161a04",
+    "license": "CC-BY-SA-4.0",
+    "attribution": "Artetxe, Ruder and Yogatama (2020), On the Cross-lingual Transferability of Monolingual Representations",
+    "paper": "https://aclanthology.org/2020.acl-main.421/"
+  },
+  "adaptation_license": "CC-BY-SA-4.0",
+  "split_seed": "utc-rag-xquad-vi-v1",
+  "split_policy": "Disjoint source titles, hash order within each manually assigned broad domain; ~20% dev",
+  "evidence_policy": "Whole sentence envelope around first original answer, using unchanged project sentence splitter",
+  "article_policy": "Concatenate ONLY supplied paragraphs of the same title in source release order; not full original articles",
+  "qa_authorship": "Original published QA and translations retained; no assistant-generated questions or answers",
+  "label_review": "Mechanical validation only; evidence derived automatically; see review.csv for known source issues",
+  "original_questions_retained": 1190,
+  "unique_normalized_questions": 1181,
+  "repeated_question_groups": 9,
+  "source_context_duplicates": 0,
+  "summaries": {
+    "paragraph/full": {
+      "documents": 240,
+      "questions": 1190,
+      "independent_source_titles": 48,
+      "whitespace_units": {
+        "min": 39,
+        "median": 155.0,
+        "max": 763,
+        "total": 41754
+      },
+      "length_bands": {
+        "long_gt240": 34,
+        "short_lt120": 39,
+        "medium_120_240": 167
+      },
+      "documents_by_domain": {
+        "culture_sport_media": 25,
+        "geography": 40,
+        "history_religion": 45,
+        "science_technology": 45,
+        "education": 20,
+        "society_economy_law": 30,
+        "nature_health": 35
+      },
+      "questions_by_domain": {
+        "culture_sport_media": 168,
+        "geography": 192,
+        "history_religion": 186,
+        "science_technology": 207,
+        "education": 88,
+        "society_economy_law": 166,
+        "nature_health": 183
+      }
+    },
+    "paragraph/dev": {
+      "documents": 50,
+      "questions": 233,
+      "independent_source_titles": 10,
+      "whitespace_units": {
+        "min": 39,
+        "median": 154.0,
+        "max": 419,
+        "total": 8582
+      },
+      "length_bands": {
+        "short_lt120": 5,
+        "medium_120_240": 39,
+        "long_gt240": 6
+      },
+      "documents_by_domain": {
+        "history_religion": 10,
+        "culture_sport_media": 5,
+        "science_technology": 10,
+        "geography": 10,
+        "nature_health": 5,
+        "education": 5,
+        "society_economy_law": 5
+      },
+      "questions_by_domain": {
+        "history_religion": 48,
+        "culture_sport_media": 25,
+        "science_technology": 43,
+        "geography": 48,
+        "nature_health": 25,
+        "education": 21,
+        "society_economy_law": 23
+      }
+    },
+    "paragraph/test": {
+      "documents": 190,
+      "questions": 957,
+      "independent_source_titles": 38,
+      "whitespace_units": {
+        "min": 43,
+        "median": 156.0,
+        "max": 763,
+        "total": 33172
+      },
+      "length_bands": {
+        "long_gt240": 28,
+        "short_lt120": 34,
+        "medium_120_240": 128
+      },
+      "documents_by_domain": {
+        "culture_sport_media": 20,
+        "geography": 30,
+        "history_religion": 35,
+        "science_technology": 35,
+        "education": 15,
+        "society_economy_law": 25,
+        "nature_health": 30
+      },
+      "questions_by_domain": {
+        "culture_sport_media": 143,
+        "geography": 144,
+        "history_religion": 138,
+        "science_technology": 164,
+        "education": 67,
+        "society_economy_law": 143,
+        "nature_health": 158
+      }
+    },
+    "article/full": {
+      "documents": 48,
+      "questions": 1190,
+      "independent_source_titles": 48,
+      "whitespace_units": {
+        "min": 496,
+        "median": 804.5,
+        "max": 2169,
+        "total": 41754
+      },
+      "length_bands": {
+        "long_gt240": 48
+      },
+      "documents_by_domain": {
+        "culture_sport_media": 5,
+        "geography": 8,
+        "history_religion": 9,
+        "science_technology": 9,
+        "education": 4,
+        "society_economy_law": 6,
+        "nature_health": 7
+      },
+      "questions_by_domain": {
+        "culture_sport_media": 168,
+        "geography": 192,
+        "history_religion": 186,
+        "science_technology": 207,
+        "education": 88,
+        "society_economy_law": 166,
+        "nature_health": 183
+      }
+    },
+    "article/dev": {
+      "documents": 10,
+      "questions": 233,
+      "independent_source_titles": 10,
+      "whitespace_units": {
+        "min": 635,
+        "median": 787.5,
+        "max": 1086,
+        "total": 8582
+      },
+      "length_bands": {
+        "long_gt240": 10
+      },
+      "documents_by_domain": {
+        "history_religion": 2,
+        "culture_sport_media": 1,
+        "science_technology": 2,
+        "geography": 2,
+        "nature_health": 1,
+        "education": 1,
+        "society_economy_law": 1
+      },
+      "questions_by_domain": {
+        "history_religion": 48,
+        "culture_sport_media": 25,
+        "science_technology": 43,
+        "geography": 48,
+        "nature_health": 25,
+        "education": 21,
+        "society_economy_law": 23
+      }
+    },
+    "article/test": {
+      "documents": 38,
+      "questions": 957,
+      "independent_source_titles": 38,
+      "whitespace_units": {
+        "min": 496,
+        "median": 806.0,
+        "max": 2169,
+        "total": 33172
+      },
+      "length_bands": {
+        "long_gt240": 38
+      },
+      "documents_by_domain": {
+        "culture_sport_media": 4,
+        "geography": 6,
+        "history_religion": 7,
+        "science_technology": 7,
+        "education": 3,
+        "society_economy_law": 5,
+        "nature_health": 6
+      },
+      "questions_by_domain": {
+        "culture_sport_media": 143,
+        "geography": 144,
+        "history_religion": 138,
+        "science_technology": 164,
+        "education": 67,
+        "society_economy_law": 143,
+        "nature_health": 158
+      }
+    }
+  },
+  "artifact_sha256": {
+    "article\\dev\\documents.json": "ffdee8546a8e67e7436365014626efb9b03fb07cb63e95323af831cf3e5cf2de",
+    "article\\dev\\questions.json": "8806a8b48b5be398e0b271e540aac759fdeabe10ff7091c32b56626df3e8a3be",
+    "article\\full\\documents.json": "84f5a74ae1eaa6aadf59ac9cb5efaac8dfe3f1342dad673c184e0e5078962c24",
+    "article\\full\\questions.json": "7733df739d9f48160da5a57f7766a7e026526d4bd0cb8119f7a30752d0e879ef",
+    "article\\test\\documents.json": "a09b56e86c48afe6a73fd14e2f94023702d9b7c346e700649b80969b60e12b26",
+    "article\\test\\questions.json": "61e305e42849d1a42b50a8b7f5e37965d1464ad02ca0f67c9a7e254fd1d1d94d",
+    "duplicate_question_audit.json": "1b4468d11c189b587020f2d921f54b6267e5e15b9c0bc132b52e210578953f81",
+    "paragraph\\dev\\documents.json": "93492fc1ae8d754e04a5aade55fb687e722a4269458ea96976459168c08a69d1",
+    "paragraph\\dev\\questions.json": "a09d82ddb4763be3dc3bd8a164437669cc8ae032409c5bf963d92ecca15b7515",
+    "paragraph\\full\\documents.json": "faa3345ddc25c567c3923b114eb0f0ba0c587d4a28e170810fd5ed1b663e4dec",
+    "paragraph\\full\\questions.json": "636b7dd2547b6123544939833a3bf14261c0a28c5aa9eebc9c082a4d7224f29d",
+    "paragraph\\test\\documents.json": "6d17539daab40abbd48b6dd6f37dc2b1c344cb07b01aacf6cb91a2257e78522e",
+    "paragraph\\test\\questions.json": "4dcab4bd6cedeb37a7c01a0972661fb7512ea176a8695dc7c7f3f5f9aed01648",
+    "review.csv": "3ea548496c8fc16ce61e7c957e3b12f2a8b17ef6381f91719c50625cf16560b9",
+    "source\\xquad.vi.json": "f619a1eb11fb42d3ab0834259e488a65f585447ef6154437bfb7199d85161a04"
+  }
+}

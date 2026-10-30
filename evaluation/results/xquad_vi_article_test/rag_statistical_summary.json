@@ -1,0 +1,200 @@
+{
+  "method_order": [
+    "Max-Min",
+    "Ours"
+  ],
+  "difference": "Ours minus Max-Min",
+  "questions": 957,
+  "source_titles": 38,
+  "bootstrap_repetitions": 5000,
+  "bootstrap_seed": 2026,
+  "interval": "95% paired source-title cluster bootstrap percentile",
+  "note": "Exploratory retrieval intervals, not QA accuracy or proof of generalization.",
+  "metrics": {
+    "recall_at_3": {
+      "means": {
+        "Max-Min": 0.8056426332288401,
+        "Ours": 0.7366771159874608
+      },
+      "delta": -0.06896551724137931,
+      "delta_ci95": [
+        -0.10370493009565857,
+        -0.03598559829279928
+      ],
+      "source_title_macro": {
+        "Max-Min": 0.8084790838681309,
+        "Ours": 0.7353734278871588
+      }
+    },
+    "recall_at_5": {
+      "means": {
+        "Max-Min": 0.8526645768025078,
+        "Ours": 0.8056426332288401
+      },
+      "delta": -0.047021943573667714,
+      "delta_ci95": [
+        -0.08243061922758683,
+        -0.013194529941411452
+      ],
+      "source_title_macro": {
+        "Max-Min": 0.8519231519792619,
+        "Ours": 0.7986815766155623
+      }
+    },
+    "mrr_at_5": {
+      "means": {
+        "Max-Min": 0.7259491466388018,
+        "Ours": 0.654284221525601
+      },
+      "delta": -0.07166492511320098,
+      "delta_ci95": [
+        -0.10568112906865233,
+        -0.04016632760844453
+      ],
+      "source_title_macro": {
+        "Max-Min": 0.7309887752027133,
+        "Ours": 0.6528926519268559
+      }
+    }
+  },
+  "by_domain": {
+    "culture_sport_media": {
+      "questions": 143,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.8041958041958042,
+          "recall_at_5": 0.8391608391608392,
+          "mrr_at_5": 0.73997668997669
+        },
+        "Ours": {
+          "recall_at_3": 0.7692307692307693,
+          "recall_at_5": 0.8741258741258742,
+          "mrr_at_5": 0.6898601398601398
+        }
+      }
+    },
+    "education": {
+      "questions": 67,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.8208955223880597,
+          "recall_at_5": 0.8656716417910447,
+          "mrr_at_5": 0.7584577114427861
+        },
+        "Ours": {
+          "recall_at_3": 0.6865671641791045,
+          "recall_at_5": 0.7910447761194029,
+          "mrr_at_5": 0.622636815920398
+        }
+      }
+    },
+    "geography": {
+      "questions": 144,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.8541666666666666,
+          "recall_at_5": 0.8888888888888888,
+          "mrr_at_5": 0.7741898148148149
+        },
+        "Ours": {
+          "recall_at_3": 0.7013888888888888,
+          "recall_at_5": 0.7291666666666666,
+          "mrr_at_5": 0.6292824074074075
+        }
+      }
+    },
+    "history_religion": {
+      "questions": 138,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.7536231884057971,
+          "recall_at_5": 0.8043478260869565,
+          "mrr_at_5": 0.6746376811594202
+        },
+        "Ours": {
+          "recall_at_3": 0.7391304347826086,
+          "recall_at_5": 0.782608695652174,
+          "mrr_at_5": 0.6421497584541064
+        }
+      }
+    },
+    "nature_health": {
+      "questions": 158,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.7974683544303798,
+          "recall_at_5": 0.8354430379746836,
+          "mrr_at_5": 0.7149789029535865
+        },
+        "Ours": {
+          "recall_at_3": 0.7848101265822784,
+          "recall_at_5": 0.8354430379746836,
+          "mrr_at_5": 0.6976793248945148
+        }
+      }
+    },
+    "science_technology": {
+      "questions": 164,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.7865853658536586,
+          "recall_at_5": 0.8597560975609756,
+          "mrr_at_5": 0.7178861788617885
+        },
+        "Ours": {
+          "recall_at_3": 0.6951219512195121,
+          "recall_at_5": 0.7804878048780488,
+          "mrr_at_5": 0.6224593495934959
+        }
+      }
+    },
+    "society_economy_law": {
+      "questions": 143,
+      "methods": {
+        "Max-Min": {
+          "recall_at_3": 0.8321678321678322,
+          "recall_at_5": 0.8811188811188811,
+          "mrr_at_5": 0.718997668997669
+        },
+        "Ours": {
+          "recall_at_3": 0.7552447552447552,
+          "recall_at_5": 0.8391608391608392,
+          "mrr_at_5": 0.658974358974359
+        }
+      }
+    }
+  },
+  "failure_counts": {
+    "Max-Min": {
+      "hit": 816,
+      "ranking_miss": 130,
+      "evidence_split": 11
+    },
+    "Ours": {
+      "hit": 771,
+      "ranking_miss": 186
+    }
+  },
+  "paired_hit_counts_at_5": {
+    "both_hit": 689,
+    "only_first": 127,
+    "only_second": 82,
+    "neither": 59
+  },
+  "deduplicated_sensitivity": {
+    "questions": 949,
+    "policy": "first lexicographic question ID per casefold/whitespace-normalized question",
+    "methods": {
+      "Max-Min": {
+        "recall_at_3": 0.8050579557428873,
+        "recall_at_5": 0.8524762908324552,
+        "mrr_at_5": 0.7252195293291184
+      },
+      "Ours": {
+        "recall_at_3": 0.7355110642781876,
+        "recall_at_5": 0.8050579557428873,
+        "mrr_at_5": 0.6541798384264137
+      }
+    }
+  }
+}

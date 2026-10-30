@@ -1,0 +1,114 @@
+[
+  {
+    "id": "q001",
+    "document_id": "case_003",
+    "question": "Theo tài liệu, duy trì lối sống lành mạnh có thể giảm nguy cơ gì?",
+    "gold_evidence": "Các nghiên cứu đã chỉ ra rằng việc duy trì lối sống lành mạnh có thể giảm nguy cơ mắc các bệnh mãn tính.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q002",
+    "document_id": "case_004",
+    "question": "Một chế độ ăn cân bằng cần cung cấp những nhóm dưỡng chất và nguồn lực nào?",
+    "gold_evidence": "Một chế độ ăn uống cân bằng cần cung cấp đầy đủ protein, vitamin, khoáng chất và các nguồn năng lượng cần thiết.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q003",
+    "document_id": "case_004",
+    "question": "Self-attention giúp xác định điều gì và khả năng xử lý nào giúp Transformer trở thành nền tảng của các mô hình hiện đại?",
+    "gold_evidence": "Cơ chế self-attention giúp mô hình xác định những phần thông tin quan trọng trong chuỗi dữ liệu. Nhờ khả năng xử lý song song, Transformer đã trở thành nền tảng của nhiều mô hình ngôn ngữ hiện đại.",
+    "category": "multi_sentence"
+  },
+  {
+    "id": "q004",
+    "document_id": "case_005",
+    "question": "Tài liệu khuyên hạn chế những loại thực phẩm và đồ uống nào?",
+    "gold_evidence": "Việc hạn chế thực phẩm chế biến sẵn và đồ uống có quá nhiều đường cũng có lợi cho sức khỏe lâu dài.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q005",
+    "document_id": "case_006",
+    "question": "Vì sao nên hạn chế ánh sáng điện thoại và máy tính trước giờ ngủ?",
+    "gold_evidence": "Ánh sáng mạnh từ điện thoại và máy tính nên được hạn chế trước khi đi ngủ để tránh ảnh hưởng đến chất lượng giấc ngủ.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q006",
+    "document_id": "case_006",
+    "question": "Vận động nhẹ vào buổi chiều và vận động quá mạnh ngay trước giờ ngủ có tác động khác nhau thế nào?",
+    "gold_evidence": "Một số người lựa chọn vận động nhẹ vào buổi chiều để giúp cơ thể thư giãn và cải thiện chất lượng giấc ngủ. Tuy nhiên, vận động với cường độ quá cao ngay trước giờ ngủ có thể khiến cơ thể khó trở lại trạng thái nghỉ ngơi.",
+    "category": "multi_sentence"
+  },
+  {
+    "id": "q007",
+    "document_id": "case_006",
+    "question": "Những yếu tố nào của phòng ngủ có thể ảnh hưởng đến trải nghiệm ngủ?",
+    "gold_evidence": "Các yếu tố như nhiệt độ phòng, tiếng ồn và ánh sáng đều có thể ảnh hưởng đến trải nghiệm ngủ.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q008",
+    "document_id": "case_007",
+    "question": "Theo tài liệu, nếu xuất hiện dấu hiệu bất thường sau khi dùng sản phẩm thì cần làm gì trước khi tiếp tục?",
+    "gold_evidence": "Nếu người dùng xuất hiện các dấu hiệu bất thường sau khi sử dụng sản phẩm. Thì nên ngừng sử dụng và tham khảo ý kiến của người có chuyên môn trước khi tiếp tục.",
+    "category": "dependency"
+  },
+  {
+    "id": "q009",
+    "document_id": "case_008",
+    "question": "Có thể bổ sung protein từ những nguồn nào?",
+    "gold_evidence": "Protein có thể được bổ sung từ thịt, cá, trứng, sữa hoặc các nguồn thực vật phù hợp.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q010",
+    "document_id": "case_009",
+    "question": "Việc sử dụng nhân sâm cần dựa vào đâu và nên tránh cách dùng nào về liều lượng, thời gian?",
+    "gold_evidence": "Việc sử dụng nhân sâm cần dựa trên tình trạng sức khỏe và nhu cầu của từng người. Người dùng không nên tự ý sử dụng với liều lượng quá cao trong thời gian dài.",
+    "category": "multi_sentence"
+  },
+  {
+    "id": "q011",
+    "document_id": "case_010",
+    "question": "Người mới tập nên chọn cường độ thế nào và có thể điều chỉnh gì khi cơ thể đã thích nghi?",
+    "gold_evidence": "Người mới bắt đầu nên lựa chọn cường độ vận động phù hợp với thể trạng và tăng dần theo thời gian. Khi cơ thể đã thích nghi, thời gian hoặc cường độ luyện tập có thể được điều chỉnh để duy trì hiệu quả.",
+    "category": "multi_sentence"
+  },
+  {
+    "id": "q012",
+    "document_id": "case_011",
+    "question": "Tuy chế độ ăn uống quan trọng, tài liệu nhấn mạnh cần quan tâm thêm những hoạt động nào?",
+    "gold_evidence": "Tuy chế độ ăn uống là một yếu tố quan trọng trong việc duy trì sức khỏe. Nhưng việc vận động và nghỉ ngơi hợp lý cũng cần được quan tâm để duy trì thể trạng ổn định.",
+    "category": "dependency"
+  },
+  {
+    "id": "q013",
+    "document_id": "case_012",
+    "question": "Vì sao tài liệu khuyên theo dõi phản ứng của cơ thể khi sử dụng dược liệu?",
+    "gold_evidence": "Một số sản phẩm có thể gây phản ứng không mong muốn nếu sử dụng không phù hợp. Vì vậy người dùng cần theo dõi phản ứng của cơ thể trong quá trình sử dụng.",
+    "category": "multi_sentence"
+  },
+  {
+    "id": "q014",
+    "document_id": "case_013",
+    "question": "BERT dựa trên kiến trúc nào và biểu diễn ngữ cảnh theo hướng nào?",
+    "gold_evidence": "BERT là một mô hình dựa trên Transformer được thiết kế để biểu diễn ngữ cảnh hai chiều.",
+    "category": "single_sentence"
+  },
+  {
+    "id": "q015",
+    "document_id": "case_013",
+    "question": "Trong RAG, chunk quá nhỏ và chunk quá lớn có những bất lợi gì?",
+    "gold_evidence": "Chunk quá nhỏ có thể làm mất ngữ cảnh cần thiết cho câu hỏi. Chunk quá lớn có thể chứa nhiều thông tin không liên quan và làm giảm độ chính xác của retrieval.",
+    "category": "multi_sentence"
+  },
+  {
+    "id": "q016",
+    "document_id": "case_013",
+    "question": "Dynamic overlap có vai trò gì giữa các chunk liên tiếp?",
+    "gold_evidence": "Dynamic overlap giúp giữ lại một phần ngữ cảnh giữa các chunk liên tiếp.",
+    "category": "single_sentence"
+  }
+]

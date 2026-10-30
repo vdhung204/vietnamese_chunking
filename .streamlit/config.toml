@@ -1,0 +1,5 @@
+[server]
+# Transformers exposes lazy image-processing aliases. Streamlit's source watcher
+# introspects them after each run and imports optional vision dependencies.
+# This text-only app does not need those imports; disable development watching.
+fileWatcherType = "none"

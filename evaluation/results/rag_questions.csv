@@ -1,0 +1,33 @@
+﻿method,question_id,document_id,category,question,hit_at_3,hit_at_5,evidence_preserved,failure_reason,context_words_at_5
+LlamaIndex SemanticSplitter,q001,case_003,single_sentence,"Theo tài liệu, duy trì lối sống lành mạnh có thể giảm nguy cơ gì?",True,True,True,,615
+LlamaIndex SemanticSplitter,q002,case_004,single_sentence,Một chế độ ăn cân bằng cần cung cấp những nhóm dưỡng chất và nguồn lực nào?,True,True,True,,560
+LlamaIndex SemanticSplitter,q003,case_004,multi_sentence,Self-attention giúp xác định điều gì và khả năng xử lý nào giúp Transformer trở thành nền tảng của các mô hình hiện đại?,False,True,True,,384
+LlamaIndex SemanticSplitter,q004,case_005,single_sentence,Tài liệu khuyên hạn chế những loại thực phẩm và đồ uống nào?,False,False,True,ranking_miss,663
+LlamaIndex SemanticSplitter,q005,case_006,single_sentence,Vì sao nên hạn chế ánh sáng điện thoại và máy tính trước giờ ngủ?,True,True,True,,673
+LlamaIndex SemanticSplitter,q006,case_006,multi_sentence,Vận động nhẹ vào buổi chiều và vận động quá mạnh ngay trước giờ ngủ có tác động khác nhau thế nào?,True,True,True,,673
+LlamaIndex SemanticSplitter,q007,case_006,single_sentence,Những yếu tố nào của phòng ngủ có thể ảnh hưởng đến trải nghiệm ngủ?,True,True,True,,673
+LlamaIndex SemanticSplitter,q008,case_007,dependency,"Theo tài liệu, nếu xuất hiện dấu hiệu bất thường sau khi dùng sản phẩm thì cần làm gì trước khi tiếp tục?",True,True,True,,918
+LlamaIndex SemanticSplitter,q009,case_008,single_sentence,Có thể bổ sung protein từ những nguồn nào?,True,True,True,,550
+LlamaIndex SemanticSplitter,q010,case_009,multi_sentence,"Việc sử dụng nhân sâm cần dựa vào đâu và nên tránh cách dùng nào về liều lượng, thời gian?",False,False,False,evidence_split,847
+LlamaIndex SemanticSplitter,q011,case_010,multi_sentence,Người mới tập nên chọn cường độ thế nào và có thể điều chỉnh gì khi cơ thể đã thích nghi?,False,False,True,ranking_miss,737
+LlamaIndex SemanticSplitter,q012,case_011,dependency,"Tuy chế độ ăn uống quan trọng, tài liệu nhấn mạnh cần quan tâm thêm những hoạt động nào?",True,True,True,,648
+LlamaIndex SemanticSplitter,q013,case_012,multi_sentence,Vì sao tài liệu khuyên theo dõi phản ứng của cơ thể khi sử dụng dược liệu?,True,True,True,,847
+LlamaIndex SemanticSplitter,q014,case_013,single_sentence,BERT dựa trên kiến trúc nào và biểu diễn ngữ cảnh theo hướng nào?,True,True,True,,400
+LlamaIndex SemanticSplitter,q015,case_013,multi_sentence,"Trong RAG, chunk quá nhỏ và chunk quá lớn có những bất lợi gì?",True,True,True,,792
+LlamaIndex SemanticSplitter,q016,case_013,single_sentence,Dynamic overlap có vai trò gì giữa các chunk liên tiếp?,True,True,True,,409
+Ours,q001,case_003,single_sentence,"Theo tài liệu, duy trì lối sống lành mạnh có thể giảm nguy cơ gì?",True,True,True,,595
+Ours,q002,case_004,single_sentence,Một chế độ ăn cân bằng cần cung cấp những nhóm dưỡng chất và nguồn lực nào?,True,True,True,,715
+Ours,q003,case_004,multi_sentence,Self-attention giúp xác định điều gì và khả năng xử lý nào giúp Transformer trở thành nền tảng của các mô hình hiện đại?,False,True,True,,320
+Ours,q004,case_005,single_sentence,Tài liệu khuyên hạn chế những loại thực phẩm và đồ uống nào?,False,False,True,ranking_miss,753
+Ours,q005,case_006,single_sentence,Vì sao nên hạn chế ánh sáng điện thoại và máy tính trước giờ ngủ?,True,True,True,,877
+Ours,q006,case_006,multi_sentence,Vận động nhẹ vào buổi chiều và vận động quá mạnh ngay trước giờ ngủ có tác động khác nhau thế nào?,True,True,True,,935
+Ours,q007,case_006,single_sentence,Những yếu tố nào của phòng ngủ có thể ảnh hưởng đến trải nghiệm ngủ?,True,True,True,,899
+Ours,q008,case_007,dependency,"Theo tài liệu, nếu xuất hiện dấu hiệu bất thường sau khi dùng sản phẩm thì cần làm gì trước khi tiếp tục?",True,True,True,,724
+Ours,q009,case_008,single_sentence,Có thể bổ sung protein từ những nguồn nào?,True,True,True,,890
+Ours,q010,case_009,multi_sentence,"Việc sử dụng nhân sâm cần dựa vào đâu và nên tránh cách dùng nào về liều lượng, thời gian?",True,True,True,,843
+Ours,q011,case_010,multi_sentence,Người mới tập nên chọn cường độ thế nào và có thể điều chỉnh gì khi cơ thể đã thích nghi?,False,True,True,,764
+Ours,q012,case_011,dependency,"Tuy chế độ ăn uống quan trọng, tài liệu nhấn mạnh cần quan tâm thêm những hoạt động nào?",True,True,True,,770
+Ours,q013,case_012,multi_sentence,Vì sao tài liệu khuyên theo dõi phản ứng của cơ thể khi sử dụng dược liệu?,True,True,True,,698
+Ours,q014,case_013,single_sentence,BERT dựa trên kiến trúc nào và biểu diễn ngữ cảnh theo hướng nào?,False,True,True,,439
+Ours,q015,case_013,multi_sentence,"Trong RAG, chunk quá nhỏ và chunk quá lớn có những bất lợi gì?",True,True,True,,675
+Ours,q016,case_013,single_sentence,Dynamic overlap có vai trò gì giữa các chunk liên tiếp?,True,True,True,,415

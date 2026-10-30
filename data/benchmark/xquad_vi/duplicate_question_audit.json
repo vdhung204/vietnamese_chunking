@@ -1,0 +1,146 @@
+[
+  {
+    "question": "ai đã giành super bowl xlix?",
+    "ids": [
+      "xquad_vi_56beb7953aeaaa14008c92ad",
+      "xquad_vi_56bf36b93aeaaa14008c9563"
+    ],
+    "answers": [
+      "New England Patriots",
+      "New England Patriots"
+    ],
+    "document_ids": [
+      "xquad_vi_a000_p001",
+      "xquad_vi_a000_p001"
+    ],
+    "answer_disagreement": false
+  },
+  {
+    "question": "ai đã hát quốc ca tại super bowl 50?",
+    "ids": [
+      "xquad_vi_56d7253b0d65d214001983d4",
+      "xquad_vi_56d9c455dc89441400fdb7c4"
+    ],
+    "answers": [
+      "Lady Gaga",
+      "Lady Gaga"
+    ],
+    "document_ids": [
+      "xquad_vi_a000_p003",
+      "xquad_vi_a000_p003"
+    ],
+    "answer_disagreement": false
+  },
+  {
+    "question": "tesla chết năm nào?",
+    "ids": [
+      "xquad_vi_56dfa0d84a1a83140091ebb7",
+      "xquad_vi_56e0bb9f7aa994140058e6cc"
+    ],
+    "answers": [
+      "năm 1943",
+      "năm 1943"
+    ],
+    "document_ids": [
+      "xquad_vi_a003_p000",
+      "xquad_vi_a003_p000"
+    ],
+    "answer_disagreement": false
+  },
+  {
+    "question": "tesla electric light & manufacturing đã làm gì?",
+    "ids": [
+      "xquad_vi_56dfb5777aa994140058e023",
+      "xquad_vi_56e0d6cf231d4119001ac423"
+    ],
+    "answers": [
+      "đã lắp đặt hệ thống chiếu sáng dựa trên hồ quang điện do Tesla thiết kế",
+      "đã lắp đặt hệ thống chiếu sáng dựa trên hồ quang điện"
+    ],
+    "document_ids": [
+      "xquad_vi_a003_p001",
+      "xquad_vi_a003_p001"
+    ],
+    "answer_disagreement": true
+  },
+  {
+    "question": "bầu cử nghị viện diễn ra bao lâu một lần?",
+    "ids": [
+      "xquad_vi_572651f9f1498d1400e8dbf0",
+      "xquad_vi_5726938af1498d1400e8e449"
+    ],
+    "answers": [
+      "sau mỗi 5 năm",
+      "sau mỗi 5 năm"
+    ],
+    "document_ids": [
+      "xquad_vi_a015_p001",
+      "xquad_vi_a015_p001"
+    ],
+    "answer_disagreement": false
+  },
+  {
+    "question": "có bao nhiêu loài sứa lược đã được xác nhận?",
+    "ids": [
+      "xquad_vi_5725bae289a1e219009abd91",
+      "xquad_vi_5725c337271a42140099d163"
+    ],
+    "answers": [
+      "100-150",
+      "100-150"
+    ],
+    "document_ids": [
+      "xquad_vi_a017_p000",
+      "xquad_vi_a017_p000"
+    ],
+    "answer_disagreement": false
+  },
+  {
+    "question": "các xúc tu nhỏ trên sứa lược có tua được gọi là gì?",
+    "ids": [
+      "xquad_vi_5725c337271a42140099d164",
+      "xquad_vi_5726400589a1e219009ac5ef"
+    ],
+    "answers": [
+      "tua",
+      "tua"
+    ],
+    "document_ids": [
+      "xquad_vi_a017_p000",
+      "xquad_vi_a017_p000"
+    ],
+    "answer_disagreement": false
+  },
+  {
+    "question": "ai đã hợp tác với internet2",
+    "ids": [
+      "xquad_vi_5726472bdd62a815002e8043",
+      "xquad_vi_5726472bdd62a815002e8045"
+    ],
+    "answers": [
+      "Qwest",
+      "hợp tác với Level 3 Communications để ra mắt mạng quốc gia hoàn toàn mới"
+    ],
+    "document_ids": [
+      "xquad_vi_a019_p004",
+      "xquad_vi_a019_p004"
+    ],
+    "answer_disagreement": true
+  },
+  {
+    "question": "cái gì chảy giữa bingen và bon?",
+    "ids": [
+      "xquad_vi_572f6a0ba23a5019007fc5eb",
+      "xquad_vi_572ff12e04bcaa1900d76eff"
+    ],
+    "answers": [
+      "Trung Lưu sông Rhine",
+      "Trung Lưu sông Rhine"
+    ],
+    "document_ids": [
+      "xquad_vi_a041_p000",
+      "xquad_vi_a041_p000"
+    ],
+    "answer_disagreement": false
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "description": "Explicit dependency annotations reviewed from existing test sentences; exception phrases in case_012 are not dependency pairs. Other documents have no dependency annotation, not a claim of zero dependencies.",
+  "dependency_boundaries": {
+    "case_001": [0],
+    "case_007": [4],
+    "case_011": [4],
+    "case_012": []
+  }
+}
