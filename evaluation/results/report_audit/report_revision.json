@@ -1,0 +1,14 @@
+{
+  "output": "D:\\IT4-K63\\NLP\\utc_rag\\BAO_CAO_CAP_NHAT.docx",
+  "backup": "C:\\Users\\Acer\\AppData\\Local\\Temp\\utc-rag-word\\BAO_CAO_before_review.docx",
+  "new_sections": [
+    "5.7",
+    "5.8",
+    "5.9",
+    "5.10"
+  ],
+  "original_tables_preserved": 11,
+  "new_tables": 4,
+  "total_tables": 15,
+  "source_report_backup_sha256": "49c41c0c2bdd3c2dd0b191fa8851a2003a4669512a43b705443d3a97f448453f"
+}

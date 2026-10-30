@@ -1,0 +1,14 @@
+{
+  "original_tables_unchanged": 11,
+  "native_equations_unchanged": 6,
+  "main_sections": 7,
+  "new_tables": 4,
+  "original_inputs_unchanged": true,
+  "chunking_sources_unchanged": true,
+  "historical_source_hashes_match": true,
+  "deltas_and_failure_counts_match": true,
+  "hyperlinks": 21,
+  "missing_local_links": [],
+  "visual_render": "Not completed: packaged renderer requires soffice.exe, unavailable in environment.",
+  "citation_review": "Primary sources checked: ACL XQuAD/embeddings, Springer Max-Min, author code, LlamaIndex docs, MiniLM card, arXiv RAG; local links checked."
+}
