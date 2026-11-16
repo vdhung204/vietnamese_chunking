@@ -1,6 +1,8 @@
+> **Tài liệu lưu trữ.** Nội dung bên dưới được giữ từ giai đoạn trước. Xem [hướng dẫn thực nghiệm hiện tại](../EXPERIMENTS.md) cho cấu hình và kết quả đang dùng trong bài báo.
+
 # Hiểu baseline LlamaIndex SemanticSplitter và đối chiếu với project
 
-> Cập nhật: baseline mới là [Max–Min (2025)](MAXMIN.md), đã có module độc lập.
+> Cập nhật: baseline mới là [Max–Min (2025)](../METHOD.md), đã có module độc lập.
 > Tài liệu và kết quả bên dưới mô tả LlamaIndex cũ. Pipeline RAG comparison chưa
 > chuyển baseline trong task này; không diễn giải kết quả cũ thành điểm Max–Min.
 
@@ -59,7 +61,7 @@ Các embedding của cửa sổ câu được dùng để chọn boundary. Khôn
 
 ### Interface đã chuẩn hóa trong project
 
-File [baselines/llamaindex_semantic_chunker.py](baselines/llamaindex_semantic_chunker.py) cung cấp:
+File [baselines/llamaindex_semantic_chunker.py](../../baselines/llamaindex_semantic_chunker.py) cung cấp:
 
 ```python
 def llamaindex_semantic_chunk(text: str) -> list[str]:
@@ -81,7 +83,7 @@ Câu hỏi, gold evidence và nhãn boundary không được truyền vào chunk
 
 ## 4. Thuật toán xử lý từng bước
 
-Phần dưới diễn giải các hàm `_build_sentence_groups`, `_calculate_distances_between_sentence_groups` và `_build_node_chunks` trong [mã nguồn bản đã cài](venv/Lib/site-packages/llama_index/core/node_parser/text/semantic_splitter.py). Có thể đối chiếu thêm [mã nguồn chính thức](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/node_parser/text/semantic_splitter.py); nhánh `main` có thể thay đổi theo thời gian.
+Phần dưới diễn giải các hàm `_build_sentence_groups`, `_calculate_distances_between_sentence_groups` và `_build_node_chunks` trong [mã nguồn bản đã cài](../../venv/Lib/site-packages/llama_index/core/node_parser/text/semantic_splitter.py). Có thể đối chiếu thêm [mã nguồn chính thức](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/node_parser/text/semantic_splitter.py); nhánh `main` có thể thay đổi theo thời gian.
 
 ```mermaid
 flowchart TD
@@ -202,7 +204,7 @@ Các nhận xét này giải thích hành vi thuật toán, không chứng minh 
 
 ### Những điểm cần mô tả đúng về Ours
 
-Đối chiếu [semantic_chunker.py](src/semantic_chunker.py), [boundary_scorer.py](src/boundary_scorer.py) và [dynamic_overlap.py](src/dynamic_overlap.py):
+Đối chiếu [semantic_chunker.py](../../src/semantic_chunker.py), [boundary_scorer.py](../../src/boundary_scorer.py) và [dynamic_overlap.py](../../src/dynamic_overlap.py):
 
 1. **Dependency protection hiện là cơ chế giảm ưu tiên.** Nhánh mandatory sử dụng điểm phạt `-0.6 * dependency_risk`, không loại bỏ tuyệt đối boundary có dependency. Nhánh optional chọn theo semantic drop và giới hạn min; hiện không kiểm tra dependency risk trực tiếp. Vì vậy không nên viết “thuật toán đảm bảo không bao giờ cắt dependency”.
 2. **MAX chưa phải giới hạn cứng của mọi output chunk.** Khi không có boundary hợp lệ, code có thể giữ nguyên phần văn bản; overlap còn được thêm sau khi chọn phần lõi. Output có thể vượt 240.
@@ -223,7 +225,7 @@ So sánh với một baseline cho biết hiệu quả của toàn bộ cấu hì
 
 ### Chưa đủ bằng chứng về hiệu quả
 
-Kết quả đang lưu trong [CSV](evaluation/results/chunker_comparison.csv):
+Kết quả đang lưu trong [CSV](../../evaluation/results/chunker_comparison.csv):
 
 | Metric | LlamaIndex | Ours |
 |---|---:|---:|
@@ -249,7 +251,7 @@ Không nên gọi bảng này là bằng chứng cuối cùng vì:
 4. **Giữ cấu hình cố định khi đo test:** cùng corpus, câu hỏi, embedding model, cosine retrieval và top-k. Nếu điều chỉnh tham số, dùng tập phát triển riêng và áp dụng nguyên tắc tương tự cho cả hai phương pháp.
 5. **Báo cáo cả ưu điểm và thất bại:** giữ các trường hợp baseline tốt hơn; đọc chunk cụ thể để giải thích nguyên nhân. Nếu ghi thêm thống kê độ dài, phải nêu đơn vị đếm và tính cả phần overlap.
 
-Schema và lệnh chạy có trong [data/benchmark/README.md](data/benchmark/README.md).
+Schema và lệnh chạy có trong [data/benchmark/README.md](PILOT_BENCHMARK.md).
 
 ## 7. Cách phát biểu trong báo cáo
 
@@ -267,8 +269,8 @@ python evaluation/compare_chunkers.py
 ```
 
 Lệnh xuất Recall@3/@5, thứ hạng từng chunk, chẩn đoán evidence bị chia nhỏ hay bị
-xếp hạng thấp, và context/prompt chuẩn bị cho generation. Xem [RAG.md](RAG.md) để
-hiểu luồng xử lý và [CSV hiện tại](evaluation/results/chunker_comparison.csv) để
+xếp hạng thấp, và context/prompt chuẩn bị cho generation. Xem [RAG pilot](RAG_PILOT.md) để
+hiểu luồng xử lý và [CSV hiện tại](../../evaluation/results/chunker_comparison.csv) để
 xem điểm mới nhất. Nay đã có phép đo retrieval pilot, nhưng vẫn chưa có đánh giá
 câu trả lời LLM hoặc tập test độc lập được con người rà soát.
 
@@ -276,7 +278,7 @@ câu trả lời LLM hoặc tập test độc lập được con người rà so
 
 - [Notebook Semantic Chunker chính thức](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/): dữ liệu Paul Graham, cấu hình demo và ví dụ query engine.
 - [Mã nguồn SemanticSplitter chính thức](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/node_parser/text/semantic_splitter.py): đối chiếu thuật toán; nhánh main có thể thay đổi.
-- [Mã nguồn package đang cài](venv/Lib/site-packages/llama_index/core/node_parser/text/semantic_splitter.py): cơ sở trực tiếp của phần giải thích implementation trong tài liệu này.
-- [Adapter baseline của nhóm](baselines/llamaindex_semantic_chunker.py): model dùng chung, bộ tách câu và chuẩn hóa đầu ra.
-- [Evaluator so sánh](evaluation/compare_chunkers.py): cách tính metric và chạy retrieval.
-- [Pipeline của nhóm](PIPELINE.md): luồng xử lý hiện tại.
+- [Mã nguồn package đang cài](../../venv/Lib/site-packages/llama_index/core/node_parser/text/semantic_splitter.py): cơ sở trực tiếp của phần giải thích implementation trong tài liệu này.
+- [Adapter baseline của nhóm](../../baselines/llamaindex_semantic_chunker.py): model dùng chung, bộ tách câu và chuẩn hóa đầu ra.
+- [Evaluator so sánh](../../evaluation/compare_chunkers.py): cách tính metric và chạy retrieval.
+- [Pipeline của nhóm](../METHOD.md): luồng xử lý hiện tại.

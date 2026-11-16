@@ -1,6 +1,32 @@
-﻿# Pipeline phân đoạn văn bản tiếng Việt theo ngữ nghĩa
+# Phương pháp phân đoạn và đối chứng
 
-## 1. Đầu vào
+Tài liệu này mô tả thuật toán triển khai và đối chứng Max–Min. [Bài báo](../BAO_CAO.md) trình bày phương pháp theo cấu trúc khoa học; [hướng dẫn thực nghiệm](EXPERIMENTS.md) mô tả cách chạy và chấm kết quả.
+
+## Cấu hình đang triển khai
+
+| Thành phần | Giá trị | Ý nghĩa |
+|---|---|---|
+| Semantic weight | 0,5 | Trọng số semantic drop đã chuẩn hóa |
+| Size weight | 0,3 | Trọng số ưu tiên độ dài |
+| Linking-risk penalty | 0,6 | Trừ điểm khi khớp dấu hiệu liên kết câu |
+| MIN / TARGET / MAX | 120 / 180 / 240 | Đếm đơn vị phân cách bằng khoảng trắng của phần lõi |
+| Raw semantic-drop threshold | 0,30 | Ngưỡng cắt tùy chọn khi phần còn lại nằm trong MIN–MAX |
+| Overlap thấp / cao | 0,30 / 0,55 | Cosine quyết định giữ 0, 1 hoặc tối đa 2 câu |
+| Sentence embedding cache | 512 mục | Tái sử dụng vector câu trong luồng chạy thông thường |
+
+Trong nhánh văn bản dài, các ứng viên có độ dài phần trái trong MIN–MAX được chấm:
+
+```text
+F = 0.5 × normalized_semantic_drop + 0.3 × size_score − 0.6 × linking_risk
+```
+
+Semantic drop thô là trung bình cosine ở hai phía trừ cosine qua ranh giới. Chỉ các điểm có đủ bốn câu lân cận mới có drop hợp lệ. Điểm ngữ nghĩa dùng để xếp hạng được chuẩn hóa min–max trong tập ứng viên hợp lệ; trường hợp thiếu ngữ cảnh, không có drop hoặc không có biến thiên được gán 0. Size score có dạng tam giác, đạt đỉnh ở TARGET và được làm tròn hai chữ số thập phân. `linking_risk` nhận 0 hoặc 1 từ luật khớp dấu hiệu liên kết, không phải xác suất hay bộ phân tích cú pháp.
+
+Các mức penalty được thử đồng hạng ở tỷ lệ semantic/size đã chọn. Các độ dài và ngưỡng còn lại là cấu hình tham chiếu được giữ lại; không có bằng chứng rằng mọi giá trị đang dùng đều tối ưu. [Phụ lục tham số](../THAM_SO_VA_MINH_CHUNG.md) giải thích lựa chọn và giới hạn của từng nhóm số.
+
+## Pipeline đề xuất
+
+### 1. Đầu vào
 
 Một văn bản tiếng Việt gồm nhiều câu, có thể chứa một hoặc nhiều chủ đề.
 
@@ -43,9 +69,9 @@ Còn văn bản chưa xử lý?
 
 Sơ đồ thể hiện dòng dữ liệu khi cần xét điểm cắt. Các bước tính ngữ nghĩa được gọi bên trong hàm chọn/chấm điểm, không phải một lượt encode sẵn toàn bộ tài liệu. Phần còn lại dưới 120 được giữ nguyên; trường hợp không chọn được điểm cắt cũng đi thẳng đến ghép và lưu chunk.
 
-## 2. Tiến trình xử lý
+### 2. Tiến trình xử lý
 
-### Bước 1. Tách văn bản thành câu
+#### Bước 1. Tách văn bản thành câu
 
 **Hàm:** `split_sentences(text)`, được gọi trong `create_first_chunk(text)`.
 
@@ -61,7 +87,7 @@ Văn bản → [S0, S1, S2, ..., Sn]
 
 Nếu văn bản rỗng, pipeline kết thúc với danh sách chunk rỗng.
 
-### Bước 2. Xác định các điểm cắt ứng viên
+#### Bước 2. Xác định các điểm cắt ứng viên
 
 **Hàm:** `create_candidate_boundaries(sentences)`.
 
@@ -79,7 +105,7 @@ S0 | S1 | S2 | S3 | ... | Sn
 
 Nếu toàn bộ phần còn lại ngắn hơn 120 đơn vị độ dài, giữ nguyên thành một đoạn và chuyển đến bước 6, không cần tạo hay xét điểm cắt.
 
-### Bước 3. Tạo embedding và tính độ tương đồng giữa các câu
+#### Bước 3. Tạo embedding và tính độ tương đồng giữa các câu
 
 **Hàm:** `_encode_sentence(sentence)` → `model.encode(sentence, convert_to_tensor=True)`; `calculate_semantic_similarity(left_sentence, right_sentence)` → `cos_sim(left_embedding, right_embedding)`.
 
@@ -97,7 +123,7 @@ Câu bên phải → _encode_sentence() → Vector bên phải ─┘
 
 **Đầu ra:** vector biểu diễn của các câu được yêu cầu và điểm tương đồng cho từng cặp đang xét. Các điểm tương đồng được chuyển sang bước 4 để tính mức suy giảm liên kết; cùng cơ chế này còn được dùng ở bước 7 để xác định overlap.
 
-### Bước 4. Phân tích các điểm cắt
+#### Bước 4. Phân tích các điểm cắt
 
 **Đầu vào:** các điểm cắt ứng viên và những câu xung quanh.
 
@@ -113,7 +139,7 @@ Câu bên phải → _encode_sentence() → Vector bên phải ─┘
 
 **Đầu ra:** mức suy giảm ngữ nghĩa hoặc điểm tổng hợp để xếp hạng điểm cắt. Tín hiệu thực sự sử dụng phụ thuộc vào nhánh lựa chọn ở bước 5; không phải mọi điểm cắt đều có đủ ngữ cảnh để đánh giá ngữ nghĩa.
 
-### Bước 5. Chọn điểm cắt và tạo đoạn nội dung mới
+#### Bước 5. Chọn điểm cắt và tạo đoạn nội dung mới
 
 **Hàm điều phối:** `create_first_chunk(text)`. Hàm chọn điểm là `select_strong_semantic_boundary()` hoặc `select_best_boundary()`; hàm thực hiện cắt là `split_at_boundary()`.
 
@@ -139,7 +165,7 @@ Phần văn bản đang xét
 [Đoạn nội dung mới] | [Phần chưa xử lý]
 ```
 
-### Bước 6. Ghép ngữ cảnh và lưu chunk
+#### Bước 6. Ghép ngữ cảnh và lưu chunk
 
 **Hàm:** `semantic_chunk(text)`; dùng `split_sentences()` để lấy danh sách câu của đoạn mới và phần còn lại.
 
@@ -153,7 +179,7 @@ Phần văn bản đang xét
 Chunk đầu ra = Ngữ cảnh từ đoạn trước + Đoạn nội dung mới
 ```
 
-### Bước 7. Chuẩn bị ngữ cảnh cho đoạn tiếp theo
+#### Bước 7. Chuẩn bị ngữ cảnh cho đoạn tiếp theo
 
 **Hàm:** `get_overlap_sentences(chunk_sentences, remaining_sentences)` → `determine_overlap_count(left_sentence, right_sentence)` → `calculate_semantic_similarity(left_sentence, right_sentence)`.
 
@@ -171,7 +197,7 @@ Chunk đầu ra = Ngữ cảnh từ đoạn trước + Đoạn nội dung mới
 
 Phần overlap được lưu riêng, không đưa trở lại phần văn bản chưa xử lý để chọn điểm cắt lần nữa. Nếu vẫn còn văn bản, lặp lại từ bước 1 trên phần còn lại; nếu không, kết thúc pipeline.
 
-## 3. Đầu ra
+### 3. Đầu ra
 
 Danh sách các chunk theo thứ tự xuất hiện trong văn bản:
 
@@ -202,7 +228,7 @@ Chunk 3: S4 S5 S6 S7
 
 Đây là ví dụ cấu trúc đầu ra, không phải kết quả chạy mô hình trên một văn bản cụ thể. `semantic_chunk(text)` trả danh sách chuỗi `list[str]`. Embedding câu ở bước 3 phục vụ chọn điểm cắt và overlap; đầu ra hiện tại chưa bao gồm embedding cho toàn bộ chunk. Việc tạo embedding chunk và lập chỉ mục truy xuất là bước tiếp theo, nằm ngoài pipeline đang có.
 
-## 4. Đánh giá đầu ra
+### 4. Đánh giá đầu ra
 
 Đánh giá là bước kiểm chứng sau chunking, không tham gia quyết định điểm cắt:
 
@@ -223,8 +249,86 @@ Kết quả đạt/không đạt → calculate_metrics(results)
 
 Các tiêu chí gồm: cắt đúng vị trí bắt buộc, giữ nguyên vị trí không được cắt, tạo đủ số lần cắt tối thiểu và có lượng overlap phù hợp.
 
-## 5. Quy ước khi đọc pipeline
+### 5. Quy ước khi đọc pipeline
 
 - Độ dài 120, 180 và 240 được đo bằng số đơn vị phân cách bởi khoảng trắng, chưa phải token theo tokenizer của mô hình.
 - Khoảng 120–240 áp dụng khi chọn điểm cắt; chưa bảo đảm kích thước chunk cuối cùng vì overlap được thêm sau đó và có trường hợp không tìm được điểm cắt.
 - Các câu được ghép bằng dấu cách nên đầu ra không giữ nguyên định dạng xuống dòng của văn bản gốc.
+
+## Đối chứng Max–Min
+
+Baseline mới cho Vietnamese semantic chunking là Max–Min của Kiss, Nagy &
+Szilágyi. Module: `baselines/maxmin_semantic_chunker.py`.
+
+- Paper: https://doi.org/10.1007/s10791-025-09638-7
+- Code tác giả, phiên bản đối chiếu cố định:
+  https://github.com/hsdslab/MaxMinChunking/blob/0caba41d2ef30114729f95e5c788173e4f40920e/maxmin_chunker.py
+
+### Phạm vi tích hợp
+
+```python
+from baselines.maxmin_semantic_chunker import maxmin_semantic_chunk
+
+chunks = maxmin_semantic_chunk(text)  # list[str]
+```
+
+Dùng chung `src/sentence_splitter.py::split_sentences` và chính instance
+`semantic_similarity.model` (paraphrase-multilingual-MiniLM-L12-v2).
+Đây là thích nghi đầu vào cho tiếng Việt, không phải tái lập embedding tiếng Anh
+trong thí nghiệm gốc. Không thêm luật dependency, overlap hay giới hạn độ dài.
+Không tune tham số theo dữ liệu test.
+
+Module dùng độc lập hoặc qua `evaluation/compare_rag.py`, pipeline RAG chung
+so sánh Max–Min với Ours (xem [hướng dẫn thực nghiệm](EXPERIMENTS.md)). `compare_chunkers.py`
+và kết quả RAG cũ vẫn so sánh LlamaIndex với Ours.
+[Tài liệu LlamaIndex lưu trữ](archive/BASELINE.md) mô tả baseline LlamaIndex cũ, không mô tả Max–Min.
+
+### Quyết định JOIN / NEW CLUSTER
+
+Đọc các câu theo thứ tự. Với cluster có ít nhất hai câu, gọi `m` là cosine
+nhỏ nhất giữa các cặp câu đã thuộc cluster; gọi `M` là cosine lớn nhất giữa
+câu mới và các câu trong cluster. Ngưỡng quyết định là:
+
+```text
+threshold = max(fixed_threshold, m * c * sigmoid(cluster_size - 1))
+JOIN khi M > threshold; ngược lại mở cluster mới.
+```
+
+Sau khi JOIN, cập nhật minimum với các cặp mới. Khi mở cluster mới, reset trạng
+thái. Chính việc đối chiếu maximum của câu mới với minimum nội bộ là Max–Min.
+
+Khi cluster mới chỉ có một câu, JOIN khi:
+
+```text
+init_constant * cosine(câu mới, câu duy nhất) > max(0, fixed_threshold)
+```
+
+- `fixed_threshold=0.6`: sàn ngưỡng, tránh cluster nhận câu quá ít liên quan.
+- `c=0.9`: nhân vào thành phần ngưỡng thích nghi; không phải trọng số embedding.
+- `init_constant=1.5`: nhân similarity khi khởi tạo cặp câu đầu tiên, khiến
+  cặp đầu dễ được ghép hơn (với mặc định, cosine phải lớn hơn 0.4).
+
+Điều kiện là `>` nghiêm ngặt. Ngưỡng thích nghi dùng minimum **trước** khi xét
+thêm câu mới. Code công bố dùng `sigmoid(size - 1)`; công thức (4) trong paper
+ghi `sigmoid(size)`. Module bám code công bố để tái lập quyết định. Khác biệt
+kỹ thuật: xử lý input rỗng, kiểm tra shape và dùng scalar thay mảng một phần tử.
+Mỗi lần xuất hiện của một câu thuộc đúng một cluster, theo thứ tự gốc.
+
+### Kiểm thử
+
+```powershell
+.\venv\Scripts\python.exe -X utf8 -m unittest discover -s tests
+.\venv\Scripts\python.exe -X utf8 evaluation/evaluate_chunking.py
+```
+
+Các test Max–Min kiểm tra ngưỡng khởi tạo, dấu `>`, ngưỡng thích nghi và thứ tự
+cập nhật minimum, đối chiếu với câu không liền kề trong cluster, reset trạng
+thái, giữ nguyên các câu lặp và adapter dùng model chung.
+
+## Cấu hình trong ứng dụng
+
+Giao diện Streamlit cho phép chọn Ours hoặc Max–Min và thay đổi MIN/TARGET/MAX, semantic drop cùng hai ngưỡng overlap của Ours. Cần có `0 < MIN < TARGET < MAX` và ngưỡng overlap thấp nhỏ hơn cao. Trọng số score và bộ luật liên kết giữ theo cấu hình triển khai; nút khôi phục trả các ngưỡng về mặc định. Xem [README](../README.md) để cài đặt và chạy.
+
+`gui/chunkers.py` nạp các module thuật toán vào runtime riêng cho cấu hình được chọn; không sửa file nguồn hoặc monkeypatch module dùng chung. Model được cache bằng `st.cache_resource`, chỉ mục và kết quả nằm trong session. Thay đầu vào hoặc cấu hình làm chỉ mục cũ hết hiệu lực cho đến khi dựng lại. JSON tải xuống ghi cấu hình thực sự đã chạy; thao tác GUI không ghi đè benchmark.
+
+Project đặt `server.fileWatcherType = "none"` trong `.streamlit/config.toml` để tránh watcher quét các lazy module ảnh của Transformers. Sau khi sửa code, khởi động lại Streamlit để nạp thay đổi. Nếu chạy từ ngoài thư mục gốc, có thể truyền `--server.fileWatcherType none` trực tiếp. Xem [cấu hình Streamlit](https://docs.streamlit.io/develop/api-reference/configuration/config.toml) và [resource cache](https://docs.streamlit.io/develop/concepts/architecture/caching).

@@ -1,410 +1,396 @@
-# PHÂN ĐOẠN VĂN BẢN TIẾNG VIỆT THEO NGỮ NGHĨA KẾT HỢP LUẬT LIÊN KẾT CÂU VÀ OVERLAP ĐỘNG CHO TRUY XUẤT TRONG RAG
+# Phân đoạn văn bản tiếng Việt theo ngữ nghĩa kết hợp luật liên kết câu và overlap động cho truy xuất trong RAG
 
-*Báo cáo dựa trên mã nguồn và kết quả thực nghiệm lưu trong dự án utc_rag, cập nhật ngày 30/10/2026. Phạm vi đánh giá thực nghiệm là truy xuất bằng chứng; chưa đánh giá câu trả lời do LLM sinh ra.*
+**Vương Đức Hùng**
 
-## 1. Giới thiệu bài toán
+Khoa Công nghệ thông tin, Trường Đại học Giao thông vận tải
 
-### 1.1. Vấn đề
+## Tóm tắt
 
-Trong một hệ thống Retrieval-Augmented Generation (RAG), tài liệu được chia thành các đoạn nhỏ, gọi là chunk, trước khi chuyển thành vector và đưa vào bộ truy xuất. Khi người dùng đặt câu hỏi, hệ thống tìm các chunk liên quan để cung cấp ngữ cảnh cho bước sinh câu trả lời. Nghiên cứu của Lewis và cộng sự đặt nền tảng cho hướng kết hợp bộ nhớ tham số của mô hình với nguồn tri thức truy xuất bên ngoài [1]. Đề tài này tập trung vào bước phân đoạn tài liệu trong một pipeline phục vụ RAG.
+Phân đoạn tài liệu ảnh hưởng trực tiếp đến lượng bằng chứng và ngữ cảnh mà hệ thống sinh tăng cường truy xuất có thể sử dụng. Đối với tiếng Việt, một điểm cắt giữa các câu có quan hệ điều kiện, nguyên nhân hoặc tương phản có thể làm phân tán thông tin cần thiết cho câu hỏi. Bài báo trình bày một chiến lược phân đoạn kết hợp suy giảm tương đồng ngữ nghĩa cục bộ, độ dài đoạn, luật liên kết câu và overlap động. Điểm ranh giới của cấu hình triển khai sử dụng trọng số 0,5 cho ngữ nghĩa, 0,3 cho độ dài và penalty 0,6 cho dấu hiệu liên kết. Nghiên cứu độ nhạy gồm 180 cấu hình trên 233 câu hỏi phát triển được sử dụng để đánh giá các lựa chọn tham số; tỷ lệ trọng số triển khai được chọn trong nhóm 54 bộ trọng số. Phương pháp được đối chiếu với Max–Min trong cùng pipeline embedding và truy xuất trên bản chuyển đổi XQuAD tiếng Việt. Trên 957 câu hỏi đánh giá, phương pháp đề xuất đạt Evidence Recall@5 91,85% với context gốc, so với 86,94% của Max–Min. Khi ghép các context cùng bài thành tài liệu dài, hai giá trị tương ứng là 80,67% và 85,27%. Phương pháp đề xuất bảo toàn toàn bộ evidence theo nhãn hiện có, nhưng sử dụng nhiều context hơn và có tỷ lệ chunk vượt giới hạn encode cao. Kết quả cho thấy hiệu quả phụ thuộc cách tổ chức tài liệu và ngân sách ngữ cảnh, đồng thời chưa xác nhận lợi ích riêng của penalty liên kết câu hoặc ưu thế tổng quát của phương pháp. Thực nghiệm tập trung vào truy xuất bằng chứng, chưa đánh giá chất lượng câu trả lời sinh bởi mô hình ngôn ngữ.
 
-Việc chọn điểm cắt tạo ra sự đánh đổi giữa lượng ngữ cảnh được giữ lại và mức độ tập trung của nội dung. Chunk nhỏ có thể tách rời thông tin cần thiết; chunk lớn có thể chứa nhiều ý khác nhau, làm tăng lượng văn bản truy xuất và gây khó khăn cho biểu diễn bằng một vector duy nhất. Với tiếng Việt, các quan hệ như “nếu–thì”, “tuy–nhưng” hoặc “không những–mà còn” còn gợi ý sự liên kết giữa hai câu ở hai phía điểm cắt.
+**Từ khóa:** phân đoạn ngữ nghĩa; tiếng Việt; liên kết câu; overlap động; truy xuất bằng chứng; RAG.
 
-Bài toán của đề tài là: **xây dựng và đánh giá một chiến lược phân đoạn tiếng Việt có xét ngữ nghĩa, độ dài và dấu hiệu liên kết câu, nhằm hỗ trợ truy xuất đúng bằng chứng cho câu hỏi.** Đầu vào là văn bản tiếng Việt; đầu ra là danh sách chunk giữ thứ tự nội dung và có thể chứa phần ngữ cảnh chồng lấn.
+## 1 Giới thiệu
 
-### 1.2. Hướng giải quyết
+Sinh tăng cường truy xuất (Retrieval-Augmented Generation, RAG) kết hợp khả năng sinh ngôn ngữ với thông tin được tìm từ nguồn bên ngoài [1]. Trong hệ thống sử dụng chỉ mục vector, tài liệu thường được chia thành các đoạn trước khi mã hóa. Vì vậy, đơn vị phân đoạn quyết định nội dung được biểu diễn bởi mỗi vector và lượng ngữ cảnh có thể được đưa vào bước sinh câu trả lời. Việc chọn chunk là một thành phần của bài toán truy xuất, không chỉ là thao tác chia nhỏ tài liệu.
 
-Nhóm xây dựng chiến lược kết hợp ba thành phần: chọn điểm cắt theo suy giảm tương đồng ngữ nghĩa và độ dài; giảm điểm các ranh giới có dấu hiệu phụ thuộc giữa câu; giữ lại 0–2 câu ở đầu chunk tiếp theo tùy mức tương đồng tại ranh giới. Trong báo cáo, chiến lược này được ký hiệu là **Ours** để thống nhất với các tệp kết quả.
+Kích thước chunk tạo ra một đánh đổi. Đoạn ngắn có thể biểu diễn một chi tiết tập trung nhưng thiếu thông tin liên quan ở câu lân cận. Đoạn dài có thể giữ đủ ngữ cảnh, song một vector phải đại diện cho nhiều nội dung và văn bản có thể vượt giới hạn đầu vào của encoder. Overlap giúp đưa lại một phần ngữ cảnh vào đoạn kế tiếp, nhưng cũng làm tăng dữ liệu lặp và lượng văn bản được truy xuất. Do đó, cùng số chunk top-k chưa bảo đảm hai phương pháp sử dụng cùng lượng ngữ cảnh.
 
-Ours được đối chiếu với **Max–Min semantic chunking**, một phương pháp có bài báo và mã nguồn công bố [2, 3]. Cả hai được chạy trong cùng pipeline tiếng Việt. Nhóm sử dụng XQuAD tiếng Việt theo hai cách tổ chức đầu vào để xem kết quả có thay đổi khi chuyển từ context ngắn sang văn bản ghép dài hay không.
+Đối với tiếng Việt, dấu hiệu như “nếu–thì”, “vì–nên” hoặc “tuy–nhưng” có thể biểu thị quan hệ giữa hai câu liền kề. Một bộ phân đoạn dựa trên độ dài hoặc chỉ một độ đo tương đồng không sử dụng trực tiếp các dấu hiệu này. Chúng tôi khảo sát việc đưa luật liên kết vào điểm ranh giới, đồng thời thay đổi số câu overlap theo mức tương đồng tại vị trí cắt. Luật được sử dụng như một penalty mềm; nó không được xem là bộ phân tích cú pháp hay cơ chế bảo đảm giữ nguyên mọi quan hệ liên câu.
 
-Các câu hỏi nghiên cứu gồm: Ours có truy xuất được bằng chứng tốt hơn Max–Min trong cấu hình đang xét không; kết quả phụ thuộc như thế nào vào cách tổ chức tài liệu; và mức cải thiện, nếu có, đi kèm bao nhiêu lượng context truy xuất? Đề tài không huấn luyện một LLM hoặc một mô hình embedding mới.
+Nghiên cứu đặt ra ba câu hỏi. Thứ nhất, chiến lược kết hợp có truy xuất được evidence tốt hơn Max–Min khi giữ nguyên encoder, bộ tách câu và retriever hay không? Thứ hai, kết quả thay đổi như thế nào khi cùng nội dung và câu hỏi được tổ chức thành context ngắn hoặc tài liệu ghép dài? Thứ ba, trọng số và các ngưỡng ảnh hưởng ra sao đến chất lượng truy xuất và lượng context được sử dụng?
 
-## 2. Tổng quan nghiên cứu
+Đóng góp của bài báo là xây dựng và mô tả một chiến lược phân đoạn tiếng Việt có thể tái lập, đánh giá có đối chứng trên hai cách tổ chức cùng dữ liệu, và phân tích độ nhạy tham số cùng các đánh đổi về ngữ cảnh. Bài báo sử dụng embedding có sẵn, không đề xuất hoặc huấn luyện một encoder mới. Kết quả được trình bày như bằng chứng trong phạm vi benchmark đã khảo sát; nghiên cứu không tuyên bố tính mới tuyệt đối của từng thành phần hoặc ưu thế trên mọi loại tài liệu.
 
-### 2.1. Các công trình liên quan và vai trò trong đề tài
+Phần 2 thảo luận các hướng liên quan. Phần 3 trình bày phương pháp. Dữ liệu và thiết lập được mô tả ở Phần 4; Phần 5 báo cáo kết quả, độ nhạy và giới hạn; Phần 6 đưa ra kết luận.
 
-| Công trình hoặc nguồn | Tác giả, năm | Nội dung liên quan | Vai trò trong đề tài |
-|---|---|---|---|
-| *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* [1] | Lewis và cộng sự, 2020 | Kết hợp truy xuất với sinh ngôn ngữ | Nền tảng RAG; không phải chunker đối chứng |
-| *Max–Min semantic chunking of documents for RAG application* [2] | Kiss, Nagy và Szilágyi, 2025 | Phân đoạn theo quan hệ tương đồng giữa các câu | Baseline chính của thực nghiệm XQuAD |
-| *Semantic Chunker*, tài liệu LlamaIndex [4] | LlamaIndex | Chọn ranh giới bằng embedding và ngưỡng percentile | Baseline thư viện đã có ở giai đoạn pilot |
-| *Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation* [5] | Reimers và Gurevych, 2020 | Biểu diễn câu đa ngôn ngữ bằng chưng cất tri thức | Cơ sở tham khảo về embedding đa ngôn ngữ |
-| *On the Cross-lingual Transferability of Monolingual Representations* [7] | Artetxe, Ruder và Yogatama, 2020 | Công bố XQuAD | Nguồn bài báo của dữ liệu đánh giá |
+## 2 Nghiên cứu liên quan
 
-Các nguồn trong bảng có vai trò khác nhau: Max–Min là đối tượng so sánh thuật toán; MiniLM là thành phần biểu diễn dùng chung; XQuAD là dữ liệu. Vì vậy, không đặt tất cả dưới tên “các mô hình so sánh”.
+Các chiến lược phân đoạn theo kích thước sử dụng số từ, số token hoặc số câu làm đơn vị chia. Chúng có ưu điểm dễ kiểm soát độ dài nhưng có thể đặt ranh giới ở vị trí không phù hợp về nội dung. Phân đoạn dựa trên cấu trúc tài liệu sử dụng tiêu đề, đoạn văn và các khối nội dung; hiệu quả phụ thuộc vào chất lượng cấu trúc đầu vào. Overlap thường được bổ sung để giảm thiếu hụt ngữ cảnh, song không tự bảo đảm rằng đoạn truy xuất chứa đúng bằng chứng cần thiết.
 
-### 2.2. Baseline học thuật: Max–Min
+Phân đoạn ngữ nghĩa sử dụng biểu diễn câu hoặc cửa sổ câu để phát hiện thay đổi nội dung. LlamaIndex SemanticSplitter tính mức khác biệt giữa các nhóm câu và chọn ranh giới theo percentile [5]. Trong implementation được đối chiếu, buffer bằng một tạo nhóm gồm câu hiện tại cùng câu trước và câu sau khi chúng tồn tại. Cửa sổ ngữ cảnh phục vụ tính ranh giới này khác với việc lặp câu ở các chunk đầu ra. LlamaIndex đã được sử dụng trong thí nghiệm pilot của dự án; đối chứng chính của bài báo là Max–Min.
 
-Kiss, Nagy và Szilágyi công bố Max–Min trong *Discover Computing*, tập 28, bài 117, năm 2025. Phương pháp gom các câu liên tiếp dựa trên độ tương đồng. Bài báo đánh giá trên hai bộ đoạn Wikipedia xáo trộn và một bài toán hỏi đáp trắc nghiệm về tài liệu viễn thông 3GPP; sử dụng chỉ số phân cụm và độ chính xác hỏi đáp. Đây là kết quả trong thiết lập của tác giả [2], chưa trực tiếp xác nhận hiệu quả trên tiếng Việt.
+Max–Min của Kiss, Nagy và Szilágyi gom các câu liên tiếp dựa trên tương đồng giữa câu mới và cụm hiện tại [2]. Nghiên cứu này sử dụng implementation công bố của tác giả, thay đầu vào bằng bộ tách câu và encoder đa ngôn ngữ dùng chung cho cả hai chiến lược [8]. Đây là bản thích nghi cho đối chứng tiếng Việt; chúng tôi không so trực tiếp điểm retrieval ở đây với chỉ số phân cụm hoặc hỏi đáp của thí nghiệm gốc.
 
-Nhóm chọn Max–Min vì thuật toán giải quyết cùng bước phân đoạn và có mã nguồn để đối chiếu. Bản tích hợp được cố định theo commit `0caba41d2ef30114729f95e5c788173e4f40920e` của tác giả [3], thay đầu vào bằng bộ tách câu và embedding dùng chung trong dự án. Đây là **đánh giá bản thích nghi tiếng Việt**, không phải tái lập toàn bộ thí nghiệm gốc.
+Reimers và Gurevych trình bày cách xây dựng biểu diễn câu đa ngôn ngữ bằng chưng cất tri thức [3]. Trong nghiên cứu này, mô hình `paraphrase-multilingual-MiniLM-L12-v2` đóng vai trò encoder dùng chung [7]. Việc dùng cùng encoder giúp kiểm soát một thành phần của pipeline, nhưng không làm hai chunker mã hóa cùng đơn vị nội dung: câu được dùng để quyết định ranh giới, còn chunk được mã hóa riêng để truy xuất.
 
-### 2.3. Baseline thư viện: LlamaIndex SemanticSplitter
+Qu và cộng sự khảo sát chi phí của semantic chunking và cho thấy lợi ích không nhất quán trên các tác vụ họ đánh giá [6]. Nhận xét này đặt ra yêu cầu đo cả chất lượng truy xuất lẫn lượng ngữ cảnh và chi phí xử lý. Bài báo hiện tại tập trung vào một phương án tích hợp tín hiệu tiếng Việt, đồng thời công bố cả các thiết lập có lợi và bất lợi cho phương pháp đề xuất.
 
-LlamaIndex cung cấp `SemanticSplitterNodeParser`, chọn điểm cắt giữa câu dựa trên độ khác biệt embedding. Tài liệu chính thức minh họa với bài luận của Paul Graham và lưu ý về bộ tách câu cũng như việc điều chỉnh ngưỡng percentile. Đây là tài liệu triển khai, không nên ghi thành một bài báo phản biện khoa học riêng. Nguồn triển khai được dẫn tại [4].
+## 3 Phương pháp
 
-Trong dự án, LlamaIndex đã được chạy trên bộ pilot 13 văn bản với 16 câu hỏi. Các kết quả đó chỉ hỗ trợ quá trình phát triển. Chưa có bảng LlamaIndex trên 957 câu hỏi XQuAD test trong các artifact hiện tại; do đó báo cáo không gán kết quả Max–Min cho LlamaIndex hoặc ghép hai thí nghiệm thành một bảng xếp hạng chung.
+### 3.1 Biểu diễn tài liệu và ranh giới
 
-### 2.4. Vấn đề đề tài cần kiểm chứng
-
-Từ phạm vi trên, nhóm đặt giả thuyết rằng kết hợp ngữ nghĩa với độ dài, luật liên kết tiếng Việt và overlap có thể giữ bằng chứng tốt hơn trong một số tình huống. Tuy nhiên, giữ được bằng chứng trong chunk chưa bảo đảm chunk đó sẽ được truy xuất ở thứ hạng cao. Vì vậy, cần đánh giá đồng thời khả năng bảo toàn bằng chứng, Recall, MRR và lượng context.
-
-Đề tài xây dựng và đánh giá một chiến lược chunking tiếng Việt kết hợp ràng buộc độ dài khi chọn điểm cắt, relative semantic drop, dependency-aware penalty và dynamic overlap trong cùng pipeline retrieval. Đây là một phương án tích hợp và đánh giá có đối chứng; kết quả không xác lập tính mới tuyệt đối hoặc ưu thế tổng quát so với các phương pháp khác.
-
-## 3. Kiến thức nền tảng
-
-### 3.1. Chunking và overlap
-
-Chunking là phép biến đổi tài liệu thành các đơn vị truy xuất. Ranh giới giữa hai chunk có thể theo độ dài, cấu trúc hoặc ngữ nghĩa. Overlap là phần nội dung được lặp lại giữa các chunk liên tiếp nhằm giữ thêm ngữ cảnh; đổi lại, nó tạo dữ liệu trùng và làm tăng lượng văn bản được lưu hoặc truy xuất.
-
-Trong mã nguồn đề tài, độ dài được tính bằng `len(text.split())`. Đây là **số đơn vị phân cách bởi khoảng trắng**, không phải số từ đã tách theo ngôn ngữ học và cũng không phải số token của tokenizer. Sự phân biệt này quan trọng vì một từ tiếng Việt có thể gồm nhiều âm tiết cách nhau bằng khoảng trắng.
-
-### 3.2. Embedding và cosine similarity
-
-Mô hình `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` biểu diễn văn bản bằng vector 384 chiều. Model card công bố cấu hình `max_seq_length=128`; các đầu vào dài cần được xem xét theo giới hạn tokenizer thực tế. Thông số mô hình được dẫn tại [6].
-
-Độ tương đồng giữa hai vector được tính bằng:
+Cho tài liệu D được tách thành dãy câu có thứ tự \(s_1,\ldots,s_n\). Bộ tách câu hiện tại sử dụng dấu chấm, chấm hỏi hoặc chấm than có khoảng trắng theo sau. Phương pháp chỉ đặt điểm cắt giữa các câu; nó không chia một câu thành nhiều mệnh đề. Mỗi câu được biểu diễn bởi vector \(E(s_i)\). Độ tương đồng được xác định bằng cosine:
 
 \[
-\operatorname{sim}(u,v)=\frac{u\cdot v}{\|u\|\|v\|}.
+c(s_i,s_j)=\frac{E(s_i)^\top E(s_j)}{\|E(s_i)\|\,\|E(s_j)\|}. \tag{1}
 \]
 
-Trong hệ thống, embedding câu phục vụ quyết định phân đoạn; embedding toàn chunk phục vụ truy xuất; embedding câu hỏi dùng để xếp hạng các chunk. Các phép encode dùng chung mô hình, nhưng chúng biểu diễn những đơn vị đầu vào khác nhau.
-
-### 3.3. Truy xuất và bằng chứng chuẩn
-
-Với mỗi câu hỏi, retriever tính cosine với toàn bộ chunk trong tập tài liệu tương ứng, sau đó trả về top-k. Không dùng ID tài liệu chuẩn để thu hẹp không gian tìm kiếm trước khi truy xuất.
-
-Một kết quả được tính là hit khi ít nhất một chunk trong top-k chứa toàn bộ `gold_evidence` và thuộc đúng tài liệu đã gán nhãn. Việc so khớp chuẩn hóa Unicode NFC, chữ hoa/thường và khoảng trắng. Đây là kiểm tra chuỗi bằng chứng trong đúng nguồn; không đánh giá mức độ tương đương ngữ nghĩa của mọi cách diễn đạt có thể chấp nhận.
-
-### 3.4. Chỉ số đánh giá
-
-Với N câu hỏi và hᵢ(k) bằng 1 nếu câu hỏi i có hit trong top-k:
+Xét phần tài liệu chưa xử lý bắt đầu tại câu \(s_p\). Ranh giới \(b_i\) nằm giữa \(s_i\) và \(s_{i+1}\), với độ dài tích lũy bên trái:
 
 \[
-\operatorname{Evidence Recall@k}=\frac{1}{N}\sum_{i=1}^{N}h_i(k).
+L_p(b_i)=\sum_{j=p}^{i}\ell(s_j),\qquad
+\ell(s)=|\operatorname{split}_{ws}(s)|. \tag{2}
 \]
 
-Báo cáo dùng thuật ngữ Evidence Recall@3 và Evidence Recall@5 cho các chỉ số recall_at_3 và recall_at_5 trong mã nguồn. Với một gold evidence chính cho mỗi câu hỏi, Evidence Recall@k tương đương tỷ lệ câu hỏi có toàn bộ bằng chứng chuẩn xuất hiện trong ít nhất một chunk đúng nguồn của top-k. Đây là hit rate theo câu hỏi; không phải tỷ lệ mọi tài liệu liên quan được tìm thấy. Ký hiệu Recall trong các công thức mang cùng ý nghĩa này.
+Hàm \(\ell\) đếm đơn vị phân cách bởi khoảng trắng. Đơn vị này không đồng nhất với từ đã phân đoạn tiếng Việt hoặc subword token của encoder. Phần overlap kế thừa từ lượt trước được giữ riêng, không cộng vào \(L_p\) khi quyết định điểm cắt mới.
+
+### 3.2 Suy giảm liên kết ngữ nghĩa cục bộ
+
+Đối với ranh giới có đủ một câu trước và một câu sau cặp câu kề biên, chúng tôi tính trên các câu thuộc phần tài liệu chưa xử lý:
 
 \[
-\operatorname{MRR@5}=\frac{1}{N}\sum_{i=1}^{N}
-\begin{cases}1/r_i,&r_i\leq5\\0,&\text{không có hit trong top-5}\end{cases}
+\Delta_i=\frac{c(s_{i-1},s_i)+c(s_{i+1},s_{i+2})}{2}
+-c(s_i,s_{i+1}). \tag{3}
 \]
 
-Ở đây rᵢ là thứ hạng đầu tiên của chunk hợp lệ. MRR ưu tiên các kết quả tìm thấy bằng chứng sớm hơn.
+Giá trị lớn cho biết liên kết qua ranh giới yếu hơn liên kết ở hai phía. Đây là một tín hiệu tương đối trong lân cận bốn câu, không phải xác suất chuyển chủ đề. Khi thiếu câu lân cận, \(\Delta_i\) không được xác định.
 
-**Evidence preservation rate** đo tỷ lệ câu hỏi có bằng chứng nằm trọn trong ít nhất một chunk ở bất kỳ thứ hạng nào. **Mean context length@5** đo tổng độ dài năm chunk truy xuất, lấy trung bình theo câu hỏi và tính cả overlap. Hai chỉ số này giúp phân biệt lỗi phân đoạn với lỗi xếp hạng và chi phí context.
+Ở nhánh chọn ranh giới cho văn bản dài, tập ứng viên hợp lệ là \(\mathcal B_p=\{b_i:m\le L_p(b_i)\le M\}\). Các giá trị drop hợp lệ được chuẩn hóa trong tập này:
 
-## 4. Đề xuất giải pháp
+\[
+S_{sem}(b_i)=\frac{\Delta_i-\Delta_{min}}{\Delta_{max}-\Delta_{min}}. \tag{4}
+\]
 
-### 4.1. Quy trình tổng thể
+Nếu không có drop hợp lệ, không có biến thiên hoặc ứng viên thiếu ngữ cảnh, semantic score của trường hợp tương ứng được gán bằng 0. Ngưỡng cắt tùy chọn ở Mục 3.5 áp dụng trực tiếp lên raw drop của (3), không áp dụng lên điểm chuẩn hóa của (4).
+
+### 3.3 Độ dài và dấu hiệu liên kết câu
+
+Với độ dài tối thiểu m, mục tiêu t và tối đa M, điểm độ dài có dạng tam giác:
+
+\[
+S_{size}(L)=
+\begin{cases}
+0,&L<m\ \text{hoặc}\ L>M,\\
+(L-m)/(t-m),&m\le L\le t,\\
+(M-L)/(M-t),&t<L\le M.
+\end{cases} \tag{5}
+\]
+
+Implementation làm tròn điểm này đến hai chữ số thập phân. Cấu hình triển khai dùng \((m,t,M)=(120,180,240)\). Các giá trị biểu diễn ưu tiên độ dài phần lõi tại thời điểm chọn ranh giới; chúng không phải cam kết độ dài cuối cùng của mọi chunk.
+
+Hàm \(R(b_i)\in\{0,1\}\) nhận giá trị 1 khi hai phía ranh giới khớp một cặp dấu hiệu liên kết. Tập luật gồm “nếu–thì”, “vì–nên”, “do–nên”, “tuy–nhưng”, “mặc dù–nhưng”, “không những–mà còn”, “không phải–mà” và “hễ–thì”. Văn bản được chuyển về chữ thường trước khi khớp chuỗi con. Luật “vì–nên” được bỏ qua nếu phía trái chứa “vì vậy”; luật “do–nên” được bỏ qua nếu phía trái chứa “do đó”. Cách khớp này có thể bỏ sót cách diễn đạt khác hoặc nhận nhầm một chuỗi nằm bên trong từ; R chỉ là cờ heuristic, không phải nhãn phụ thuộc cú pháp được suy luận đầy đủ.
+
+### 3.4 Hàm điểm ranh giới
+
+Các ứng viên hợp lệ trong nhánh văn bản dài được xếp hạng theo:
+
+\[
+F(b_i)=\alpha S_{sem}(b_i)+\beta S_{size}(b_i)-\gamma R(b_i). \tag{6}
+\]
+
+Cấu hình triển khai hiện tại là:
+
+\[
+\boxed{F(b_i)=0.5S_{sem}(b_i)+0.3S_{size}(b_i)-0.6R(b_i).} \tag{7}
+\]
+
+Tỷ lệ \(\alpha/\beta\) được chọn theo Evidence Recall@5 trung bình trên dev trong lưới trọng số mô tả ở Mục 4.4. Các mức penalty được thử đồng hạng ở tỷ lệ được chọn; vì vậy giữ \(\gamma=0.6\) là quyết định giữa các cấu hình đồng hạng, không phải bằng chứng nó tối ưu duy nhất.
+
+Các điểm \(S_{sem}\) và \(S_{size}\) nằm trong [0,1], nên ứng viên không risk có F trong [0;0,8], còn ứng viên risk có F trong [−0,6;0,2]. Penalty vì vậy có thể giảm ưu tiên mạnh nhưng không cấm tuyệt đối việc chọn ranh giới risk. Khi bằng điểm, thuật toán chọn ứng viên xuất hiện sớm nhất. Đồng thời, nhân cả ba hệ số với cùng một hằng số dương không đổi argmax trong số học chính xác; ý nghĩa lựa chọn nằm ở tỷ lệ các hệ số.
+
+### 3.5 Quyết định cắt theo phần văn bản còn lại
+
+Gọi \(L_{rem}\) là độ dài phần chưa xử lý. Khi \(L_{rem}<m\), toàn bộ phần này được giữ thành một đoạn lõi. Khi \(m\le L_{rem}\le M\), thuật toán xét những ranh giới có phần trái dài ít nhất m và có drop hợp lệ, chọn raw drop lớn nhất rồi chỉ cắt nếu \(\Delta_i\ge\theta\), với \(\theta=0.30\). Nhánh này không sử dụng penalty R và không bắt buộc phần còn lại sau cắt phải dài ít nhất m.
+
+Khi \(L_{rem}>M\), thuật toán chọn ứng viên có F lớn nhất trong \(\mathcal B_p\). Nếu không có ứng viên phù hợp, toàn bộ phần còn lại được giữ nguyên. Trường hợp này có thể xảy ra với câu dài hoặc khi độ dài tích lũy vượt qua khoảng hợp lệ mà không có ranh giới câu bên trong. Vì overlap được thêm sau bước chọn biên và còn có cơ chế giữ nguyên khi không tìm được biên, M không phải trần cứng của chunk đầu ra.
+
+### 3.6 Chồng lấn ngữ cảnh động và thuật toán tổng thể
+
+Chồng lấn ngữ cảnh (overlap) đưa một số câu cuối của đoạn trước vào đầu đoạn kế tiếp. Sau khi chọn đoạn lõi, đặt q là cosine giữa câu cuối của đoạn này và câu đầu của phần chưa xử lý. Số câu cuối được chuyển sang đầu chunk kế tiếp là:
+
+\[
+o(q)=\begin{cases}
+0,&q<0.30,\\
+1,&0.30\le q<0.55,\\
+2,&q\ge0.55.
+\end{cases} \tag{8}
+\]
+
+Số câu thực giữ được giới hạn bởi số câu của đoạn lõi. Overlap không được đưa ngược vào phần chưa xử lý; mỗi lượt luôn tiến qua phần nội dung mới. Giả thuyết thiết kế là ranh giới còn liên kết mạnh cần thêm ngữ cảnh, trong khi ranh giới khác biệt mạnh có thể không cần lặp lại câu. Giả thuyết này được khảo sát bằng các ngưỡng và chính sách overlap đối chứng ở Phần 5.
+
+**Thuật toán 1. Phân đoạn ngữ nghĩa kết hợp luật liên kết và overlap động.**
 
 ```text
-Tài liệu tiếng Việt
-    → Tách câu
-    → Tạo các ranh giới ứng viên
-    → Chọn ranh giới theo độ dài và ngữ nghĩa
-       (nhánh văn bản dài có thêm điểm phạt liên kết câu)
-    → Tạo chunk mới
-    → Ghép overlap đã lưu từ chunk trước
-    → Chuẩn bị overlap cho lượt tiếp theo
-    → Lặp trên phần nội dung còn lại
-    → Danh sách chunk
+Đầu vào: văn bản D; m, t, M; α, β, γ; θ; ngưỡng overlap τ_low, τ_high
+Đầu ra: danh sách chunk C
+1. remaining ← các câu của D; pending ← rỗng; C ← rỗng
+2. Trong khi remaining khác rỗng:
+3.     Tính độ dài remaining và tạo các ranh giới câu khi cần
+4.     Nếu độ dài < m: core ← toàn bộ remaining
+5.     Nếu m ≤ độ dài ≤ M:
+6.         Chọn raw drop lớn nhất ở biên đủ ngữ cảnh, phần trái ≥ m
+7.         Cắt nếu drop ≥ θ; nếu không, core ← toàn bộ remaining
+8.     Nếu độ dài > M:
+9.         Chọn argmax F trong các biên có phần trái thuộc [m,M]
+10.        Nếu không có biên hợp lệ: core ← toàn bộ remaining
+11.    Bỏ phần core mới khỏi remaining
+12.    Thêm pending + core vào C
+13.    Nếu còn remaining: pending ← tối đa o(q) câu cuối của core
+14.    Nếu không: pending ← rỗng
+15. Trả về C
 ```
 
-Hiện thực chính nằm trong `src/semantic_chunker.py`, `src/boundary_scorer.py`, `src/semantic_similarity.py`, `src/dependency_rules.py` và `src/dynamic_overlap.py`. Đây là thuật toán kết hợp embedding với quy tắc, không có bước học trọng số từ tập XQuAD.
+Embedding câu phục vụ chọn ranh giới và overlap; embedding chunk được tính riêng cho retrieval. Cache câu có giới hạn 512 mục trong code chạy thông thường. Cache hỗ trợ tái sử dụng phép encode, không thay đổi công thức quyết định. Các chunk giữ thứ tự nội dung, nhưng khoảng trắng và xuống dòng được chuẩn hóa khi ghép câu.
 
-### 4.2. Phát hiện suy giảm liên kết ngữ nghĩa
+## 4 Dữ liệu và thiết lập thực nghiệm
 
-Xét bốn câu liên tiếp s₁, s₂, s₃, s₄ và ranh giới giữa s₂ và s₃. Mức suy giảm liên kết được tính bằng:
+### 4.1 XQuAD tiếng Việt và hai cách tổ chức tài liệu
 
-\[
-\Delta=\frac{\operatorname{sim}(s_1,s_2)+\operatorname{sim}(s_3,s_4)}{2}
--\operatorname{sim}(s_2,s_3).
-\]
+Nghiên cứu sử dụng bản tiếng Việt của XQuAD do Artetxe và cộng sự công bố [4,9]. Dữ liệu được cố định tại commit `7d30520c717524000f0d9d2f9c10a069acd9d285`, gồm 240 context và 1.190 cặp hỏi–đáp thuộc 48 bài nguồn. Bản chuyển đổi giữ nguyên nội dung câu hỏi, đáp án và offset nguồn; nhãn lĩnh vực, split cục bộ và evidence phục vụ retrieval được bổ sung bởi nghiên cứu này. Giấy phép dữ liệu nguồn và chuyển đổi là CC BY-SA 4.0.
 
-Giá trị lớn gợi ý liên kết qua ranh giới yếu hơn liên kết ở hai phía. Điểm cắt thiếu câu trước hoặc câu sau không có đủ ngữ cảnh cho phép tính này. Trong nhánh chấm điểm tổng hợp, các giá trị hợp lệ được chuẩn hóa min–max; trường hợp không có biến thiên được gán điểm ngữ nghĩa bằng 0.
+Góc nhìn **context gốc** xem mỗi paragraph XQuAD là một tài liệu. Góc nhìn **ghép dài** nối năm context có cùng tiêu đề theo thứ tự phát hành thành một tài liệu. Văn bản ghép chỉ bao gồm các đoạn trích được nguồn cung cấp, không phải bài Wikipedia đầy đủ và không bảo đảm các đoạn liền kề trong bản gốc. Hai góc nhìn sử dụng cùng nội dung và câu hỏi, được xây dựng nhằm khảo sát ảnh hưởng của đơn vị tài liệu.
 
-### 4.3. Kết hợp độ dài và luật liên kết câu
+**Bảng 1. Quy mô dữ liệu theo split cục bộ và cách tổ chức tài liệu.**
 
-Với độ dài phần bên trái ranh giới là n, điểm độ dài tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phân.
+| Góc nhìn | Tập | Tài liệu | Câu hỏi | Bài nguồn |
+| --- | --- | --- | --- | --- |
+| Context gốc | dev | 50 | 233 | 10 |
+| Context gốc | test | 190 | 957 | 38 |
+| Ghép dài | dev | 10 | 233 | 10 |
+| Ghép dài | test | 38 | 957 | 38 |
 
-Luật liên kết tìm các cặp dấu hiệu như “nếu–thì”, “vì–nên”, “do–nên”, “tuy–nhưng”, “mặc dù–nhưng”, “không những–mà còn”, “không phải–mà” và “hễ–thì”. Giá trị rủi ro R bằng 1 khi khớp luật, ngược lại bằng 0; có xử lý ngoại lệ cho “vì vậy” và “do đó”.
+Các bài nguồn được gán vào bảy nhóm lĩnh vực rộng. Trong mỗi nhóm, thứ tự hash tiêu đề với seed `utc-rag-xquad-vi-v1` xác định khoảng 20% bài làm dev; phần còn lại dùng đánh giá. Mọi context và câu hỏi của cùng bài nằm trong cùng split. Đây là cách chia cục bộ, không phải split chính thức của XQuAD. Các kiểm tra dữ liệu xác nhận split không trùng bài nguồn, context hoặc ID câu hỏi. Không cộng hai góc nhìn thành 2.380 câu hỏi độc lập.
 
-Đối với phần văn bản dài hơn 240 đơn vị, điểm ranh giới là:
+Evidence chuẩn được lấy bằng bao câu nhỏ nhất chứa đáp án đầu tiên trong dữ liệu nguồn. Offset được kiểm tra để bảo đảm evidence thuộc đúng tài liệu và chứa đáp án. Nhãn này được suy ra tự động, chưa được rà soát đầy đủ như supporting facts do người gán. Toàn bộ dữ liệu có 1.181 chuỗi câu hỏi chuẩn hóa duy nhất và chín nhóm câu hỏi lặp; ba nhãn nguồn đáng nghi được ghi trong hồ sơ review. Các nhãn không được sửa theo kết quả của chunker.
 
-\[
-S(b)=0.4S_{size}(b)+0.4S_{semantic}(b)-0.6R(b).
-\]
+### 4.2 Phương pháp đối chứng và pipeline dùng chung
 
-Đây là luật khớp chuỗi đơn giản, không phải bộ phân tích cú pháp phụ thuộc. Nó có thể bỏ sót liên kết diễn đạt khác hoặc nhận nhầm chuỗi con. Điểm phạt cũng không phải lệnh cấm cắt tuyệt đối.
+Max–Min được triển khai theo mã tác giả tại commit `0caba41d2ef30114729f95e5c788173e4f40920e` [8]. Các tham số \(hard\_thr=0.6\), \(c=0.9\) và \(init\_const=1.5\) là cấu hình khởi đầu được tác giả đề xuất [2]. Đối chứng không được thêm overlap, luật tiếng Việt hoặc giới hạn độ dài của phương pháp đề xuất. Chúng tôi giữ điều kiện so sánh nghiêm ngặt và cách dùng sigmoid(size−1) trong code công bố; cách viết này khác sigmoid(size) ở công thức (4) của bài gốc.
 
-### 4.4. Quyết định cắt theo độ dài phần còn lại
+Hai phương pháp dùng chung bộ tách câu, instance MiniLM và tập tài liệu. Từng chunk được gắn ID nguồn, mã hóa, chuẩn hóa vector và đưa vào chỉ mục cosine trong bộ nhớ. Vector câu hỏi được tính một lần cho mỗi góc nhìn để dùng chung. Retrieval tìm trên toàn corpus, không được giới hạn bởi ID tài liệu chuẩn. Khi cosine bằng nhau, thứ tự tài liệu/chunk trong corpus được giữ ổn định. Không có reranker, không sử dụng gold evidence để chọn chunk và không gọi LLM sinh câu trả lời.
 
-| Độ dài | Quy tắc trong hiện thực |
-|---|---|
-| Dưới 120 | Giữ nguyên phần còn lại |
-| Từ 120 đến 240 | Xét ranh giới có phần trái ít nhất 120; cắt tại mức suy giảm lớn nhất nếu có đủ ngữ cảnh và Δ ≥ 0,30 |
-| Trên 240 | Chọn ranh giới có điểm tổng hợp cao nhất trong khoảng phần trái 120–240 |
-| Không có ranh giới phù hợp | Giữ nguyên phần còn lại |
+**Bảng 2. Cấu hình cố định trong lần đánh giá với trọng số triển khai.**
 
-Trong nhánh phân đoạn đối với phần văn bản dài hơn MAX = 240, dependency risk được đưa vào hàm scoring để giảm khả năng chọn boundary phá quan hệ liên câu. Đây là dependency-aware penalty, không phải hard constraint và không bảo đảm tuyệt đối tránh cắt. Nhánh 120–240 không sử dụng penalty này. Overlap được ghép sau khi chọn ranh giới; khi không tìm được ứng viên, phần còn lại được giữ nguyên, nên 240 không phải giới hạn cứng của chunk đầu ra.
-
-### 4.5. Overlap động
-
-Gọi t là cosine giữa câu cuối của đoạn nội dung mới và câu đầu của phần chưa xử lý:
-
-| Điều kiện | Số câu cuối giữ lại cho chunk sau |
-|---|---:|
-| t < 0,30 | 0 |
-| 0,30 ≤ t < 0,55 | 1 |
-| t ≥ 0,55 | Tối đa 2 |
-
-Overlap được lưu riêng để ghép vào đầu chunk kế tiếp. Nó không được đưa trở lại phần văn bản chưa xử lý để chọn ranh giới lần nữa. Cơ chế này thể hiện giả thuyết rằng ranh giới có liên kết mạnh nên giữ thêm ngữ cảnh; tác động riêng của giả thuyết cần được kiểm tra bằng thí nghiệm loại bỏ thành phần.
-
-## 5. Thực nghiệm và kết quả
-
-### 5.1. Mô hình và các chiến lược được so sánh
-
-Pipeline thực nghiệm gồm: **tài liệu → chunker → embedding chunk → chỉ mục vector trong bộ nhớ → cosine retrieval → đánh giá evidence**. Câu hỏi được encode một lần để dùng chung cho hai phương pháp. Thực nghiệm lưu trong báo cáo không gọi Ollama hoặc LLM sinh câu trả lời.
-
-| Thành phần | Max–Min thích nghi tiếng Việt | Ours |
-|---|---|---|
-| Bộ tách câu | `src/sentence_splitter.py` | Giống Max–Min |
-| Embedding | Multilingual MiniLM-L12-v2 | Cùng instance mô hình |
-| Quy tắc phân đoạn | So sánh tương đồng max–min trong cụm câu | Kết hợp độ dài, suy giảm ngữ nghĩa và luật liên kết |
-| Tham số chính | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |
-| Overlap | Không thêm | 0–2 câu, ngưỡng 0,30 và 0,55 |
-| Truy xuất | Toàn corpus, cosine, top-5 | Giống Max–Min |
-| Chấm điểm | Cùng câu hỏi, evidence và quy tắc hit | Giống Max–Min |
-
-Trong bản Max–Min tích hợp tại `baselines/maxmin_semantic_chunker.py`, với cụm C có ít nhất hai câu, m là cosine nhỏ nhất của các cặp trong cụm hiện tại, M là cosine lớn nhất giữa câu mới với các câu trong C. Câu mới được nhập cụm khi:
-
-\[
-M>\max(0.6,\;0.9m\,\sigma(|C|-1)),\qquad
-\sigma(x)=\frac{1}{1+e^{-x}}.
-\]
-
-Khi cụm chỉ có một câu, điều kiện là `1.5 × cosine > 0.6`. Hiện thực giữ phép so sánh `>` và cách dùng `sigmoid(size−1)` theo mã nguồn công bố [3]. Tài liệu đối chiếu trong dự án ghi nhận công thức bài báo dùng `sigmoid(size)`; vì vậy báo cáo xác định rõ lựa chọn bám mã nguồn ở commit cố định, tránh mô tả đây là một bản sao tuyệt đối của mọi công thức trong bài.
-
-### 5.2. Dataset
-
-XQuAD được Artetxe, Ruder và Yogatama công bố năm 2020, gồm các context và câu hỏi–đáp án dịch chuyên nghiệp từ một phần SQuAD v1.1. Nhóm sử dụng bản tiếng Việt từ kho chính thức [7, 8], cố định tại commit `7d30520c717524000f0d9d2f9c10a069acd9d285`. Bản chuyển đổi trong dự án giữ giấy phép CC BY-SA 4.0 và thông tin nguồn.
-
-| Cách tổ chức | Tập | Số văn bản | Số câu hỏi | Số bài nguồn |
-|---|---|---:|---:|---:|
-| Context gốc (`paragraph`) | Dev | 50 | 233 | 10 |
-| Context gốc (`paragraph`) | Test | 190 | 957 | 38 |
-| Ghép theo bài (`article`) | Dev | 10 | 233 | 10 |
-| Ghép theo bài (`article`) | Test | 38 | 957 | 38 |
-
-Toàn bộ có 240 context, 1.190 câu hỏi và 48 bài nguồn. Dev/test được chia theo title với seed `utc-rag-xquad-vi-v1`; mọi context và câu hỏi của cùng bài thuộc cùng tập. Đây là cách chia cục bộ của dự án, không phải split chính thức của XQuAD. Các chunker được giữ nguyên khi chạy bộ dữ liệu này.
-
-Vai trò dev và test: các tham số của hai chiến lược được giữ cố định khi chạy XQuAD test, theo README và cấu hình mã nguồn hiện có. Dev gồm 233 câu hỏi được tách riêng để phục vụ phát triển và kiểm tra pipeline; không có artifact ghi nhận một đợt tìm tham số trên XQuAD dev, nên báo cáo không tuyên bố đã tune bằng dev. Test gồm 957 câu hỏi không được dùng để chọn lại threshold/weight trong lần rà soát này. Phân tích bổ sung là hậu nghiệm sau khi đã xem kết quả test, không phải xác nhận độc lập. Hash mã nguồn hiện tại khớp các hash lưu ở cả hai lần chạy XQuAD.
-
-Ở góc nhìn `paragraph`, mỗi context là một tài liệu; độ dài trên toàn bộ dữ liệu nằm trong khoảng 39–763 đơn vị khoảng trắng, trung vị 155. Ở góc nhìn `article`, năm context cùng title được ghép theo thứ tự nguồn; độ dài 496–2.169, trung vị 804,5. Văn bản ghép không phải bài Wikipedia đầy đủ và không bảo đảm các trích đoạn vốn nằm liền nhau.
-
-Hai góc nhìn sử dụng cùng câu hỏi và nội dung, nên không được cộng thành hai bộ bằng chứng độc lập. Bộ pilot đã dùng phát triển thuật toán cũng không được trộn vào kết quả test chính.
-
-`gold_evidence` được suy ra bằng cách lấy bao câu chứa đáp án đầu tiên của nguồn. Nhãn này chưa được con người rà soát đầy đủ; một câu chứa đáp án chưa chắc chứa mọi thông tin cần để suy luận. Dữ liệu có chín nhóm câu hỏi trùng trên toàn bộ tập và một số nhãn nguồn đáng nghi được ghi trong hồ sơ kiểm tra. Đây là benchmark **chuyển đổi cho retrieval**, không phải giao thức chấm EM/F1 chính thức của XQuAD.
-
-### 5.3. Môi trường chạy
-
-Các phiên bản dưới đây lấy từ trường `provenance` của artifact XQuAD, không suy ra từ phiên bản phần mềm mới nhất:
-
-| Thành phần | Giá trị ghi nhận |
-|---|---|
+| Thành phần | Giá trị |
+| --- | --- |
+| Encoder | paraphrase-multilingual-MiniLM-L12-v2 |
+| Độ dài encoder tối đa | 128 token |
+| Độ dài m/t/M | 120/180/240 đơn vị khoảng trắng |
+| Trọng số semantic/size/risk | 0,5/0,3/0,6 |
+| Ngưỡng raw drop | 0,30 |
+| Ngưỡng overlap thấp/cao | 0,30/0,55 |
+| Số câu overlap | 0–2 |
+| Truy xuất | Cosine toàn corpus, top-5, thứ tự ổn định khi bằng điểm |
 | Python | 3.13.5 |
-| sentence-transformers | 6.1.0 |
-| PyTorch | 2.14.1 |
-| NumPy | 2.5.4 |
-| scikit-learn | 1.9.1 |
-| Embedding model | `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` |
-| Retriever | Ma trận vector chuẩn hóa, cosine bằng NumPy |
-| top-k | 5; báo Evidence Recall@3, Evidence Recall@5 và MRR@5 |
-| Xử lý bằng điểm | Thứ tự corpus ổn định |
-| LLM | `null`, không chạy generation |
+| sentence-transformers / PyTorch | 6.1.0 / 2.14.1 |
+| NumPy / scikit-learn | 2.5.4 / 1.9.1 |
+| Sinh câu trả lời | Không thực hiện |
 
-Workspace hiện được thao tác trên Windows/PowerShell. Artifact của lần chạy không ghi đầy đủ hệ điều hành, CPU, RAM, GPU, thiết bị encode và revision của embedding model; do đó chưa đủ hồ sơ để tái lập chính xác môi trường phần cứng. Không sử dụng cấu hình máy hiện tại để suy diễn ngược về lần chạy trước.
+Snapshot MiniLM được sử dụng là `e8f8c211226b894fcb81acc59f3b34ba3efd5f42`; cấu hình SentenceTransformer giới hạn đầu vào ở 128 token [7]. Giới hạn này không đồng nhất với số đơn vị khoảng trắng của chunker. Pipeline giữ nguyên chunk trước khi encode và không chia lại chunk để tránh truncation. Mọi phương pháp chịu cùng cấu hình encoder.
 
-Thời gian trong CSV là một lượt chạy sau khởi động mô hình, theo thứ tự Max–Min rồi Ours. Nó chưa phải benchmark tốc độ nhiều lần có kiểm soát tải máy. Vì vậy, báo cáo không kết luận ưu thế tốc độ thống kê từ các số thời gian này.
+### 4.3 Chỉ số truy xuất và phân loại thất bại
 
-### 5.4. Kịch bản thử nghiệm và cách so sánh với bài báo
+Với câu hỏi q, evidence chuẩn \(e_q\), tài liệu nguồn \(d_q\) và danh sách truy xuất \(\mathcal R_k(q)\), hit được xác định bởi:
 
-**Kịch bản A — context gốc:** lập chỉ mục 190 tài liệu test và truy xuất cho 957 câu hỏi. Thiết lập này đánh giá khi dữ liệu đã được nguồn chia thành context tương đối ngắn.
+\[
+h_k(q)=\mathbf 1\{\exists c\in\mathcal R_k(q):d(c)=d_q\land e_q\subseteq c\}. \tag{9}
+\]
 
-**Kịch bản B — văn bản ghép dài:** lập chỉ mục 38 tài liệu ghép, vẫn dùng 957 câu hỏi đó. Thiết lập này kiểm tra độ nhạy trước việc thay đổi đơn vị tài liệu và tăng độ dài đầu vào.
+Quan hệ chứa trong (9) là phép tìm chuỗi con sau chuẩn hóa Unicode NFC, chữ hoa/thường và khoảng trắng. Evidence phải nằm trọn trong một chunk đúng nguồn. Hai chunk ghép lại đủ evidence vẫn không được tính hit. Vì mỗi câu hỏi có một evidence mục tiêu, chỉ số dùng ở đây là:
 
-**Quy trình kiểm chứng sau truy xuất.** Hai kịch bản đều áp dụng cùng quy trình dưới đây cho từng câu hỏi và từng chiến lược chunking. Đối tượng được chấm là các chunk truy xuất, chưa phải câu trả lời sinh bởi LLM.
+\[
+\operatorname{EvidenceRecall}@k=\frac{1}{|Q|}\sum_{q\in Q}h_k(q). \tag{10}
+\]
 
-**Bước 1 — Chuẩn bị nhãn chuẩn.** Mỗi câu hỏi gồm nội dung câu hỏi, đáp án nguồn, ID tài liệu và gold_evidence. Bằng chứng chuẩn được suy ra từ bao câu chứa đáp án đầu tiên của nguồn. Đáp án và evidence chỉ phục vụ chuẩn bị nhãn và chấm kết quả, không được dùng để chọn chunk khi truy xuất. Nhãn evidence được trích tự động, chưa được rà soát đầy đủ bởi con người.
+Đây là tỷ lệ câu hỏi truy xuất trúng evidence theo nhãn, không phải recall trên mọi tài liệu có liên quan. Nếu \(r_q\) là hạng đầu tiên chứa đủ evidence trong top-5, MRR được tính bằng:
 
-**Bước 2 — Phân đoạn và lập chỉ mục.** Chạy Max–Min và Ours riêng biệt trên cùng tập tài liệu. Mỗi chunk được gắn ID tài liệu nguồn và chuyển thành vector bằng cùng mô hình multilingual MiniLM. Với kịch bản B, ID nguồn dùng để chấm là ID tài liệu ghép đã được ánh xạ trong dữ liệu benchmark.
+\[
+\operatorname{MRR}@5=\frac{1}{|Q|}\sum_{q\in Q}
+\begin{cases}1/r_q,&r_q\le5,\\0,&\text{không có hit trong top-5.}\end{cases} \tag{11}
+\]
 
-**Bước 3 — Truy xuất theo câu hỏi.** Encode câu hỏi và tính cosine similarity giữa vector câu hỏi với vector của mọi chunk trong corpus của từng phương pháp. Sắp xếp giảm dần và lấy top-5; khi bằng điểm, giữ thứ tự corpus ổn định. Hệ thống không dùng ID tài liệu chuẩn để giới hạn phạm vi tìm kiếm. Cosine ở bước này dùng để xếp hạng mức liên quan, không phải tiêu chí xác nhận đáp án đúng.
+Tỷ lệ bảo toàn evidence kiểm tra có ít nhất một chunk phù hợp ở bất kỳ vị trí nào trong corpus. Một câu hỏi không có chunk như vậy được phân loại *evidence_split*. Nếu chunk đủ evidence tồn tại nhưng không lên top-5, thất bại được gọi là *ranking_miss*. Ngoài chất lượng truy xuất, chúng tôi đo số chunk, độ dài trung bình và tổng context top-5, có tính nội dung lặp do overlap.
 
-**Bước 4 — Đối chiếu với bằng chứng chuẩn.** Một chunk hợp lệ phải đồng thời thuộc đúng tài liệu đã gán nhãn và chứa toàn bộ chuỗi gold_evidence. Trước khi kiểm tra chuỗi con, văn bản được chuẩn hóa Unicode NFC, casefold và khoảng trắng. Một chunk chỉ chứa đáp án ngắn nhưng không chứa đủ evidence vẫn không đạt. Hai chunk cộng lại đủ evidence cũng không được tính là hit theo giao thức hiện tại. Đây là phép chấm đúng nguồn và độ bao phủ evidence, không phải đánh giá tương đương ngữ nghĩa của câu trả lời.
+### 4.4 Lựa chọn tham số và phân tích độ nhạy
 
-**Bước 5 — Tính điểm từng câu hỏi.** Gọi r là thứ hạng của chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0. Trong benchmark này, Evidence Recall@k là trung bình Hit@k trên các câu hỏi; MRR@5 là trung bình reciprocal rank@5.
+Nghiên cứu dev gồm 180 cấu hình riêng biệt: 54 bộ trọng số, các thay đổi MIN/TARGET/MAX, 10 mức ngưỡng drop kể cả chế độ tắt cắt tùy chọn, 15 cặp ngưỡng overlap, số câu overlap, làm tròn và ablation. Một lưới kết hợp nhỏ gồm 81 cấu hình được xác định trước khi chạy. Không gian tìm kiếm cùng tiêu chí được lưu trong protocol, trước load model và chấm điểm; đây là đóng băng giao thức cục bộ, không phải đăng ký nghiên cứu công khai.
 
-**Ví dụ minh họa cách chấm.** Ví dụ giả định, không phải mẫu thực nghiệm: câu hỏi “Trường A được thành lập năm nào?”, đáp án “1960”, evidence “Trường A được thành lập vào năm 1960.” Nếu Max–Min có chunk đúng tài liệu chứa đủ evidence ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có thứ hạng tốt hơn ở ví dụ này. Chunk ở tài liệu khác chỉ có thông tin tương tự không được tính là hit.
+Tiêu chí chính là trung bình bằng trọng số giữa Evidence Recall@5 của hai góc nhìn trên cùng 233 câu dev. MRR@5 trung bình là tiêu chí phụ. Lưới trọng số dùng \(\alpha\in\{0,0.1,\ldots,0.8\}\), \(\beta=0.8-\alpha\) và \(\gamma\in\{0,0.2,0.4,0.6,0.8,1.2\}\). Giữ tổng hai trọng số dương ở 0,8 giúp tránh một phần cấu hình tương đương do co giãn toàn bộ score. Tập tham chiếu để thay từng nhóm tham số sử dụng \((\alpha,\beta,\gamma)=(0.4,0.4,0.6)\) và các ngưỡng ban đầu.
 
-**Bước 6 — Tổng hợp và so sánh ghép cặp.** Lặp quy trình trên cùng 957 câu hỏi cho cả hai phương pháp. Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết quả từng câu hỏi để xác định câu nào chỉ một bên hit và tính khoảng tin cậy ghép cặp theo bài nguồn như mô tả bên dưới. Bảng kết quả do đó đo khả năng truy xuất bằng chứng trong cấu hình đã chạy, không chứng minh độ chính xác trả lời của LLM.
+Sau nghiên cứu này, cấu hình triển khai chỉ cập nhật tỷ lệ trọng số thành 0,5/0,3 và giữ penalty 0,6 trong số các mức đồng hạng; các ngưỡng vẫn theo cấu hình tham chiếu. Lựa chọn này giữ nguyên ràng buộc độ dài của implementation khi chuyển sang tỷ lệ trọng số được chọn. Nó không tương đương lựa chọn cấu hình tốt nhất trong toàn bộ 180 thử nghiệm: một cấu hình thay MIN đạt dev cao hơn. Vì vậy bài báo không tuyên bố đã tối ưu đồng thời mọi tham số.
 
-**Bước 7 — Phân biệt lỗi và chi phí.** Nếu không có chunk nào trong toàn bộ chỉ mục chứa đủ evidence ở đúng nguồn, ghi evidence_split. Nếu chunk hợp lệ tồn tại nhưng không lên top-5, ghi ranking_miss. Tỷ lệ bảo toàn evidence kiểm tra sự tồn tại của chunk hợp lệ ở bất kỳ thứ hạng nào, còn lượng context đo tổng số đơn vị khoảng trắng trong top-5, tính cả overlap. Phân tích này giúp phân biệt mất bằng chứng do phân đoạn với thất bại xếp hạng, đồng thời kiểm tra mức cải thiện có đi kèm nhiều context hơn hay không.
+Việc chọn tham số trên dev được tách khỏi phép xếp hạng cấu hình trên test. Tuy nhiên, nghiên cứu độ nhạy được thiết kế sau khi kết quả của cấu hình tham chiếu trên test đã được xem. Cấu hình triển khai được đóng băng trước lần chạy test mới, nhưng tập này không còn là nguồn xác nhận hoàn toàn chưa quan sát. Các kết luận tổng quát cần được xác nhận trên corpus độc lập mới.
 
-**Khả năng kiểm tra lại từng kết quả.** Các tệp rag_comparison.json của hai kịch bản lưu details cho từng câu hỏi, gồm question_id, document_id, gold_evidence, hit_at_3, hit_at_5, reciprocal_rank_at_5, evidence_preserved, failure_reason và retrieved. Danh sách retrieved chứa các chunk trả về cùng thứ hạng và điểm cosine. Người kiểm tra có thể đối chiếu lại evidence với từng chunk rồi tính lại các chỉ số. Quy tắc chấm được hiện thực trong evaluation/evaluate_retrieval.py; các đường dẫn artifact được dẫn ở tài liệu tham khảo [9–10].
+### 4.5 Thống kê và tái lập
 
-**Phân biệt với đánh giá câu trả lời đầu cuối.** Đánh giá đầu cuối cần thêm bước đưa context truy xuất vào cùng một LLM, giữ chung prompt và cấu hình sinh, rồi chấm câu trả lời với đáp án chuẩn bằng EM/F1 hoặc rubric đúng–sai được xác định trước. Cosine giữa embedding câu trả lời và đáp án chuẩn có thể là chỉ số bổ sung, nhưng không nên dùng riêng để kết luận đúng sai: hai câu khác năm hoặc khác phủ định vẫn có thể gần nhau về ngữ nghĩa. Thực nghiệm hiện tại chưa thực hiện bước sinh và chấm câu trả lời, vì vậy chưa có các điểm QA này.
+Chênh lệch hai phương pháp được phân tích ghép cặp theo câu hỏi. Khoảng 95% được ước lượng bằng bootstrap percentile 5.000 lượt, seed 2026, với đơn vị lấy mẫu là 38 bài nguồn test. Khi một bài được lấy mẫu, toàn bộ câu hỏi của bài đó được giữ cùng nhau cho cả hai phương pháp. Cách làm này phản ánh tương quan nội bộ nguồn tốt hơn việc mặc nhiên coi 957 câu hỏi là độc lập. Hai góc nhìn được phân tích riêng, không được xem như hai tập mẫu độc lập.
 
-**Nguyên tắc đối chứng:** chạy lại Max–Min và Ours trên cùng dữ liệu, giữ nguyên embedding, bộ tách câu, phép xếp hạng, top-k, nhãn và metric. Kết quả vì vậy trả lời câu hỏi “hai chiến lược hoạt động thế nào trong pipeline tiếng Việt này”. Nó không trực tiếp xác nhận hay bác bỏ các con số AMI hoặc QA Accuracy trong bài báo gốc.
+Lần chạy phục vụ bản thảo sử dụng CPU với bốn thread và seed 2026. Python cùng phiên bản các thư viện được ghi trực tiếp trong provenance. Thời gian được đo sau warm-up, tách bước chunking, embedding/index và ranking; thứ tự phương pháp là Max–Min rồi phương pháp đề xuất. Đây là một lượt chạy, chưa có kiểm soát tải máy hoặc độ lệch chuẩn nhiều lượt. Bản thảo không suy diễn phần cứng của các lần chạy trước từ máy hiện tại.
 
-| Vấn đề khi so sánh | Cách xử lý |
-|---|---|
-| Bài báo và đề tài dùng dữ liệu khác nhau | Không so điểm công bố trực tiếp; chạy baseline trên XQuAD tiếng Việt |
-| Thay embedding có thể thay hành vi baseline | Công khai đây là bản thích nghi, dùng cùng embedding cho hai bên |
-| Chunker tạo kích thước khác nhau | Báo số chunk, độ dài chunk và lượng context cùng Recall/MRR |
-| Cùng top-k chưa cùng ngân sách context | Xem đây là so sánh cấu hình; cần thêm thí nghiệm cùng ngân sách token |
-| Nhiều câu hỏi cùng bài có tương quan | Bootstrap paired theo bài nguồn |
-| Muốn xác định phần đóng góp của overlap hoặc luật | Cần ablation; không suy nguyên nhân từ hai cấu hình đầy đủ |
+## 5 Kết quả
 
-Khoảng tin cậy được tính bằng bootstrap ghép cặp theo 38 bài nguồn, 5.000 lần, seed 2026, lấy percentile 95% của chênh lệch Ours trừ Max–Min. Đây là phân tích khám phá trên tập hiện có, không thay thế việc đánh giá trên miền dữ liệu mới.
+### 5.1 Chất lượng truy xuất với cấu hình triển khai
 
-Phân tích hậu nghiệm tại mục 5.7 áp cùng trần 512/1024 tokenizer token lên top-5 đã lưu, giữ nguyên thứ hạng và chunk. Phân tích này không thay thế thí nghiệm fixed-budget trên toàn bộ danh sách xếp hạng: còn giới hạn tối đa năm ứng viên, có thể để dư ngân sách và chưa có quy tắc phân bổ context được đăng ký trước. Các cấu hình bổ sung không được dùng để chọn lại tham số hoặc sửa kết quả test gốc.
+**Bảng 3. Kết quả truy xuất trên 957 câu hỏi với trọng số semantic/size/risk = 0,5/0,3/0,6 của phương pháp đề xuất.**
 
-### 5.5. Kết quả thực nghiệm
+| Góc nhìn | Phương pháp | Số chunk | Evidence Recall@3 | Evidence Recall@5 | MRR@5 |
+| --- | --- | --- | --- | --- | --- |
+| Context gốc | Max–Min | 583 | 81,61% | 86,94% | 0,7421 |
+| Context gốc | Đề xuất | 226 | 87,98% | 91,85% | 0,8057 |
+| Ghép dài | Max–Min | 556 | 80,56% | 85,27% | 0,7259 |
+| Ghép dài | Đề xuất | 191 | 73,46% | 80,67% | 0,6553 |
 
-Các bảng chính dưới đây giữ nguyên số liệu từ CSV/JSON của lần chạy ngày 30/10/2026 [9, 10]. Nhóm đã tính lại chỉ số từ các kết quả từng câu hỏi để kiểm tra tính nhất quán. Các phân tích bổ sung ở mục 5.7–5.9 được tính riêng từ artifact đã lưu [11], không chạy lại chunking hoặc thay dữ liệu test.
+Với context gốc, phương pháp đề xuất cao hơn Max–Min 4,91 điểm phần trăm Evidence Recall@5. Với tài liệu ghép dài, chênh lệch là -4,60 điểm phần trăm. MRR@5 thay đổi cùng chiều với chênh lệch Recall trong từng góc nhìn. Kết quả cho thấy thay đổi đơn vị tài liệu có thể đảo chiều so sánh, dù nội dung và câu hỏi được giữ nguyên.
 
-| Đầu vào | Chiến lược | Số chunk | Evidence Recall@3 | Evidence Recall@5 | MRR@5 |
-|---|---|---:|---:|---:|---:|
-| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |
-| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |
-| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |
-| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |
+**Bảng 4. So sánh ghép cặp Evidence Recall@5 giữa phương pháp đề xuất và Max–Min. Chênh lệch tính theo điểm phần trăm.**
 
-| Đầu vào | Chênh lệch Evidence Recall@5, Ours − Max–Min | Khoảng tin cậy bootstrap 95% |
-|---|---:|---:|
-| Context gốc | +4,91 điểm phần trăm | [+2,49; +7,45] |
-| Văn bản ghép dài | −4,70 điểm phần trăm | [−8,24; −1,32] |
+| Góc nhìn | Đề xuất − Max–Min | Khoảng bootstrap 95% | Chỉ Max–Min hit | Chỉ đề xuất hit |
+| --- | --- | --- | --- | --- |
+| Context gốc | 4,91 | [2,49; 7,45] | 34 | 81 |
+| Ghép dài | -4,60 | [-8,17; -1,25] | 127 | 83 |
 
-Cả hai khoảng không chứa 0 trong phân tích hiện tại, nhưng chiều chênh lệch đổi theo cách tổ chức tài liệu. Vì vậy, kết quả không hỗ trợ kết luận Ours luôn tốt hơn Max–Min.
+Các khoảng bootstrap mô tả độ bất định theo nguồn của phép so sánh trên benchmark này. Chúng không khắc phục lỗi nhãn, sự hạn chế về miền dữ liệu hoặc việc tập test đã được quan sát trong giai đoạn nghiên cứu trước. Khoảng không chứa 0 cũng không tự chứng minh quan hệ nhân quả giữa một thành phần cụ thể của thuật toán và mức thay đổi metric.
 
-| Đầu vào | Chiến lược | Độ dài chunk trung bình | Độ dài context top-5 trung bình | Bảo toàn evidence |
-|---|---|---:|---:|---:|
-| Context gốc | Max–Min | 56,90 | 361,20 | 98,85% |
-| Context gốc | Ours | 153,57 | 783,85 | 100% |
-| Văn bản ghép dài | Max–Min | 59,66 | 386,55 | 98,85% |
-| Văn bản ghép dài | Ours | 194,08 | 977,40 | 100% |
+Phương pháp đề xuất bảo toàn evidence theo nhãn hiện có ở cả hai góc nhìn. Với context gốc có 78 câu hỏi của phương pháp đề xuất thuộc nhóm ranking_miss; với tài liệu ghép dài con số là 185. Ngược lại, Max–Min có 11 câu hỏi evidence_split ở mỗi góc nhìn. Như vậy, giữ evidence trong corpus và xếp chunk chứa evidence vào top-5 là hai yêu cầu khác nhau. Bộ nhãn evidence chưa đầy đủ supporting facts cũng giới hạn ý nghĩa của tỷ lệ bảo toàn 100%.
 
-Đơn vị độ dài là khoảng trắng, có tính nội dung lặp. Context top-5 của Ours lớn hơn khoảng 2,17 lần ở context gốc và 2,53 lần ở văn bản ghép dài. Do vậy, tăng Recall trong kịch bản A chưa đồng nghĩa với hiệu quả cao hơn trên cùng ngân sách context.
+### 5.2 Độ nhạy của trọng số final score
 
-### 5.6. Đánh giá: tốt, chưa tốt và nguyên nhân
+**Bảng 5. Thay đổi tỷ lệ semantic/size trên dev, giữ risk = 0,6 và các tham số khác theo cấu hình tham chiếu.**
 
-Trong cấu hình top-5 chunk hiện tại, Ours có Evidence Recall@5 cao hơn trên context gốc, nhưng đồng thời sử dụng lượng context lớn hơn đáng kể. Có 81 câu chỉ Ours hit và 34 câu chỉ Max–Min hit, chênh lệch ròng 47 câu. MRR@5 cũng cao hơn. Nhiều context vốn ngắn khiến Ours có thể giữ phần lớn hoặc toàn bộ context; chưa thể quy mức tăng Recall hoàn toàn cho chất lượng xác định boundary. Kết quả dưới trần token ở mục 5.7 cho thấy cần xét cả ngân sách context khi so sánh.
+| Semantic | Size | Risk | Evidence Recall@5 TB | MRR@5 TB |
+| --- | --- | --- | --- | --- |
+| 0,0 | 0,8 | 0,6 | 95,28% | 0,8350 |
+| 0,1 | 0,7 | 0,6 | 95,28% | 0,8398 |
+| 0,2 | 0,6 | 0,6 | 95,06% | 0,8337 |
+| 0,3 | 0,5 | 0,6 | 95,71% | 0,8292 |
+| 0,4 | 0,4 | 0,6 | 96,35% | 0,8251 |
+| 0,5 | 0,3 | 0,6 | 96,78% | 0,8321 |
+| 0,6 | 0,2 | 0,6 | 96,57% | 0,8310 |
+| 0,7 | 0,1 | 0,6 | 96,35% | 0,8327 |
+| 0,8 | 0,0 | 0,6 | 96,35% | 0,8349 |
 
-**Trên văn bản ghép dài, Ours kém hơn về cả Recall và MRR.** Có 127 câu chỉ Max–Min hit và 82 câu chỉ Ours hit, chênh lệch ròng là 45 câu có lợi cho Max–Min. Ours tạo ít chunk hơn nhưng mỗi chunk lớn hơn, trong khi lượng context truy xuất cao hơn đáng kể.
+Tỷ lệ 0,5/0,3 đạt điểm cao nhất theo tiêu chí chính trong nhóm trọng số, với Evidence Recall@5 trung bình 96,78%, so với 96,35% của tỷ lệ 0,4/0,4. Kết quả không tăng đơn điệu theo trọng số semantic. Khi tăng quá mức, Recall không tiếp tục cải thiện. Bộ có MRR cao nhất trong bảng cũng khác bộ được chọn theo Recall; do đó phát biểu “tốt nhất” cần gắn với tiêu chí đã xác định.
 
-Phân loại thất bại giúp xác định nơi xảy ra vấn đề:
+Với tỷ lệ 0,5/0,3, sáu mức penalty được thử đồng hạng cả Recall và MRR. Ở cấu hình tham chiếu, paragraph dev không có ứng viên risk hợp lệ trong sáu lượt scoring; article dev chỉ có một ứng viên risk trong 42 lượt scoring. Sự thiếu vắng tình huống kích hoạt có thể làm nhiều mức penalty không phân biệt được. Vì vậy nghiên cứu không xác lập ưu thế riêng của 0,6, dù vẫn giữ giá trị này khi triển khai. Cần tập văn bản trên MAX với nhãn liên kết do người rà soát và ablation độc lập để kiểm tra hiệu quả của luật.
 
-| Đầu vào | Chiến lược | Evidence không nằm trọn trong chunk nào | Có chunk đủ evidence nhưng trượt top-5 |
-|---|---|---:|---:|
-| Context gốc | Max–Min | 11 | 114 |
-| Context gốc | Ours | 0 | 78 |
-| Văn bản ghép dài | Max–Min | 11 | 130 |
-| Văn bản ghép dài | Ours | 0 | 186 |
+### 5.3 Độ nhạy của ngưỡng và các thành phần
 
-Theo tiêu chí evidence hiện tại, Ours giữ được bằng chứng trong cả hai kịch bản. Với văn bản dài, cả 186 câu miss của Ours thuộc nhóm xếp hạng: bằng chứng tồn tại trong chunk nhưng chunk đó không vào top-5. Đây là điều quan sát được trực tiếp, cho thấy bảo toàn bằng chứng và truy xuất đúng bằng chứng là hai mục tiêu khác nhau.
+**Bảng 6. Một số lựa chọn tham số đối chứng trên dev. Mỗi dòng chỉ thay phần được nêu so với cấu hình tham chiếu 0,4/0,4/0,6.**
 
-Giả thuyết giải thích: chunk lớn có thể làm vector tổng hợp ít tập trung vào chi tiết câu hỏi; overlap có thể làm thay đổi nội dung vector hoặc tạo lặp trong context. Phân tích tokenizer tại mục 5.8 đo được nhiều chunk Ours vượt giới hạn 128 token của cấu hình SentenceTransformer đang lưu. Truncation là một cơ chế có thể góp phần giải thích kết quả retrieval trên chunk dài, nhưng chưa được chứng minh là nguyên nhân của chênh lệch giữa hai phương pháp. Chưa đo vị trí evidence trong vùng encode và chưa có đối chứng loại trừ truncation.
+| Thay đổi | Evidence Recall@5 TB | MRR@5 TB | Context TB |
+| --- | --- | --- | --- |
+| Cấu hình tham chiếu | 96,35% | 0,8251 | 857,91 |
+| MIN = 60 | 97,00% | 0,8363 | 811,37 |
+| Raw drop = 0,20 | 96,57% | 0,8278 | 846,51 |
+| Overlap thấp/cao = 0,15/0,85 | 96,35% | 0,8428 | 869,51 |
+| Overlap cố định 1 câu | 96,35% | 0,8374 | 872,62 |
 
-Hướng thực nghiệm tiếp theo: fixed context-token budget trên toàn bộ ranking; phân tích offset evidence so với vùng tokenizer được encode; dependency challenge set có văn bản trên 240 đơn vị; ablation bỏ overlap, bỏ penalty và chỉ dùng độ dài; cuối cùng là đánh giá câu trả lời bằng cùng LLM, prompt và rubric/EM/F1. Các thử nghiệm cần được định nghĩa trước, dùng dev để chọn tham số và xác nhận trên dữ liệu độc lập mới sau khi đã xem test hiện tại.
+Giảm riêng MIN xuống 60 tạo cấu hình đứng đầu trong 180 lựa chọn đã thử, nhưng không được áp dụng vào cấu hình triển khai của bản thảo này. Ngưỡng raw drop 0,20 có điểm dev cao hơn 0,30 trong lưới; nhiều ngưỡng lân cận lại tạo cùng kết quả. Những quan sát này cho thấy 120/180/240 và 0,30 là các giá trị vận hành tham chiếu, chưa được chứng minh là tối ưu. Lưới hữu hạn cũng không cho biết nghiệm tốt nhất nằm giữa các mức đã thử hay không.
 
-**Giới hạn kết luận:** evidence được suy ra tự động, có câu hỏi trùng và nhãn đáng nghi; chỉ có 38 nhóm bài nguồn test; dữ liệu ghép không phải văn bản dài tự nhiên hoàn chỉnh; benchmark không có nhãn ranh giới đầy đủ và không có câu hỏi unanswerable. Chưa chạy generation, nên không thể báo QA Accuracy, EM/F1 câu trả lời, mức giảm hallucination hoặc chất lượng trả lời của Qwen từ các kết quả này.
+Các cặp ngưỡng overlap có thể đồng hạng Recall nhưng khác MRR hoặc lượng context. Việc lấy nhiều câu overlap hơn không đồng nghĩa truy xuất tốt hơn. Với score đã chuẩn hóa, thay số chữ số làm tròn size score cũng có thể đổi thứ hạng ứng viên ở các trường hợp gần nhau; lựa chọn hai chữ số chưa có ưu thế duy nhất trong nghiên cứu dev.
 
-### 5.7. Phân tích trần token trên top-5 đã lưu
+**Bảng 7. Ablation trên cấu hình tham chiếu của nghiên cứu dev.**
 
-Thiết kế hậu nghiệm: dùng tokenizer multilingual MiniLM ở snapshot cục bộ e8f8c211226b894fcb81acc59f3b34ba3efd5f42. Với mỗi câu hỏi, duyệt top-5 đã lưu theo thứ hạng gốc, nối nguyên chunk bằng hai ký tự xuống dòng và dừng trước chunk đầu tiên làm vượt trần 512 hoặc 1024 token. Không cắt chunk, không bỏ qua chunk quá dài để lấy chunk sau, không bổ sung ứng viên ngoài top-5 và không dùng evidence để chọn context. Token budget chỉ tính nội dung context, không gồm special token, câu hỏi hoặc prompt; đây là tokenizer của embedding model, chưa phải ngân sách của một LLM cụ thể.
+| Thành phần thay đổi | Evidence Recall@5 TB | MRR@5 TB |
+| --- | --- | --- |
+| Bỏ size score | 96,35% | 0,8349 |
+| Bỏ semantic score | 95,28% | 0,8350 |
+| Bỏ risk penalty | 96,35% | 0,8251 |
+| Không overlap | 93,99% | 0,8166 |
+| Tắt cắt tùy chọn | 96,14% | 0,8214 |
 
-Evidence Recall@budget là tỷ lệ câu hỏi có chunk hợp lệ trong phần context được giữ; MRR@budget dùng nghịch đảo hạng của chunk hợp lệ đầu tiên, bằng 0 nếu không có. Vì chỉ giữ tiền tố của top-5, thứ hạng các chunk được chọn không đổi. Cùng trần không có nghĩa cùng số token thực dùng; giới hạn top-5 có thể ngăn Max–Min sử dụng hết ngân sách. Kết quả là chẩn đoán “top-5 có trần token”, không phải phép so sánh fixed-budget đầy đủ trên toàn ranking. Không tính khoảng tin cậy mới và không chọn mức budget theo kết quả thắng/thua.
+“Bỏ semantic score” chỉ bỏ thành phần tương ứng trong F, không loại cắt tùy chọn theo raw drop. “Bỏ size score” vẫn giữ điều kiện MIN/MAX. Vì vậy các dòng ablation đo ảnh hưởng của một thành phần trong cơ chế hiện tại, không đại diện cho một thuật toán hoàn toàn không có ngữ nghĩa hoặc hoàn toàn không có kiểm soát độ dài. Các phép ablation này thuộc cấu hình tham chiếu; không được gán thành ablation của trọng số triển khai mới.
 
-| Đầu vào | Chiến lược | Trần token | Evidence Recall@budget | MRR@budget | Token thực dùng TB |
+### 5.4 Kích thước chunk và ngân sách context
+
+**Bảng 8. Độ dài chunk, lượng context top-5 và tỷ lệ vượt giới hạn encode trong lần chạy hiện tại.**
+
+| Góc nhìn | Phương pháp | Độ dài chunk TB (khoảng trắng) | Context top-5 TB (khoảng trắng) | Token/chunk TB | Chunk >128 token |
+| --- | --- | --- | --- | --- | --- |
+| Context gốc | Max–Min | 56,90 | 361,20 | 70,28 | 13,04% |
+| Context gốc | Đề xuất | 153,57 | 784,05 | 186,03 | 86,73% |
+| Ghép dài | Max–Min | 59,66 | 386,55 | 73,60 | 14,39% |
+| Ghép dài | Đề xuất | 193,69 | 975,71 | 233,76 | 98,43% |
+
+Context top-5 của phương pháp đề xuất lớn hơn Max–Min 2,17 lần với context gốc và 2,52 lần với tài liệu ghép dài. Do đó lợi thế Recall trong một góc nhìn đi kèm việc lấy nhiều văn bản hơn. Số chunk ít hơn cũng không trực tiếp đồng nghĩa chất lượng xếp hạng cao hơn.
+
+Độ dài token ở Bảng 8 được đo bằng tokenizer của encoder, có special tokens và không truncation. Nhiều chunk dài hơn 128 token nên encoder có thể không sử dụng toàn bộ văn bản khi tạo vector. Tuy nhiên, tỷ lệ chunk vượt giới hạn không phải tỷ lệ evidence bị mất: nghiên cứu chưa ánh xạ vị trí evidence sang vùng token được giữ cho mọi lần xuất hiện. Tác động của truncation lên chênh lệch retrieval vì vậy vẫn là giả thuyết cần đối chứng.
+
+Để khảo sát độ nhạy với chính sách context, chúng tôi áp trần 512 và 1024 token lên ranking top-5 đã lưu. Context được tạo bằng cách nối nguyên chunk theo thứ hạng, dừng trước chunk đầu tiên gây vượt trần, không bỏ qua, không cắt ngắn và không lấy thêm ứng viên ngoài top-5. Token budget chỉ đếm nội dung context, không bao gồm special tokens, câu hỏi hoặc prompt, và dùng tokenizer MiniLM thay vì tokenizer của một LLM sinh đáp án.
+
+**Bảng 9. Truy xuất dưới trần token áp lên tiền tố top-5.**
+
+| Góc nhìn | Phương pháp | Trần token | Evidence Recall | MRR | Token thực dùng TB |
 | --- | --- | --- | --- | --- | --- |
 | Context gốc | Max–Min | 512 | 85,58% | 0,7391 | 368,26 |
 | Context gốc | Max–Min | 1024 | 86,94% | 0,7421 | 432,84 |
-| Context gốc | Ours | 512 | 85,16% | 0,7875 | 414,14 |
-| Context gốc | Ours | 1024 | 91,22% | 0,8050 | 879,26 |
+| Context gốc | Đề xuất | 512 | 84,74% | 0,7854 | 414,72 |
+| Context gốc | Đề xuất | 1024 | 91,22% | 0,8044 | 879,39 |
 | Ghép dài | Max–Min | 512 | 83,59% | 0,7218 | 379,50 |
 | Ghép dài | Max–Min | 1024 | 85,27% | 0,7259 | 463,17 |
-| Ghép dài | Ours | 512 | 63,64% | 0,5975 | 395,00 |
-| Ghép dài | Ours | 1024 | 78,16% | 0,6491 | 901,28 |
+| Ghép dài | Đề xuất | 512 | 64,16% | 0,6007 | 392,74 |
+| Ghép dài | Đề xuất | 1024 | 78,06% | 0,6497 | 903,44 |
 
-Ở trần 512 token, context gốc cho 819/957 hit với Max–Min và 815/957 với Ours; chênh lệch nhỏ này chưa được kiểm định thống kê. Trên văn bản ghép dài, số hit tương ứng là 800 và 609. Ở trần 1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên context gốc vẫn cao hơn ở Ours trong hai mức trần, nên không đồng nhất kết luận Recall với mọi khía cạnh xếp hạng. Đây là bằng chứng về độ nhạy với chính sách context trong tập đã quan sát, không chứng minh cơ chế nhân quả hoặc ưu thế tổng quát [11].
+Phép đo này mô tả ảnh hưởng của trần token đối với chính sách top-5 hiện tại. Nó chưa phải so sánh fixed-budget trên toàn ranking: số ứng viên giới hạn ở năm và hai phương pháp có thể sử dụng số token thực tế khác nhau. Không chọn lại budget, threshold hoặc trọng số theo kết quả thắng/thua trên test.
 
-### 5.8. Phân tích độ dài tokenizer và nguy cơ truncation
+### 5.5 Thời gian xử lý
 
-Đo độ dài tất cả chunk đã lưu bằng tokenizer snapshot nêu ở mục 5.7, không truncation và có special tokens. Trung bình, trung vị, cực đại và tỷ lệ vượt 128 được tính theo chunk, không theo câu hỏi. sentence_bert_config.json của snapshot ghi max_seq_length=128; tokenizer có thể có model_max_length khác, nên không dùng giới hạn tokenizer chung để thay cho cấu hình SentenceTransformer. Artifact retrieval cũ không cố định revision tokenizer: các số sau mô tả độ dài dưới snapshot cục bộ được ghi hash trong [11].
+**Bảng 10. Thời gian một lượt chạy sau warm-up, đơn vị giây.**
 
-| Đầu vào | Chiến lược | TB token | Trung vị | Lớn nhất | Chunk >128 | Tỷ lệ |
-| --- | --- | --- | --- | --- | --- | --- |
-| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |
-| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |
-| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |
-| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |
+| Góc nhìn | Phương pháp | Chunking (s) | Embedding/index (s) | Ranking (s) |
+| --- | --- | --- | --- | --- |
+| Context gốc | Max–Min | 25,255 | 14,298 | 0,042 |
+| Context gốc | Đề xuất | 10,056 | 9,724 | 0,020 |
+| Ghép dài | Max–Min | 32,768 | 14,495 | 0,045 |
+| Ghép dài | Đề xuất | 36,023 | 19,152 | 0,066 |
 
-Kết quả đo cho thấy tỷ lệ chunk Ours vượt 128 token cao hơn Max–Min ở cả hai cách tổ chức đầu vào. Nếu encode theo cấu hình SentenceTransformer 128 token, các chuỗi vượt giới hạn sẽ bị cắt trước khi biểu diễn. Tuy nhiên, độ dài vượt giới hạn không tự cho biết evidence bị mất: chưa có ánh xạ offset bằng chứng sang từng vùng token, đặc biệt khi có overlap hoặc nhiều lần xuất hiện. Vì vậy, không báo tỷ lệ evidence bị truncation và không kết luận truncation chắc chắn gây ra mức giảm Recall. Cần kiểm tra offset và chạy đối chứng có kiểm soát để xác định tác động [11].
+Chunking của phương pháp đề xuất bao gồm encode câu cần thiết để tính ranh giới; embedding/index là encode các chunk đầu ra và xây chỉ mục. Chi phí encode query được chia sẻ giữa hai phương pháp trong mỗi góc nhìn. Các số ở Bảng 10 không có độ lệch chuẩn nhiều lượt, chịu ảnh hưởng cache, thứ tự chạy và tải hệ thống; vì vậy chỉ mô tả lần chạy đã thực hiện, không hỗ trợ kết luận ưu thế tốc độ có ý nghĩa thống kê. Bộ nhớ CPU/GPU chưa được đo.
 
-### 5.9. Chẩn đoán vi phạm ranh giới dependency
+### 5.6 Thảo luận và giới hạn
 
-Targeted diagnostic evaluation sử dụng annotation có sẵn trong data/benchmark/annotations.json và chunk của bộ pilot đã lưu tại evaluation/results/rag_comparison.json. Có ba ranh giới dương tính: case_001 tại vị trí 0, case_007 và case_011 tại vị trí 4; vị trí được đánh số từ 0. case_012 là tài liệu đối chứng ngoại lệ với danh sách dependency rỗng, không tăng mẫu số. Không tự sinh nhãn dependency từ XQuAD. Metric là số ranh giới dependency bị chọn làm điểm cắt chia cho tổng ba ranh giới được annotate; nó đo quyết định ranh giới, không đo mọi quan hệ ngữ nghĩa hay khả năng overlap sửa mất ngữ cảnh.
+Kết quả cho thấy chiến lược đề xuất có thể hỗ trợ truy xuất khi tài liệu đã được tổ chức thành context tương đối ngắn, đồng thời bảo toàn evidence theo tiêu chí đang dùng. Với tài liệu ghép dài, lợi thế bảo toàn evidence không chuyển thành ưu thế retrieval. Một giả thuyết là đoạn lớn và overlap làm biểu diễn ít tập trung hơn vào chi tiết câu hỏi; truncation có thể làm mất một phần nội dung khỏi biểu diễn. Những cơ chế này chưa được xác lập nhân quả vì chưa có đối chứng tách riêng giới hạn encoder, kích thước chunk và vị trí evidence.
 
-| Chiến lược | Ranh giới vi phạm | Ranh giới đã gán nhãn | Dependency Violation Rate |
-| --- | --- | --- | --- |
-| Max–Min | 2 | 3 | 66,67% |
-| Ours | 0 | 3 | 0,00% |
+Benchmark có các hạn chế về giá trị suy rộng. Chỉ 38 bài nguồn thuộc tập đánh giá; các lĩnh vực là nhóm rộng do nghiên cứu gán. Văn bản dài được ghép từ đoạn trích cùng chủ đề, không phải corpus tài liệu dài tự nhiên hoàn chỉnh. Evidence được trích tự động từ đáp án đầu tiên, có câu hỏi lặp và nhãn nguồn đáng nghi. Chấm đúng tài liệu và đủ một evidence mục tiêu không đo mọi chứng cứ hợp lệ có thể trả lời câu hỏi.
 
-Max–Min cắt tại hai ranh giới được gán nhãn của case_007 và case_011; Ours không cắt tại ba ranh giới dương tính. Tuy nhiên, độ dài toàn văn của case_001, case_007, case_011 và case_012 lần lượt chỉ là 16, 228, 205 và 216 đơn vị khoảng trắng. Do đó không testcase nào kích hoạt nhánh trên 240 có dependency penalty. Kết quả 0/3 của Ours phản ánh hành vi của chiến lược đầy đủ trên các mẫu nhỏ, không chứng minh tác dụng riêng của penalty. Bộ pilot đã được dùng phát triển, không độc lập và quá nhỏ để suy rộng; cần thêm văn bản trên MAX, annotation đáng tin cậy và ablation penalty [11].
+Việc lựa chọn trọng số mới diễn ra sau khi nhóm đã quan sát kết quả test của cấu hình tham chiếu. Dù lần chạy hiện tại đóng băng tham số và không dùng test để xếp hạng các ứng viên mới, nó chưa thay thế xác nhận trên dữ liệu độc lập. Nghiên cứu độ nhạy mới gồm 10 nhóm bài dev, nên các khác biệt nhỏ cần được xem xét cùng độ bất định và thiên lệch do thử nhiều cấu hình. Giữ một ngưỡng chưa có bằng chứng tối ưu phải được hiểu là quyết định triển khai có phạm vi, không phải kết quả tối ưu hóa toàn cục.
 
-### 5.10. Tổng hợp đánh đổi và khả năng tái lập
+Cuối cùng, nghiên cứu chưa chạy sinh đáp án cho bộ đánh giá này, nên không báo QA Accuracy, EM/F1 câu trả lời hoặc mức giảm hallucination. XQuAD chuyển đổi ở đây cũng không cung cấp nhãn ranh giới hoặc dependency đầy đủ; các số retrieval không thể thay thế Boundary F1 hay đánh giá riêng chất lượng luật liên kết câu.
 
-| Tiêu chí trong hai thiết lập đã đo | Max–Min | Ours |
-| --- | --- | --- |
-| Bảo toàn evidence | 98,85% ở cả hai | 100% ở cả hai |
-| Độ dài chunk và context top-5 | Nhỏ hơn | Lớn hơn |
-| Evidence Recall@5 trên context gốc | 86,94% | 91,85% |
-| Evidence Recall@5 trên văn bản ghép dài | 85,27% | 80,56% |
-| Luật liên kết tiếng Việt | Không thêm luật riêng | Penalty chỉ ở nhánh trên MAX |
-| Overlap động | Không thêm | Giữ 0–2 câu |
+## 6 Kết luận
 
-Bảng tổng hợp mô tả hai cấu hình đã quan sát, không xếp hạng phương pháp cho mọi dữ liệu. Evidence preservation và retrieval ranking là hai mục tiêu khác nhau: Ours có evidence_split = 0 nhưng vẫn có 78 ranking_miss ở context gốc và 186 ở văn bản ghép dài. Giả thuyết vector của chunk nhỏ tập trung hơn cần thí nghiệm nhân quả, không được suy trực tiếp từ bảng.
+Bài báo trình bày một chiến lược phân đoạn tiếng Việt kết hợp semantic drop, độ dài, luật liên kết câu và overlap động trong cùng pipeline truy xuất. Nghiên cứu dev hỗ trợ lựa chọn tỷ lệ trọng số semantic/size = 0,5/0,3 trong lưới đã thử; penalty 0,6 được giữ trong nhóm đồng hạng. Các threshold và độ dài tham chiếu chưa được chứng minh tối ưu đồng thời.
 
-Tái lập phân tích: chạy .\venv\Scripts\python.exe -X utf8 scripts/audit_report_evidence.py từ thư mục gốc. Script chỉ đọc chunk, ranking và nhãn đã lưu, không gọi chunker hoặc LLM. Kết quả nằm tại evaluation/results/report_audit/: audit.json lưu cấu hình, snapshot/hash tokenizer, phiên bản phần mềm, checksum đầu vào và mã nguồn; các CSV lưu thống kê tokenizer, độ dài từng chunk, kết quả theo budget và từng câu hỏi. Không có lấy mẫu ngẫu nhiên nên seed không áp dụng; seed 2026 và 5.000 lượt chỉ thuộc bootstrap gốc.
+Trên 957 câu hỏi đánh giá với cấu hình triển khai hiện tại, phương pháp đề xuất đạt Evidence Recall@5 91,85% với context gốc và 80,67% với tài liệu ghép dài; Max–Min lần lượt đạt 86,94% và 85,27%. Lợi thế thay đổi theo cách tổ chức đầu vào, trong khi phương pháp đề xuất sử dụng nhiều context hơn. Vì vậy, bằng chứng hiện tại hỗ trợ việc xem xét đồng thời bảo toàn evidence, xếp hạng retrieval và ngân sách ngữ cảnh, thay vì lựa chọn phương pháp chỉ từ một bảng top-k.
 
-Các metric gốc được tính lại từ details và đối chiếu với JSON/CSV: số tài liệu, câu hỏi, chunk, Evidence Recall@3/@5, MRR@5, độ dài chunk/context và bảo toàn evidence. Việc bổ sung phân tích không thay threshold, weight, implementation Max–Min, nhãn test hoặc các bảng kết quả gốc. Các phân tích này chưa cung cấp evidence truncation theo offset, full-ranking fixed-budget, ablation hoặc QA generation/EM/F1.
+Hướng nghiên cứu tiếp theo là đánh giá trên corpus độc lập mới, lựa chọn context theo budget trên toàn ranking, đo offset evidence trong vùng token được encode, xây tập dependency có văn bản trên MAX và thực hiện ablation của cấu hình triển khai. Đánh giá đầu cuối bằng cùng LLM, prompt và rubric cần được thực hiện riêng để xác định ảnh hưởng đến chất lượng câu trả lời.
 
-## 6. Kết luận
+## Khả dụng của dữ liệu và mã nguồn
 
-Đề tài đã xây dựng một chiến lược chunking tiếng Việt kết hợp độ dài, suy giảm tương đồng ngữ nghĩa, luật liên kết câu và overlap động; đồng thời tích hợp Max–Min làm baseline có nguồn học thuật và mã nguồn đối chiếu. Hai chiến lược được đánh giá trong cùng pipeline retrieval trên bản chuyển đổi XQuAD tiếng Việt.
+Dữ liệu XQuAD tiếng Việt cùng giấy phép và thông tin chuyển đổi nằm trong [thư mục benchmark](data/benchmark/xquad_vi/README.md). Manifest lưu commit, checksum, cách chia nguồn và quy mô từng split. Code phương pháp đề xuất nằm trong [bộ chấm điểm ranh giới](src/boundary_scorer.py) và [bộ điều phối chunking](src/semantic_chunker.py); đối chứng có [implementation Max–Min](baselines/maxmin_semantic_chunker.py).
 
-Trên 957 câu hỏi test, Ours đạt Evidence Recall@5 91,85% khi dùng context gốc, cao hơn Max–Min 4,91 điểm phần trăm. Khi ghép thành văn bản dài, Ours đạt 80,56%, thấp hơn Max–Min 4,70 điểm phần trăm. Ours bảo toàn evidence theo nhãn hiện tại nhưng sử dụng lượng context top-5 lớn hơn và có nhiều lỗi xếp hạng ở kịch bản văn bản dài.
+Các bảng trong Phần 5.1 và 5.4–5.5 được lấy từ **lần chạy với code hiện tại**, lưu tại [kết quả phục vụ bản thảo](evaluation/results/scientific_paper_current/protocol.json), gồm JSON/CSV từng góc nhìn, ranking từng câu hỏi, bootstrap và chẩn đoán token. Thí nghiệm được tái lập bằng `scripts/run_paper_experiments.py`; bản thảo được sinh từ artifact bằng `scripts/write_scientific_paper.py`. Script không thay trọng số trong lúc đánh giá.
 
-Ours chưa chứng minh ưu thế tổng quát so với Max–Min. Lợi thế về bảo toàn evidence và retrieval trên context gốc trong cấu hình top-5 đi kèm lượng context lớn hơn, trong khi lợi thế retrieval đảo chiều trên văn bản ghép dài. Phân tích trần token và tokenizer bổ sung cho thấy kết luận phụ thuộc chính sách context; chưa xác lập quan hệ nhân quả giữa kích thước chunk, truncation và thứ hạng. Hướng tiếp theo là fixed-budget trên toàn ranking, evidence truncation theo offset, dependency diagnostic ở nhánh trên MAX, ablation và đánh giá sinh câu trả lời đầu cuối.
+Bảng độ nhạy và ablation dev lấy từ [protocol 180 cấu hình](evaluation/results/parameter_study/protocol.json), [kết quả từng góc nhìn](evaluation/results/parameter_study/sensitivity.csv) và [bảng tổng hợp](evaluation/results/parameter_study/aggregate.csv). [Phụ lục tham số](THAM_SO_VA_MINH_CHUNG.md) lưu toàn bộ các mức thử và giải trình các hằng số. Các artifact test lịch sử của cấu hình 0,4/0,4/0,6 được giữ riêng để truy vết; chúng không được sử dụng thay cho các bảng test của trọng số mới trong bản thảo này.
 
-## 7. Tài liệu tham khảo
+## Tài liệu tham khảo
 
-1. Lewis, P., và cộng sự. (2020). *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*. NeurIPS 2020. [Bài báo](https://arxiv.org/abs/2005.11401).
-2. Kiss, C., Nagy, M., & Szilágyi, P. (2025). *Max–Min semantic chunking of documents for RAG application*. Discover Computing, 28, 117. [DOI: 10.1007/s10791-025-09638-7](https://doi.org/10.1007/s10791-025-09638-7).
-3. HSDSLab. *MaxMinChunking — mã nguồn tác giả*. Phiên bản đối chiếu: `0caba41d2ef30114729f95e5c788173e4f40920e`. [maxmin_chunker.py](https://github.com/hsdslab/MaxMinChunking/blob/0caba41d2ef30114729f95e5c788173e4f40920e/maxmin_chunker.py).
-4. LlamaIndex. *Semantic Chunker*. Tài liệu kỹ thuật, truy cập ngày 30/10/2026. [Tài liệu chính thức](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/).
-5. Reimers, N., & Gurevych, I. (2020). *Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation*. EMNLP 2020, tr. 4512–4525. [ACL Anthology](https://aclanthology.org/2020.emnlp-main.365/).
-6. Sentence Transformers. *paraphrase-multilingual-MiniLM-L12-v2*. Model card, truy cập ngày 30/10/2026. [Mô hình và cấu hình](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
-7. Artetxe, M., Ruder, S., & Yogatama, D. (2020). *On the Cross-lingual Transferability of Monolingual Representations*. ACL 2020, tr. 4623–4637. [ACL Anthology](https://aclanthology.org/2020.acl-main.421/).
-8. Google DeepMind. *XQuAD — Cross-lingual Question Answering Dataset*. [Kho dữ liệu chính thức](https://github.com/google-deepmind/xquad). Bản chuyển đổi của dự án: [README và quy trình](data/benchmark/xquad_vi/README.md), [manifest](data/benchmark/xquad_vi/manifest.json).
-9. Dự án utc_rag. *Kết quả XQuAD tiếng Việt — context gốc, tập test*. [CSV](evaluation/results/xquad_vi_paragraph_test/rag_comparison.csv), [JSON chi tiết](evaluation/results/xquad_vi_paragraph_test/rag_comparison.json), [thống kê](evaluation/results/xquad_vi_paragraph_test/rag_statistical_summary.json).
-10. Dự án utc_rag. *Kết quả XQuAD tiếng Việt — văn bản ghép dài, tập test*. [CSV](evaluation/results/xquad_vi_article_test/rag_comparison.csv), [JSON chi tiết](evaluation/results/xquad_vi_article_test/rag_comparison.json), [thống kê](evaluation/results/xquad_vi_article_test/rag_statistical_summary.json).
-
-11. Dự án utc_rag. Phân tích hậu nghiệm phục vụ rà soát báo cáo (30/10/2026). Script: scripts/audit_report_evidence.py. Artifact và hướng dẫn: evaluation/results/report_audit/README.md; dữ liệu kết quả: evaluation/results/report_audit/audit.json và các CSV cùng thư mục.
-
-Các mục [9–10] là artifact thực nghiệm nội bộ, không phải bài báo đã công bố. Mô tả triển khai được đối chiếu với [pipeline](PIPELINE.md), [baseline Max–Min](MAXMIN.md) và mã nguồn hiện tại của dự án.
+1. Lewis P, Perez E, Piktus A, và cộng sự. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. *Advances in Neural Information Processing Systems*. 2020;33:9459–9474. [Toàn văn](https://arxiv.org/abs/2005.11401).
+2. Kiss C, Nagy M, Szilágyi P. Max–Min semantic chunking of documents for RAG application. *Discover Computing*. 2025;28:117. [DOI](https://doi.org/10.1007/s10791-025-09638-7).
+3. Reimers N, Gurevych I. Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation. *Proceedings of EMNLP*. 2020:4512–4525. [ACL Anthology](https://aclanthology.org/2020.emnlp-main.365/).
+4. Artetxe M, Ruder S, Yogatama D. On the Cross-lingual Transferability of Monolingual Representations. *Proceedings of ACL*. 2020:4623–4637. [ACL Anthology](https://aclanthology.org/2020.acl-main.421/).
+5. LlamaIndex. SemanticSplitterNodeParser. Mã nguồn phiên bản 0.14.25. [Implementation](https://github.com/run-llama/llama_index/blob/v0.14.25/llama-index-core/llama_index/core/node_parser/text/semantic_splitter.py). Truy cập ngày 16/11/2026.
+6. Qu R, Tu R, Bao F. Is Semantic Chunking Worth the Computational Cost? *arXiv preprint*. 2024. [arXiv:2410.13070](https://arxiv.org/abs/2410.13070).
+7. Sentence Transformers. paraphrase-multilingual-MiniLM-L12-v2. [Model card](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2); [cấu hình snapshot được sử dụng](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/raw/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/sentence_bert_config.json). Truy cập ngày 16/11/2026.
+8. HSDSLab. MaxMinChunking. Mã tác giả tại commit `0caba41d2ef30114729f95e5c788173e4f40920e`. [Implementation](https://github.com/hsdslab/MaxMinChunking/blob/0caba41d2ef30114729f95e5c788173e4f40920e/maxmin_chunker.py). Truy cập ngày 16/11/2026.
+9. Google DeepMind. XQuAD. Dữ liệu nguồn tại commit `7d30520c717524000f0d9d2f9c10a069acd9d285`. [Kho dữ liệu](https://github.com/google-deepmind/xquad/tree/7d30520c717524000f0d9d2f9c10a069acd9d285). Truy cập ngày 16/11/2026.

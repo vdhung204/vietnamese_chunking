@@ -5,7 +5,9 @@ với 13 case pilot đã dùng phát triển thuật toán trong repo. Không ph
 do trợ lý tự sinh. Đây là bản chuyển đổi cho RAG, **không phải giao thức đánh giá
 XQuAD chính thức** và không nên so điểm retrieval với F1/EM công bố của XQuAD.
 
-Kết quả đã chạy trên cả hai góc nhìn: [RESULTS.md](RESULTS.md).
+Kết quả hiện tại với trọng số 0,5/0,3/0,6 nằm trong [hướng dẫn thực nghiệm](../../../docs/EXPERIMENTS.md)
+và [CSV đã kiểm tra](../../../evaluation/results/scientific_paper_current/metrics_verified.csv).
+[Kết quả ngày 30/10/2026](RESULTS_2026-10-30.md) được giữ riêng cho cấu hình lịch sử 0,4/0,4/0,6.
 
 ## Nguồn và giấy phép
 
@@ -53,7 +55,9 @@ Hash title với seed `utc-rag-xquad-vi-v1`, lấy khoảng 20% title mỗi lĩn
 dev, phần còn lại làm test. Hai tập không trùng title, context hay ID câu hỏi;
 mọi đoạn/câu hỏi cùng bài luôn đi cùng một tập. Đây là **split cục bộ của repo**,
 không phải train/dev/test chính thức của XQuAD. Không dùng test để tune threshold.
-Các chunker hiện có được giữ nguyên khi chạy bộ này.
+Mỗi lần đánh giá cần đóng băng cấu hình và lưu provenance. Lần chạy phục vụ bài
+báo hiện tại giữ trọng số 0,5/0,3/0,6; xem protocol và giới hạn suy rộng trong
+hướng dẫn thực nghiệm.
 
 Câu hỏi cùng bài có tương quan; 957 câu hỏi test không có nghĩa 957 mẫu hoàn toàn
 độc lập. Đơn vị nhóm nguồn của test là 38 bài. Khi báo khoảng tin cậy, bootstrap
@@ -89,7 +93,7 @@ Nếu sửa nhãn, tạo phiên bản dataset mới và áp dụng cùng nhãn c
 Ví dụ trên văn bản dài, tập test, retrieval thật, không gọi LLM:
 
 ```powershell
-.\venv\Scripts\python.exe evaluation/compare_rag.py --documents data/benchmark/xquad_vi/article/test/documents.json --questions data/benchmark/xquad_vi/article/test/questions.json --output-dir evaluation/results/xquad_vi_article_test
+.\venv\Scripts\python.exe evaluation/compare_rag.py --documents data/benchmark/xquad_vi/article/test/documents.json --questions data/benchmark/xquad_vi/article/test/questions.json --output-dir evaluation/results/local_article_test
 ```
 
 Đổi `article` thành `paragraph` để chạy trên context gốc; đổi `test` thành `dev`
@@ -104,7 +108,7 @@ lời sinh tự do; cần thống nhất rubric/EM/F1 và cách xử lý trích 
 Tóm tắt retrieval theo lĩnh vực và khoảng tin cậy chênh lệch:
 
 ```powershell
-.\venv\Scripts\python.exe evaluation/summarize_rag.py --report evaluation/results/xquad_vi_article_test/rag_comparison.json --questions data/benchmark/xquad_vi/article/test/questions.json
+.\venv\Scripts\python.exe evaluation/summarize_rag.py --report evaluation/results/local_article_test/rag_comparison.json --questions data/benchmark/xquad_vi/article/test/questions.json
 ```
 
 Script resample theo bài nguồn, 5.000 lượt, seed cố định; báo 95% percentile CI

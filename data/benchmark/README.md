@@ -1,142 +1,23 @@
-# Benchmark
+# Benchmark datasets
 
-New expanded dataset: [XQuAD Vietnamese](xquad_vi/README.md), 240 source contexts,
-1,190 published questions, 48 source titles and seven broad domains. Local
-title-disjoint split: 233 dev / 957 test questions. Both paragraph and long
-same-title concatenation views are available; they are NOT independent datasets.
-Use explicit `--documents`, `--questions`, `--output-dir` as documented there.
-Default CLI still uses the original pilot below.
+The main evaluation uses a local retrieval adaptation of [Vietnamese XQuAD](xquad_vi/README.md). The smaller pilot remains available for development diagnostics. Run commands from the repository root; see the [experiment guide](../../docs/EXPERIMENTS.md).
 
-Current Max–Min vs Ours RAG benchmark: `python evaluation/compare_rag.py`.
-See [RAG.md](../../RAG.md) for the shared pipeline, normalized evidence matching,
-MRR@5, optional LLM interface and `rag_comparison.json/csv` outputs.
-It reuses the existing documents/questions unchanged; no new dataset is required.
-The instructions below describe the older LlamaIndex comparison.
+| Dataset | Purpose | Size | Location |
+|---|---|---|---|
+| Vietnamese XQuAD dev | Parameter sensitivity study | 233 questions from 10 source titles | `xquad_vi/{paragraph,article}/dev/` |
+| Vietnamese XQuAD test | Reported retrieval results | 957 questions from 38 source titles | `xquad_vi/{paragraph,article}/test/` |
+| Original pilot | Development and partial boundary checks | 13 documents and 16 retrieval questions | `data/test_case.json`, `questions.json`, `annotations.json` |
 
-Run from the project root (activate `venv` first):
+XQuAD contains 240 source contexts and 1,190 questions from 48 source titles in total. The `paragraph` and `article` views share the same content and questions; they are not independent datasets. Development and test sets are disjoint by source title. The dataset documentation covers source attribution, licensing, the split, and automatically derived evidence labels.
 
-```powershell
-python -m pip install -r requirements-benchmark.txt
-python evaluation/compare_chunkers.py
-python -m unittest discover -s tests
-python evaluation/evaluate_chunking.py
-```
+## Current results
 
-The default corpus is all 13 existing cases in `data/test_case.json`, including
-the short cases 001–003. Regression remains cases 004–013. No algorithm or
-existing evaluator was modified. Results are saved in `evaluation/results/`.
+The manuscript uses the `0.5/0.3/0.6` configuration and artifacts in [scientific_paper_current](../../evaluation/results/scientific_paper_current). See [verified metrics](../../evaluation/results/scientific_paper_current/metrics_verified.csv) and the [run protocol](../../evaluation/results/scientific_paper_current/protocol.json).
 
-The baseline is the official `llama-index-core==0.14.25` SemanticSplitterNodeParser,
-with buffer size 1 and breakpoint percentile 95, fixed before measurement.
-It uses the same SentenceTransformer instance and sentence splitter as Ours.
-Sentence separators are preserved because LlamaIndex concatenates its inputs.
-See the [official source](https://github.com/run-llama/llama_index/blob/v0.14.25/llama-index-core/llama_index/core/node_parser/text/semantic_splitter.py)
-and [API reference](https://docs.llamaindex.ai/en/stable/api_reference/node_parsers/semantic_splitter/).
+The [30 October results](xquad_vi/RESULTS_2026-10-30.md) belong to the earlier `0.4/0.4/0.6` configuration and are retained as historical evidence.
 
-## Annotation and interpretation
+## Pilot annotations
 
-Existing `must_cut_after` / `must_not_cut_after` labels are partial constraints,
-not exhaustive semantic segmentation labels. Default micro Precision/Recall/F1
-are evaluated **only at labeled positions**. Predictions elsewhere are reported
-as `ignored_predictions`, never assumed false. This is a constraint-based pilot,
-not a full Boundary F1 benchmark. Size-only cases without labels do not affect F1.
-Zero denominators are reported as N/A; if gold positives exist but nothing is
-predicted, precision/recall/F1 are zero.
+The pilot uses partial `must_cut_after` / `must_not_cut_after` constraints. Metrics at these positions are not a fully annotated Boundary F1 benchmark. Dependency annotations cover only explicitly reviewed pairs. The 16 retrieval questions are assistant-authored development examples, rather than a human-reviewed held-out dataset.
 
-Dependency annotations in `annotations.json` identify only explicitly reviewed
-dependency pairs: nếu–thì and tuy–nhưng. Case 012 exceptions are not dependencies.
-Other missing dependency annotations are excluded, not treated as zero violations.
-The default denominator is only 3 dependencies, insufficient to establish a
-general advantage or coverage of all Vietnamese dependency structures.
-
-`questions.json` now contains 16 assistant-authored pilot questions grounded in
-the existing documents, with verbatim evidence spans. These are development
-annotations, not a human-reviewed held-out benchmark. They cover single-sentence,
-multi-sentence and dependency questions. Questions were written before running
-their retrieval scores; thresholds were not retuned. Extend or replace them using
-this schema (replace placeholders):
-
-```json
-[
-  {
-    "document_id": "case_007",
-    "question": "<annotated question>",
-    "gold_evidence": "<exact evidence copied from that document>"
-  }
-]
-```
-
-Retrieval searches **all chunks of all documents**, using the same model, cosine
-similarity and stable descending ranking for both methods. A hit requires the
-entire evidence span in one retrieved chunk from the correct document; whitespace
-is normalized. Partial spans or the same words in another document do not count.
-The reported Recall@k is the fraction of questions with such a hit (one gold span
-per question), as requested. No LLM, reranking or answer generation is involved.
-
-For an independent fully annotated corpus, use:
-
-```powershell
-python evaluation/compare_chunkers.py --documents data/benchmark/documents.json --questions data/benchmark/questions.json
-```
-
-Create `documents.json` as an array with this schema:
-
-```json
-[
-  {
-    "id": "doc_001",
-    "text": "Câu một. Câu hai. Câu ba.",
-    "gold_boundaries": [1],
-    "dependency_boundaries": [0]
-  }
-]
-```
-
-Positions are zero-based sentence indices: `1` means cut after sentence 1.
-`gold_boundaries` is exhaustive; all omitted positions are negatives. An empty
-list explicitly means no semantic boundaries. Dependency labels must be manually
-reviewed independently of either method, not generated by the method under test.
-Custom documents use inline dependency labels; default case annotations do not
-transfer to custom IDs. Repeated sentences that cannot be aligned unambiguously
-by the existing evaluator cause an error rather than silently incorrect scores.
-
-The JSON includes counts, cuts, chunks, retrieval rankings, input SHA-256 hashes,
-package versions and configuration for auditing. Timing is one warm-model run,
-with initialization and retrieval excluded and Ours' sentence cache cleared before
-each method. It is descriptive, order/hardware-dependent, not a statistical speed
-comparison. Existing within-run caching remains part of the implementation.
-
-## RAG retrieval benchmark
-
-The comparison command now runs chunking → chunk embeddings → question embeddings
-→ corpus-wide cosine retrieval → top-3/top-5 evidence scoring. The reusable
-implementation is `evaluation/rag_retrieval.py`. It ranks using only question text;
-document IDs and gold evidence are used after ranking for evaluation.
-
-Outputs:
-
-- `chunker_comparison.csv`: aggregate boundary and retrieval metrics.
-- `chunker_comparison.json`: chunks, rankings, scores, evidence preservation,
-  context size and the identical generation prompt template filled with each
-  method's top-5 results.
-- `rag_questions.csv`: per-question hits and failure diagnosis. `evidence_split`
-  means no single chunk contains the entire labeled evidence; `ranking_miss` means
-  such a chunk exists but was not retrieved in the top 5.
-
-This measures the retrieval stage of RAG. No LLM is called and no generated-answer
-quality claim is made. Prompts are provided for a later controlled generation
-comparison using the same generator, decoding parameters and answer rubric.
-The evidence metric is deliberately strict: even if two retrieved chunks together
-contain the answer, splitting the full gold span across them is not a hit.
-
-The corpus contains similar or repeated health/Transformer information. The current
-single-source labels count evidence from a different document as a miss even if it
-could answer the question. Treat these source-specific pilot scores as diagnostics;
-a stronger benchmark should annotate all acceptable evidence sources, use diverse
-documents and have people review the questions. Larger contexts can help retrieval
-but cost more at generation time; `mean_context_words_at_5` counts whitespace units,
-including overlap and duplicate content, rather than LLM tokens.
-
-This small development corpus was already used to build Ours. Use a separately
-annotated held-out set, frozen thresholds and more dependency examples before
-claiming generalization or retrieval improvements. Keep any baseline wins.
+`evaluation/compare_rag.py` defaults to this pilot when dataset paths are omitted. Use explicit `--documents`, `--questions`, and `--output-dir` arguments for XQuAD. Detailed pilot schemas and the historical LlamaIndex evaluation are preserved in the [archived benchmark guide](../../docs/archive/PILOT_BENCHMARK.md).

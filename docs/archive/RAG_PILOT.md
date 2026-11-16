@@ -1,8 +1,10 @@
+> **Tài liệu lưu trữ.** Nội dung bên dưới được giữ từ giai đoạn trước. Xem [hướng dẫn thực nghiệm hiện tại](../EXPERIMENTS.md) cho cấu hình và kết quả đang dùng trong bài báo.
+
 # RAG benchmark hiện tại: Max–Min vs Ours
 
-Bộ đánh giá mở rộng đã có: [XQuAD tiếng Việt](data/benchmark/xquad_vi/README.md)
+Bộ đánh giá mở rộng đã có: [XQuAD tiếng Việt](../../data/benchmark/xquad_vi/README.md)
 với 240 context, 1.190 câu hỏi, dev/test tách theo bài nguồn. Xem
-[kết quả trên 957 câu test](data/benchmark/xquad_vi/RESULTS.md). Các bảng 16 câu
+[kết quả trên 957 câu test](../../data/benchmark/xquad_vi/RESULTS_2026-10-30.md). Các bảng 16 câu
 pilot bên dưới vẫn là dữ liệu cũ, không phải kết quả của bộ mới.
 
 **Ollama local đã được nối:** `OllamaClient` mặc định dùng `qwen2.5:3b` tại
@@ -152,7 +154,7 @@ retrieved, không tự chèn câu trả lời chuẩn.
 
 ## Dữ liệu và cách chấm
 
-[questions.json](data/benchmark/questions.json) chứa 16 câu hỏi do trợ lý soạn từ
+[questions.json](../../data/benchmark/questions.json) chứa 16 câu hỏi do trợ lý soạn từ
 nội dung sẵn có, trước khi xem điểm retrieval của chúng. Evidence được chép nguyên
 văn. Đây là tập pilot trên dữ liệu phát triển, cần người rà soát trước khi dùng như
 bộ đánh giá chính thức. Không phải câu hỏi lấy từ một benchmark công bố độc lập.
@@ -177,10 +179,10 @@ evidence” đang dùng; cần hiểu điều này khi phân tích vai trò củ
 
 ## Đọc kết quả
 
-- [Bảng tổng hợp](evaluation/results/chunker_comparison.csv): Recall@3/@5 và metric boundary.
-- [Chi tiết từng câu](evaluation/results/rag_questions.csv): bên nào hit/miss,
+- [Bảng tổng hợp](../../evaluation/results/chunker_comparison.csv): Recall@3/@5 và metric boundary.
+- [Chi tiết từng câu](../../evaluation/results/rag_questions.csv): bên nào hit/miss,
   lý do thất bại và lượng context được truy xuất.
-- [Kết quả JSON](evaluation/results/chunker_comparison.json): đầy đủ nội dung top-5,
+- [Kết quả JSON](../../evaluation/results/chunker_comparison.json): đầy đủ nội dung top-5,
   cosine score, `rag_prompt_at_5` và metadata phục vụ tái lập.
 
 `evidence_split` nghĩa là không có chunk nào chứa trọn đoạn evidence. Đây là lỗi
