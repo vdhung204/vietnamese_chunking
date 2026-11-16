@@ -1,0 +1,111 @@
+{
+  "study_configurations": 180,
+  "study_view_results_verified": 360,
+  "distinct_rankings_recomputed": 141,
+  "dataset_counts": {
+    "paragraph/full": {
+      "documents": 240,
+      "questions": 1190,
+      "titles": 48
+    },
+    "paragraph/dev": {
+      "documents": 50,
+      "questions": 233,
+      "titles": 10
+    },
+    "paragraph/test": {
+      "documents": 190,
+      "questions": 957,
+      "titles": 38
+    },
+    "article/full": {
+      "documents": 48,
+      "questions": 1190,
+      "titles": 48
+    },
+    "article/dev": {
+      "documents": 10,
+      "questions": 233,
+      "titles": 10
+    },
+    "article/test": {
+      "documents": 38,
+      "questions": 957,
+      "titles": 38
+    }
+  },
+  "source_questions": 1190,
+  "unique_normalized_questions": 1181,
+  "duplicate_question_groups": 9,
+  "report_numeric_mentions": 461,
+  "original_bootstrap_exact_match": true,
+  "historical_numeric_audit_exact_match": true,
+  "production_sources_unchanged": true,
+  "family_tied_best_config_ids": {
+    "ablation_semantic_only_score": [
+      "cf40ac86c1564"
+    ],
+    "ablation_size_only_score": [
+      "cdd476acb6137"
+    ],
+    "ablation_without_optional_cut": [
+      "cdd476acb6137"
+    ],
+    "ablation_without_overlap": [
+      "cdd476acb6137"
+    ],
+    "ablation_without_risk": [
+      "c1fce3e78a7ec",
+      "cdd476acb6137"
+    ],
+    "ablation_without_semantic_score": [
+      "cdd476acb6137"
+    ],
+    "ablation_without_size": [
+      "c20461a742f44"
+    ],
+    "default": [
+      "cdd476acb6137"
+    ],
+    "fixed_overlap": [
+      "cd4fe47c38ac1"
+    ],
+    "joint": [
+      "c0c7b7159f5d8"
+    ],
+    "maximum": [
+      "ccdcf86de5c60"
+    ],
+    "minimum": [
+      "c3f3fd94a6633"
+    ],
+    "overlap_cap": [
+      "cde7aac7f09f6"
+    ],
+    "overlap_thresholds": [
+      "ca21524693a60",
+      "cd2e1adbe4c11"
+    ],
+    "semantic_drop": [
+      "c5fa627b282f6"
+    ],
+    "size_rounding": [
+      "c1e952dd16a32"
+    ],
+    "size_scale": [
+      "cdd476acb6137"
+    ],
+    "target": [
+      "ca6bd618db484"
+    ],
+    "weights": [
+      "c1dbc6b0dc5c6",
+      "c2c4a44e5fd11",
+      "c63d5ff74598a",
+      "c8ac2e8bbbd7a",
+      "c99d1e8ca13a2",
+      "cea38c0237dc9"
+    ]
+  },
+  "script_sha256": "fe2b22ce52d6482dc5f9fc2f12a837ca33ca69ac21d2e2abdde127355136f5f7"
+}

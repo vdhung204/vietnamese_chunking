@@ -1,0 +1,386 @@
+{
+  "provenance": {
+    "command": ".\\venv\\Scripts\\python.exe -X utf8 scripts/audit_report_evidence.py",
+    "script_sha256": "f1a41f0f353f6b5d99e600aae0c5385b99df0f2b032f006a5b4ee5c4c2b44300",
+    "python": "3.13.5",
+    "packages": {
+      "transformers": "5.20.1",
+      "tokenizers": "0.23.3"
+    },
+    "tokenizer_snapshot": "C:\\Users\\Acer\\.cache\\huggingface\\hub\\models--sentence-transformers--paraphrase-multilingual-MiniLM-L12-v2\\snapshots\\e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+    "tokenizer_sha256": {
+      "tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+      "tokenizer_config.json": "5036ea374ffedd706e3bef33e2e0d6953cb868ef8a490e76e32ba0faa37a6b9b",
+      "special_tokens_map.json": "378eb3bf733eb16e65792d7e3fda5b8a4631387ca04d2015199c4d4f22ae554d",
+      "sentence_bert_config.json": "70f4448f31320443fe3557cacea5abf2dcc4915dda8c80646bec9f3bb0aa5a1f"
+    },
+    "max_seq_length": 128,
+    "inputs_sha256": {
+      "evaluation\\results\\xquad_vi_paragraph_test\\rag_comparison.json": "334d21f33d138d1bc78cda0d42115d39a21f53286570aacda502bf2f7c2cf71a",
+      "data\\benchmark\\xquad_vi\\paragraph\\test\\questions.json": "4dcab4bd6cedeb37a7c01a0972661fb7512ea176a8695dc7c7f3f5f9aed01648",
+      "data\\benchmark\\xquad_vi\\paragraph\\test\\documents.json": "6d17539daab40abbd48b6dd6f37dc2b1c344cb07b01aacf6cb91a2257e78522e",
+      "evaluation\\results\\xquad_vi_paragraph_test\\rag_comparison.csv": "9177b487b75fe4b7adb5a5fd1b4ee4b71f4e78c7e7737e5ee0e4c44cbb6e2b38",
+      "evaluation\\results\\xquad_vi_article_test\\rag_comparison.json": "9dd02d7041b2bc9041bd33e2e2281650b81578b0f01fe35695e788d2b1b7cff5",
+      "data\\benchmark\\xquad_vi\\article\\test\\questions.json": "61e305e42849d1a42b50a8b7f5e37965d1464ad02ca0f67c9a7e254fd1d1d94d",
+      "data\\benchmark\\xquad_vi\\article\\test\\documents.json": "a09b56e86c48afe6a73fd14e2f94023702d9b7c346e700649b80969b60e12b26",
+      "evaluation\\results\\xquad_vi_article_test\\rag_comparison.csv": "4c623a33852bb3d365d86abf8670918672350d0b234ce80b03fccb8cf10dd0a0",
+      "evaluation\\results\\rag_comparison.json": "7e6dd669425ec8d4d96acce4a9108a3859602f958776595b85d01253be5c6d86",
+      "data\\benchmark\\annotations.json": "c6544d3ef32ac37e3547fc7db833653fbedbde8e04bcd51bfe062474f7fe9fd4",
+      "data\\test_case.json": "8d54dfa170bf79f77b1e02d90faa73c7a2657ef26c5948bf5a6c592851e4230e"
+    },
+    "source_sha256_before": {
+      "src\\baseline_chunker.py": "e2cc7f05be2bfbfa9d939a23839f3213899fe8a721cd46613b96d7edfdd18763",
+      "src\\boundary.py": "3e020d88140b34f4d5128067c3ec25154b860a24f032826629953fb5ae549011",
+      "src\\boundary_scorer.py": "f0285e7dd35374f6beffb7137efe67ff0c5cfe80399d26c17f3f938869090f92",
+      "src\\dependency_rules.py": "f734672a59290b4c129c2d2327786672ba43be87a43f088c5d432b7fc469d6fd",
+      "src\\dynamic_overlap.py": "66d4105508c80699daa69045f8a4880fdab5d683d090ff74f1b7468891784336",
+      "src\\rag\\__init__.py": "4e4ed7ef8e03e0249a5e464a911081fbf3e12e29fe14c4db4174fd58fd98ec5f",
+      "src\\rag\\embedder.py": "24354d5432395808bf8917866dc761c0fa6445987d822caf1048085d47f77fad",
+      "src\\rag\\llm_client.py": "dcefcfd4872c89952588994893e8412648fcc6513739dbf7cf5284ee87c51bc8",
+      "src\\rag\\rag_pipeline.py": "9e146448201c3e72c5b18494687f75186f8ce3446fd633021559842c9be13d82",
+      "src\\rag\\retriever.py": "2ee9393200d69fde9b677edf28b5bf7a3fb038c8ef79169a438d01dc02bd35ba",
+      "src\\semantic_chunker.py": "d58cb87743ff0ac3839c3e2112389fbd74e69057e67b2731db37f3eec51697db",
+      "src\\semantic_similarity.py": "0bb1605f8a7b08398c66af1943984636016ca6b2f5a3c540aacb86421c4fd5a9",
+      "src\\sentence_splitter.py": "a10b906387d17c34121f82aacdd8aead8df1a43774ef59d196f0511c1927a2da",
+      "baselines\\__init__.py": "946dbbc5c5c849a4d94c6fa8cb0765f258eb2be84063b4c2fad71b0425cde20f",
+      "baselines\\llamaindex_semantic_chunker.py": "1c8908879169d4ab91358b6a6b33a73ef1c43fb5c9c4badc4243400fa621ba47",
+      "baselines\\maxmin_semantic_chunker.py": "b1bb3f9f0048725a139c3a01441a66df0c1ca69c68de5798343deffd517a6249"
+    },
+    "source_sha256_after": {
+      "src\\baseline_chunker.py": "e2cc7f05be2bfbfa9d939a23839f3213899fe8a721cd46613b96d7edfdd18763",
+      "src\\boundary.py": "3e020d88140b34f4d5128067c3ec25154b860a24f032826629953fb5ae549011",
+      "src\\boundary_scorer.py": "f0285e7dd35374f6beffb7137efe67ff0c5cfe80399d26c17f3f938869090f92",
+      "src\\dependency_rules.py": "f734672a59290b4c129c2d2327786672ba43be87a43f088c5d432b7fc469d6fd",
+      "src\\dynamic_overlap.py": "66d4105508c80699daa69045f8a4880fdab5d683d090ff74f1b7468891784336",
+      "src\\rag\\__init__.py": "4e4ed7ef8e03e0249a5e464a911081fbf3e12e29fe14c4db4174fd58fd98ec5f",
+      "src\\rag\\embedder.py": "24354d5432395808bf8917866dc761c0fa6445987d822caf1048085d47f77fad",
+      "src\\rag\\llm_client.py": "dcefcfd4872c89952588994893e8412648fcc6513739dbf7cf5284ee87c51bc8",
+      "src\\rag\\rag_pipeline.py": "9e146448201c3e72c5b18494687f75186f8ce3446fd633021559842c9be13d82",
+      "src\\rag\\retriever.py": "2ee9393200d69fde9b677edf28b5bf7a3fb038c8ef79169a438d01dc02bd35ba",
+      "src\\semantic_chunker.py": "d58cb87743ff0ac3839c3e2112389fbd74e69057e67b2731db37f3eec51697db",
+      "src\\semantic_similarity.py": "0bb1605f8a7b08398c66af1943984636016ca6b2f5a3c540aacb86421c4fd5a9",
+      "src\\sentence_splitter.py": "a10b906387d17c34121f82aacdd8aead8df1a43774ef59d196f0511c1927a2da",
+      "baselines\\__init__.py": "946dbbc5c5c849a4d94c6fa8cb0765f258eb2be84063b4c2fad71b0425cde20f",
+      "baselines\\llamaindex_semantic_chunker.py": "1c8908879169d4ab91358b6a6b33a73ef1c43fb5c9c4badc4243400fa621ba47",
+      "baselines\\maxmin_semantic_chunker.py": "b1bb3f9f0048725a139c3a01441a66df0c1ca69c68de5798343deffd517a6249"
+    },
+    "chunking_unchanged": true,
+    "seed": null,
+    "randomization": "None; deterministic post-hoc analysis; no parameter selection, chunking rerun or generation.",
+    "budget_policy": "512/1024 content tokens without special tokens, query or prompt. Tokenize concatenated chunks with two newlines. Whole-chunk prefix of saved top-5, stop at first overflow, no skip/truncation/backfill. Not full-ranking budget retrieval.",
+    "tokenizer_policy": "Chunk lengths include special tokens, without truncation. Snapshot found locally; original retrieval artifact does not pin tokenizer revision.",
+    "dependency_policy": "3 annotated boundaries in 4 pilot documents including one negative-control document; cut positions before overlap interpretation; not a generalization benchmark.",
+    "evidence_truncation": "Not measured: no verified source-span to tokenizer-offset mapping for all evidence occurrences."
+  },
+  "original_metrics_verified": [
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "documents": 190,
+      "questions": 957,
+      "chunks": 583,
+      "recall_at_3": 0.8160919540229885,
+      "recall_at_5": 0.8693834900731452,
+      "mrr_at_5": 0.7421455938697318,
+      "evidence_preservation_rate": 0.9885057471264368,
+      "mean_context_words": 361.19749216300943,
+      "avg_chunk_words": 56.898799313893655
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "documents": 190,
+      "questions": 957,
+      "chunks": 226,
+      "recall_at_3": 0.8798328108672936,
+      "recall_at_5": 0.9184952978056427,
+      "mrr_at_5": 0.8062173458725183,
+      "evidence_preservation_rate": 1.0,
+      "mean_context_words": 783.846394984326,
+      "avg_chunk_words": 153.57079646017698
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "documents": 38,
+      "questions": 957,
+      "chunks": 556,
+      "recall_at_3": 0.8056426332288401,
+      "recall_at_5": 0.8526645768025078,
+      "mrr_at_5": 0.7259491466388018,
+      "evidence_preservation_rate": 0.9885057471264368,
+      "mean_context_words": 386.54545454545456,
+      "avg_chunk_words": 59.66187050359712
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "documents": 38,
+      "questions": 957,
+      "chunks": 191,
+      "recall_at_3": 0.7366771159874608,
+      "recall_at_5": 0.8056426332288401,
+      "mrr_at_5": 0.6542842215256008,
+      "evidence_preservation_rate": 1.0,
+      "mean_context_words": 977.4033437826541,
+      "avg_chunk_words": 194.08376963350784
+    }
+  ],
+  "tokenizer_stats": [
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "chunks": 583,
+      "mean": 70.2795883361921,
+      "median": 54,
+      "max": 493,
+      "over_128": 76,
+      "fraction_over_128": 0.13036020583190394
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "chunks": 226,
+      "mean": 186.03097345132744,
+      "median": 187.0,
+      "max": 333,
+      "over_128": 196,
+      "fraction_over_128": 0.8672566371681416
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "chunks": 556,
+      "mean": 73.59532374100719,
+      "median": 57.0,
+      "max": 493,
+      "over_128": 80,
+      "fraction_over_128": 0.14388489208633093
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "chunks": 191,
+      "mean": 234.26178010471205,
+      "median": 233,
+      "max": 414,
+      "over_128": 187,
+      "fraction_over_128": 0.9790575916230366
+    }
+  ],
+  "budget_results": [
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "budget": 512,
+      "questions": 957,
+      "hits": 819,
+      "evidence_recall": 0.8557993730407524,
+      "mrr": 0.739063044235458,
+      "mean_context_tokens": 368.2580982236155,
+      "mean_selected_chunks": 4.551724137931035,
+      "empty_contexts": 0
+    },
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 832,
+      "evidence_recall": 0.8693834900731452,
+      "mrr": 0.7421455938697318,
+      "mean_context_tokens": 432.83594566353185,
+      "mean_selected_chunks": 5,
+      "empty_contexts": 0
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "budget": 512,
+      "questions": 957,
+      "hits": 815,
+      "evidence_recall": 0.851619644723093,
+      "mrr": 0.7875304771856496,
+      "mean_context_tokens": 414.13584117032394,
+      "mean_selected_chunks": 2.284221525600836,
+      "empty_contexts": 0
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 873,
+      "evidence_recall": 0.9122257053291536,
+      "mrr": 0.8049634273772205,
+      "mean_context_tokens": 879.2601880877743,
+      "mean_selected_chunks": 4.7220480668756535,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "budget": 512,
+      "questions": 957,
+      "hits": 800,
+      "evidence_recall": 0.8359456635318704,
+      "mrr": 0.7217868338557993,
+      "mean_context_tokens": 379.5015673981191,
+      "mean_selected_chunks": 4.379310344827586,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 816,
+      "evidence_recall": 0.8526645768025078,
+      "mrr": 0.7259491466388018,
+      "mean_context_tokens": 463.17032392894464,
+      "mean_selected_chunks": 4.998955067920585,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "budget": 512,
+      "questions": 957,
+      "hits": 609,
+      "evidence_recall": 0.6363636363636364,
+      "mrr": 0.5975269940787182,
+      "mean_context_tokens": 395.00417972831764,
+      "mean_selected_chunks": 1.7408568443051202,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 748,
+      "evidence_recall": 0.7816091954022989,
+      "mrr": 0.6490595611285266,
+      "mean_context_tokens": 901.2758620689655,
+      "mean_selected_chunks": 3.889237199582027,
+      "empty_contexts": 0
+    }
+  ],
+  "dependency_diagnostic": [
+    {
+      "method": "Max-Min",
+      "annotated_documents": 4,
+      "annotated_dependency_boundaries": 3,
+      "violations": 2,
+      "rate": 0.6666666666666666,
+      "details": [
+        {
+          "document_id": "case_001",
+          "annotated_boundaries": [
+            0
+          ],
+          "predicted_cuts": [
+            1
+          ],
+          "violations": []
+        },
+        {
+          "document_id": "case_007",
+          "annotated_boundaries": [
+            4
+          ],
+          "predicted_cuts": [
+            1,
+            2,
+            4,
+            6,
+            7,
+            9,
+            10
+          ],
+          "violations": [
+            4
+          ]
+        },
+        {
+          "document_id": "case_011",
+          "annotated_boundaries": [
+            4
+          ],
+          "predicted_cuts": [
+            1,
+            2,
+            4,
+            6,
+            7,
+            9,
+            10
+          ],
+          "violations": [
+            4
+          ]
+        },
+        {
+          "document_id": "case_012",
+          "annotated_boundaries": [],
+          "predicted_cuts": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            7,
+            9,
+            10
+          ],
+          "violations": []
+        }
+      ]
+    },
+    {
+      "method": "Ours",
+      "annotated_documents": 4,
+      "annotated_dependency_boundaries": 3,
+      "violations": 0,
+      "rate": 0.0,
+      "details": [
+        {
+          "document_id": "case_001",
+          "annotated_boundaries": [
+            0
+          ],
+          "predicted_cuts": [],
+          "violations": []
+        },
+        {
+          "document_id": "case_007",
+          "annotated_boundaries": [
+            4
+          ],
+          "predicted_cuts": [
+            7
+          ],
+          "violations": []
+        },
+        {
+          "document_id": "case_011",
+          "annotated_boundaries": [
+            4
+          ],
+          "predicted_cuts": [
+            7
+          ],
+          "violations": []
+        },
+        {
+          "document_id": "case_012",
+          "annotated_boundaries": [],
+          "predicted_cuts": [
+            7
+          ],
+          "violations": []
+        }
+      ]
+    }
+  ]
+}

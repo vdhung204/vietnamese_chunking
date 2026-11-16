@@ -1,0 +1,332 @@
+{
+  "active_parameters": {
+    "minimum": 120,
+    "target": 180,
+    "maximum": 240,
+    "semantic_weight": 0.5,
+    "size_weight": 0.3,
+    "risk_weight": 0.6,
+    "drop": 0.3,
+    "overlap_low": 0.3,
+    "overlap_high": 0.55,
+    "overlap_cap": 2,
+    "fixed_overlap": null,
+    "size_rounding": 2
+  },
+  "selected_config_id": "c63d5ff74598a",
+  "selection": "Highest mean dev Recall@5 in the 54-weight grid; risk=0.6 retained among tied penalties. Other parameters unchanged. Not the best full configuration in the 180-config study.",
+  "mean_recall_at_5": 0.9678111587982832,
+  "mean_mrr_at_5": 0.8321173104434907,
+  "cli_gui_match_on_60_dev_documents": true,
+  "production_matches_saved_selected_corpora": true,
+  "results": {
+    "paragraph": {
+      "recall_at_3": 0.944206008583691,
+      "recall_at_5": 0.9699570815450643,
+      "mrr_at_5": 0.8732474964234621,
+      "evidence_preservation_rate": 1.0,
+      "mean_context_words": 767.8669527896996,
+      "documents": 50,
+      "chunks": 57
+    },
+    "article": {
+      "recall_at_3": 0.9055793991416309,
+      "recall_at_5": 0.9656652360515021,
+      "mrr_at_5": 0.7909871244635194,
+      "evidence_preservation_rate": 1.0,
+      "mean_context_words": 936.1030042918455,
+      "documents": 10,
+      "chunks": 52
+    }
+  },
+  "regression_cases": 10,
+  "regression_failures": [
+    "case_010"
+  ],
+  "unexpected_regression_failures": [],
+  "overlap_rule_checks": [
+    {
+      "id": "case_004",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_005",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_006",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_007",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_008",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_009",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_010",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_011",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_012",
+      "overlap_matches_current_boundaries": true
+    },
+    {
+      "id": "case_013",
+      "overlap_matches_current_boundaries": true
+    }
+  ],
+  "known_snapshot_change": "case_010: new weights select a different boundary; overlap becomes 1 instead of historical 2. Original fixture retained.",
+  "regression_details": [
+    {
+      "id": "case_004",
+      "name": "E2E chuyển từ sức khỏe sang Transformer",
+      "predicted_cuts": [
+        5
+      ],
+      "predicted_overlaps": [
+        0
+      ],
+      "expected_must_cut": [
+        5
+      ],
+      "expected_must_not_cut": [],
+      "expected_overlap": 0,
+      "min_cuts": 0,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_005",
+      "name": "E2E cùng chủ đề sức khỏe không có topic break",
+      "predicted_cuts": [],
+      "predicted_overlaps": [],
+      "expected_must_cut": [],
+      "expected_must_not_cut": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "expected_overlap": null,
+      "min_cuts": 0,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_006",
+      "name": "E2E văn bản dài cùng chủ đề bắt buộc phải cắt",
+      "predicted_cuts": [
+        8
+      ],
+      "predicted_overlaps": [
+        1
+      ],
+      "expected_must_cut": [],
+      "expected_must_not_cut": [],
+      "expected_overlap": null,
+      "min_cuts": 1,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_007",
+      "name": "E2E không cắt giữa cấu trúc nếu-thì",
+      "predicted_cuts": [
+        7
+      ],
+      "predicted_overlaps": [
+        0
+      ],
+      "expected_must_cut": [
+        7
+      ],
+      "expected_must_not_cut": [
+        4
+      ],
+      "expected_overlap": 0,
+      "min_cuts": 1,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_008",
+      "name": "E2E đổi subtopic nhẹ trong cùng chủ đề sức khỏe",
+      "predicted_cuts": [],
+      "predicted_overlaps": [],
+      "expected_must_cut": [],
+      "expected_must_not_cut": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "expected_overlap": null,
+      "min_cuts": 0,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_009",
+      "name": "E2E semantic cut với overlap 1",
+      "predicted_cuts": [
+        8
+      ],
+      "predicted_overlaps": [
+        1
+      ],
+      "expected_must_cut": [],
+      "expected_must_not_cut": [],
+      "expected_overlap": 1,
+      "min_cuts": 1,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_010",
+      "name": "E2E semantic cut với overlap 2",
+      "predicted_cuts": [
+        9
+      ],
+      "predicted_overlaps": [
+        1
+      ],
+      "expected_must_cut": [],
+      "expected_must_not_cut": [],
+      "expected_overlap": 2,
+      "min_cuts": 1,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": false,
+      "passed": false
+    },
+    {
+      "id": "case_011",
+      "name": "E2E không cắt giữa cấu trúc tuy-nhưng",
+      "predicted_cuts": [
+        7
+      ],
+      "predicted_overlaps": [
+        0
+      ],
+      "expected_must_cut": [
+        7
+      ],
+      "expected_must_not_cut": [
+        4
+      ],
+      "expected_overlap": 0,
+      "min_cuts": 1,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_012",
+      "name": "E2E không nhận nhầm vì vậy và do đó là dependency",
+      "predicted_cuts": [
+        7
+      ],
+      "predicted_overlaps": [
+        0
+      ],
+      "expected_must_cut": [
+        7
+      ],
+      "expected_must_not_cut": [
+        3,
+        5
+      ],
+      "expected_overlap": 0,
+      "min_cuts": 1,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    },
+    {
+      "id": "case_013",
+      "name": "E2E văn bản dài tạo nhiều chunk",
+      "predicted_cuts": [
+        10,
+        19
+      ],
+      "predicted_overlaps": [
+        0,
+        0
+      ],
+      "expected_must_cut": [],
+      "expected_must_not_cut": [],
+      "expected_overlap": null,
+      "min_cuts": 2,
+      "must_cut_pass": true,
+      "must_not_cut_pass": true,
+      "min_cuts_pass": true,
+      "overlap_pass": true,
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "src\\baseline_chunker.py": "e2cc7f05be2bfbfa9d939a23839f3213899fe8a721cd46613b96d7edfdd18763",
+    "src\\boundary.py": "3e020d88140b34f4d5128067c3ec25154b860a24f032826629953fb5ae549011",
+    "src\\boundary_scorer.py": "3ca5afcc8f445202402967fb6e415ccfcde69ad7597f920e1bd6ec0fdc99697b",
+    "src\\dependency_rules.py": "f734672a59290b4c129c2d2327786672ba43be87a43f088c5d432b7fc469d6fd",
+    "src\\dynamic_overlap.py": "66d4105508c80699daa69045f8a4880fdab5d683d090ff74f1b7468891784336",
+    "src\\rag\\__init__.py": "4e4ed7ef8e03e0249a5e464a911081fbf3e12e29fe14c4db4174fd58fd98ec5f",
+    "src\\rag\\embedder.py": "24354d5432395808bf8917866dc761c0fa6445987d822caf1048085d47f77fad",
+    "src\\rag\\llm_client.py": "dcefcfd4872c89952588994893e8412648fcc6513739dbf7cf5284ee87c51bc8",
+    "src\\rag\\rag_pipeline.py": "9e146448201c3e72c5b18494687f75186f8ce3446fd633021559842c9be13d82",
+    "src\\rag\\retriever.py": "2ee9393200d69fde9b677edf28b5bf7a3fb038c8ef79169a438d01dc02bd35ba",
+    "src\\semantic_chunker.py": "d58cb87743ff0ac3839c3e2112389fbd74e69057e67b2731db37f3eec51697db",
+    "src\\semantic_similarity.py": "0bb1605f8a7b08398c66af1943984636016ca6b2f5a3c540aacb86421c4fd5a9",
+    "src\\sentence_splitter.py": "a10b906387d17c34121f82aacdd8aead8df1a43774ef59d196f0511c1927a2da",
+    "baselines\\__init__.py": "946dbbc5c5c849a4d94c6fa8cb0765f258eb2be84063b4c2fad71b0425cde20f",
+    "baselines\\llamaindex_semantic_chunker.py": "1c8908879169d4ab91358b6a6b33a73ef1c43fb5c9c4badc4243400fa621ba47",
+    "baselines\\maxmin_semantic_chunker.py": "b1bb3f9f0048725a139c3a01441a66df0c1ca69c68de5798343deffd517a6249"
+  },
+  "historical_test_configuration": "Original 0.4 semantic / 0.4 size / 0.6 risk; old tables were not rerun.",
+  "script_sha256": "5733c2d4d40286e477ed4c5bf34e376e3e8ac9df4e1398248215c5c422ff4187"
+}

@@ -1,0 +1,462 @@
+﻿line,section,value,context
+3,PHÂN ĐOẠN VĂN BẢN TIẾNG VIỆT THEO NGỮ NGHĨA KẾT HỢP LUẬT LIÊN KẾT CÂU VÀ OVERLAP ĐỘNG CHO TRUY XUẤT TRONG RAG,30,"ồn và kết quả thực nghiệm lưu trong dự án utc_rag, cập nhật ngày 30/10/2026. Phạm vi đánh giá thực nghiệm là truy xuất bằng chứng; chưa đánh giá câu trả lời do LLM sin"
+3,PHÂN ĐOẠN VĂN BẢN TIẾNG VIỆT THEO NGỮ NGHĨA KẾT HỢP LUẬT LIÊN KẾT CÂU VÀ OVERLAP ĐỘNG CHO TRUY XUẤT TRONG RAG,10,"và kết quả thực nghiệm lưu trong dự án utc_rag, cập nhật ngày 30/10/2026. Phạm vi đánh giá thực nghiệm là truy xuất bằng chứng; chưa đánh giá câu trả lời do LLM sinh r"
+3,PHÂN ĐOẠN VĂN BẢN TIẾNG VIỆT THEO NGỮ NGHĨA KẾT HỢP LUẬT LIÊN KẾT CÂU VÀ OVERLAP ĐỘNG CHO TRUY XUẤT TRONG RAG,2026,"kết quả thực nghiệm lưu trong dự án utc_rag, cập nhật ngày 30/10/2026. Phạm vi đánh giá thực nghiệm là truy xuất bằng chứng; chưa đánh giá câu trả lời do LLM sinh ra.*"
+9,1.1. Vấn đề,1, nhớ tham số của mô hình với nguồn tri thức truy xuất bên ngoài [1]. Đề tài này tập trung vào bước phân đoạn tài liệu trong một pipeline phục vụ RAG.
+17,1.2. Hướng giải quyết,0," giảm điểm các ranh giới có dấu hiệu phụ thuộc giữa câu; giữ lại 0–2 câu ở đầu chunk tiếp theo tùy mức tương đồng tại ranh giới. Trong báo cáo, chiến lược này được ký"
+17,1.2. Hướng giải quyết,2,"iảm điểm các ranh giới có dấu hiệu phụ thuộc giữa câu; giữ lại 0–2 câu ở đầu chunk tiếp theo tùy mức tương đồng tại ranh giới. Trong báo cáo, chiến lược này được ký h"
+19,1.2. Hướng giải quyết,2,"ntic chunking**, một phương pháp có bài báo và mã nguồn công bố [2, 3]. Cả hai được chạy trong cùng pipeline tiếng Việt. Nhóm sử dụng XQuAD tiếng Việt theo hai cách t"
+19,1.2. Hướng giải quyết,3,"c chunking**, một phương pháp có bài báo và mã nguồn công bố [2, 3]. Cả hai được chạy trong cùng pipeline tiếng Việt. Nhóm sử dụng XQuAD tiếng Việt theo hai cách tổ c"
+29,2.1. Các công trình liên quan và vai trò trong đề tài,1,"trieval-Augmented Generation for Knowledge-Intensive NLP Tasks* [1] | Lewis và cộng sự, 2020 | Kết hợp truy xuất với sinh ngôn ngữ | Nền tảng RAG; không phải chunker "
+29,2.1. Các công trình liên quan và vai trò trong đề tài,2020,"ation for Knowledge-Intensive NLP Tasks* [1] | Lewis và cộng sự, 2020 | Kết hợp truy xuất với sinh ngôn ngữ | Nền tảng RAG; không phải chunker đối chứng |"
+30,2.1. Các công trình liên quan và vai trò trong đề tài,2,"| *Max–Min semantic chunking of documents for RAG application* [2] | Kiss, Nagy và Szilágyi, 2025 | Phân đoạn theo quan hệ tương đồng giữa các câu | Baseline chính c"
+30,2.1. Các công trình liên quan và vai trò trong đề tài,2025," of documents for RAG application* [2] | Kiss, Nagy và Szilágyi, 2025 | Phân đoạn theo quan hệ tương đồng giữa các câu | Baseline chính của thực nghiệm XQuAD |"
+31,2.1. Các công trình liên quan và vai trò trong đề tài,4,"| *Semantic Chunker*, tài liệu LlamaIndex [4] | LlamaIndex | Chọn ranh giới bằng embedding và ngưỡng percentile | Baseline thư viện đã có ở giai"
+32,2.1. Các công trình liên quan và vai trò trong đề tài,5," Sentence Embeddings Multilingual using Knowledge Distillation* [5] | Reimers và Gurevych, 2020 | Biểu diễn câu đa ngôn ngữ bằng chưng cất tri thức | Cơ sở tham khảo "
+32,2.1. Các công trình liên quan và vai trò trong đề tài,2020,"lingual using Knowledge Distillation* [5] | Reimers và Gurevych, 2020 | Biểu diễn câu đa ngôn ngữ bằng chưng cất tri thức | Cơ sở tham khảo về embedding đa ngôn ngữ |"
+33,2.1. Các công trình liên quan và vai trò trong đề tài,7,"e Cross-lingual Transferability of Monolingual Representations* [7] | Artetxe, Ruder và Yogatama, 2020 | Công bố XQuAD | Nguồn bài báo của dữ liệu đánh giá |"
+33,2.1. Các công trình liên quan và vai trò trong đề tài,2020,"f Monolingual Representations* [7] | Artetxe, Ruder và Yogatama, 2020 | Công bố XQuAD | Nguồn bài báo của dữ liệu đánh giá |"
+39,2.2. Baseline học thuật: Max–Min,28,"Nagy và Szilágyi công bố Max–Min trong *Discover Computing*, tập 28, bài 117, năm 2025. Phương pháp gom các câu liên tiếp dựa trên độ tương đồng. Bài báo đánh giá trên"
+39,2.2. Baseline học thuật: Max–Min,117,"Szilágyi công bố Max–Min trong *Discover Computing*, tập 28, bài 117, năm 2025. Phương pháp gom các câu liên tiếp dựa trên độ tương đồng. Bài báo đánh giá trên hai bộ đ"
+39,2.2. Baseline học thuật: Max–Min,2025,"công bố Max–Min trong *Discover Computing*, tập 28, bài 117, năm 2025. Phương pháp gom các câu liên tiếp dựa trên độ tương đồng. Bài báo đánh giá trên hai bộ đoạn Wikipe"
+39,2.2. Baseline học thuật: Max–Min,3, trộn và một bài toán hỏi đáp trắc nghiệm về tài liệu viễn thông 3GPP; sử dụng chỉ số phân cụm và độ chính xác hỏi đáp. Đây là kết quả trong thiết lập của tác giả [2]
+39,2.2. Baseline học thuật: Max–Min,2,"ộ chính xác hỏi đáp. Đây là kết quả trong thiết lập của tác giả [2], chưa trực tiếp xác nhận hiệu quả trên tiếng Việt."
+41,2.2. Baseline học thuật: Max–Min,0,"có mã nguồn để đối chiếu. Bản tích hợp được cố định theo commit `0caba41d2ef30114729f95e5c788173e4f40920e` của tác giả [3], thay đầu vào bằng bộ tách câu và embedding"
+41,2.2. Baseline học thuật: Max–Min,3,"o commit `0caba41d2ef30114729f95e5c788173e4f40920e` của tác giả [3], thay đầu vào bằng bộ tách câu và embedding dùng chung trong dự án. Đây là **đánh giá bản thích ng"
+45,2.3. Baseline thư viện: LlamaIndex SemanticSplitter,4,bài báo phản biện khoa học riêng. Nguồn triển khai được dẫn tại [4].
+47,2.3. Baseline thư viện: LlamaIndex SemanticSplitter,13,"Trong dự án, LlamaIndex đã được chạy trên bộ pilot 13 văn bản với 16 câu hỏi. Các kết quả đó chỉ hỗ trợ quá trình phát triển. Chưa có bảng LlamaIndex trê"
+47,2.3. Baseline thư viện: LlamaIndex SemanticSplitter,16,"rong dự án, LlamaIndex đã được chạy trên bộ pilot 13 văn bản với 16 câu hỏi. Các kết quả đó chỉ hỗ trợ quá trình phát triển. Chưa có bảng LlamaIndex trên 957 câu hỏi X"
+47,2.3. Baseline thư viện: LlamaIndex SemanticSplitter,957,đó chỉ hỗ trợ quá trình phát triển. Chưa có bảng LlamaIndex trên 957 câu hỏi XQuAD test trong các artifact hiện tại; do đó báo cáo không gán kết quả Max–Min cho LlamaIn
+65,3.2. Embedding và cosine similarity,384,phrase-multilingual-MiniLM-L12-v2` biểu diễn văn bản bằng vector 384 chiều. Model card công bố cấu hình `max_seq_length=128`; các đầu vào dài cần được xem xét theo giới
+65,3.2. Embedding và cosine similarity,128,ng vector 384 chiều. Model card công bố cấu hình `max_seq_length=128`; các đầu vào dài cần được xem xét theo giới hạn tokenizer thực tế. Thông số mô hình được dẫn tại [
+65,3.2. Embedding và cosine similarity,6, theo giới hạn tokenizer thực tế. Thông số mô hình được dẫn tại [6].
+83,3.4. Chỉ số đánh giá,1,Với N câu hỏi và hᵢ(k) bằng 1 nếu câu hỏi i có hit trong top-k:
+86,3.4. Chỉ số đánh giá,1,\operatorname{Evidence Recall@k}=\frac{1}{N}\sum_{i=1}^{N}h_i(k).
+86,3.4. Chỉ số đánh giá,1,\operatorname{Evidence Recall@k}=\frac{1}{N}\sum_{i=1}^{N}h_i(k).
+89,3.4. Chỉ số đánh giá,3,Báo cáo dùng thuật ngữ Evidence Recall@3 và Evidence Recall@5 cho các chỉ số recall_at_3 và recall_at_5 trong mã nguồn. Với một gold evidenc
+89,3.4. Chỉ số đánh giá,5,Báo cáo dùng thuật ngữ Evidence Recall@3 và Evidence Recall@5 cho các chỉ số recall_at_3 và recall_at_5 trong mã nguồn. Với một gold evidence chính cho mỗi câu h
+92,3.4. Chỉ số đánh giá,5,\operatorname{MRR@5}=\frac{1}{N}\sum_{i=1}^{N}
+92,3.4. Chỉ số đánh giá,1,\operatorname{MRR@5}=\frac{1}{N}\sum_{i=1}^{N}
+92,3.4. Chỉ số đánh giá,1,\operatorname{MRR@5}=\frac{1}{N}\sum_{i=1}^{N}
+93,3.4. Chỉ số đánh giá,1,"\begin{cases}1/r_i,&r_i\leq5\\0,&\text{không có hit trong top-5}\end{cases}"
+93,3.4. Chỉ số đánh giá,0,"\begin{cases}1/r_i,&r_i\leq5\\0,&\text{không có hit trong top-5}\end{cases}"
+93,3.4. Chỉ số đánh giá,5,"\begin{cases}1/r_i,&r_i\leq5\\0,&\text{không có hit trong top-5}\end{cases}"
+98,3.4. Chỉ số đánh giá,5,"g ít nhất một chunk ở bất kỳ thứ hạng nào. **Mean context length@5** đo tổng độ dài năm chunk truy xuất, lấy trung bình theo câu hỏi và tính cả overlap. Hai chỉ số nà"
+124,4.2. Phát hiện suy giảm liên kết ngữ nghĩa,2,"a=\frac{\operatorname{sim}(s_1,s_2)+\operatorname{sim}(s_3,s_4)}{2}"
+128,4.2. Phát hiện suy giảm liên kết ngữ nghĩa,0,max; trường hợp không có biến thiên được gán điểm ngữ nghĩa bằng 0.
+132,4.3. Kết hợp độ dài và luật liên kết câu,0,"dài phần bên trái ranh giới là n, điểm độ dài tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phâ"
+132,4.3. Kết hợp độ dài và luật liên kết câu,120,"ần bên trái ranh giới là n, điểm độ dài tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phân."
+132,4.3. Kết hợp độ dài và luật liên kết câu,1,"rái ranh giới là n, điểm độ dài tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phân."
+132,4.3. Kết hợp độ dài và luật liên kết câu,180,"nh giới là n, điểm độ dài tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phân."
+132,4.3. Kết hợp độ dài và luật liên kết câu,0,"ộ dài tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phân."
+132,4.3. Kết hợp độ dài và luật liên kết câu,240,"tăng tuyến tính từ 0 ở n=120 lên 1 ở n=180, rồi giảm xuống 0 ở n=240. Mã nguồn làm tròn điểm này đến hai chữ số thập phân."
+134,4.3. Kết hợp độ dài và luật liên kết câu,1,"hững–mà còn”, “không phải–mà” và “hễ–thì”. Giá trị rủi ro R bằng 1 khi khớp luật, ngược lại bằng 0; có xử lý ngoại lệ cho “vì vậy” và “do đó”."
+134,4.3. Kết hợp độ dài và luật liên kết câu,0," “hễ–thì”. Giá trị rủi ro R bằng 1 khi khớp luật, ngược lại bằng 0; có xử lý ngoại lệ cho “vì vậy” và “do đó”."
+136,4.3. Kết hợp độ dài và luật liên kết câu,240,"Đối với phần văn bản dài hơn 240 đơn vị, điểm ranh giới là:"
+139,4.3. Kết hợp độ dài và luật liên kết câu,0.4,S(b)=0.4S_{size}(b)+0.4S_{semantic}(b)-0.6R(b).
+139,4.3. Kết hợp độ dài và luật liên kết câu,0.4,S(b)=0.4S_{size}(b)+0.4S_{semantic}(b)-0.6R(b).
+139,4.3. Kết hợp độ dài và luật liên kết câu,0.6,S(b)=0.4S_{size}(b)+0.4S_{semantic}(b)-0.6R(b).
+148,4.4. Quyết định cắt theo độ dài phần còn lại,120,| Dưới 120 | Giữ nguyên phần còn lại |
+149,4.4. Quyết định cắt theo độ dài phần còn lại,120,| Từ 120 đến 240 | Xét ranh giới có phần trái ít nhất 120; cắt tại mức suy giảm lớn nhất nếu có đủ ngữ cảnh 
+149,4.4. Quyết định cắt theo độ dài phần còn lại,240,| Từ 120 đến 240 | Xét ranh giới có phần trái ít nhất 120; cắt tại mức suy giảm lớn nhất nếu có đủ ngữ cảnh và Δ ≥ 0
+149,4.4. Quyết định cắt theo độ dài phần còn lại,120,"| Từ 120 đến 240 | Xét ranh giới có phần trái ít nhất 120; cắt tại mức suy giảm lớn nhất nếu có đủ ngữ cảnh và Δ ≥ 0,30 |"
+149,4.4. Quyết định cắt theo độ dài phần còn lại,"0,30","hất 120; cắt tại mức suy giảm lớn nhất nếu có đủ ngữ cảnh và Δ ≥ 0,30 |"
+150,4.4. Quyết định cắt theo độ dài phần còn lại,240,| Trên 240 | Chọn ranh giới có điểm tổng hợp cao nhất trong khoảng phần trái 120–240 |
+150,4.4. Quyết định cắt theo độ dài phần còn lại,120, Chọn ranh giới có điểm tổng hợp cao nhất trong khoảng phần trái 120–240 |
+150,4.4. Quyết định cắt theo độ dài phần còn lại,240,n ranh giới có điểm tổng hợp cao nhất trong khoảng phần trái 120–240 |
+153,4.4. Quyết định cắt theo độ dài phần còn lại,240,"Trong nhánh phân đoạn đối với phần văn bản dài hơn MAX = 240, dependency risk được đưa vào hàm scoring để giảm khả năng chọn boundary phá quan hệ liên câu. Đây "
+153,4.4. Quyết định cắt theo độ dài phần còn lại,120,phải hard constraint và không bảo đảm tuyệt đối tránh cắt. Nhánh 120–240 không sử dụng penalty này. Overlap được ghép sau khi chọn ranh giới; khi không tìm được ứng viê
+153,4.4. Quyết định cắt theo độ dài phần còn lại,240," hard constraint và không bảo đảm tuyệt đối tránh cắt. Nhánh 120–240 không sử dụng penalty này. Overlap được ghép sau khi chọn ranh giới; khi không tìm được ứng viên, p"
+153,4.4. Quyết định cắt theo độ dài phần còn lại,240,"; khi không tìm được ứng viên, phần còn lại được giữ nguyên, nên 240 không phải giới hạn cứng của chunk đầu ra."
+161,4.5. Overlap động,"0,30","| t < 0,30 | 0 |"
+161,4.5. Overlap động,0,"| t < 0,30 | 0 |"
+162,4.5. Overlap động,"0,30","| 0,30 ≤ t < 0,55 | 1 |"
+162,4.5. Overlap động,"0,55","| 0,30 ≤ t < 0,55 | 1 |"
+162,4.5. Overlap động,1,"| 0,30 ≤ t < 0,55 | 1 |"
+163,4.5. Overlap động,"0,55","| t ≥ 0,55 | Tối đa 2 |"
+163,4.5. Overlap động,2,"| t ≥ 0,55 | Tối đa 2 |"
+178,5.1. Mô hình và các chiến lược được so sánh,0.6,"| Tham số chính | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,0.9,"| Tham số chính | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,1.5,"| Tham số chính | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,120,"số chính | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,180,"hính | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,240," | `fixed_threshold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,"0,4","shold=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,"0,4","d=0.6`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,"0,6","`, `c=0.9`, `init_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+178,5.1. Mô hình và các chiến lược được so sánh,"0,30","nit_constant=1.5` | 120/180/240; trọng số 0,4/0,4/−0,6; ngưỡng Δ=0,30 |"
+179,5.1. Mô hình và các chiến lược được so sánh,0,"| Overlap | Không thêm | 0–2 câu, ngưỡng 0,30 và 0,55 |"
+179,5.1. Mô hình và các chiến lược được so sánh,2,"| Overlap | Không thêm | 0–2 câu, ngưỡng 0,30 và 0,55 |"
+179,5.1. Mô hình và các chiến lược được so sánh,"0,30","| Overlap | Không thêm | 0–2 câu, ngưỡng 0,30 và 0,55 |"
+179,5.1. Mô hình và các chiến lược được so sánh,"0,55","| Overlap | Không thêm | 0–2 câu, ngưỡng 0,30 và 0,55 |"
+180,5.1. Mô hình và các chiến lược được so sánh,5,"| Truy xuất | Toàn corpus, cosine, top-5 | Giống Max–Min |"
+186,5.1. Mô hình và các chiến lược được so sánh,0.6,"M>\max(0.6,\;0.9m\,\sigma(|C|-1)),\qquad"
+186,5.1. Mô hình và các chiến lược được so sánh,0.9,"M>\max(0.6,\;0.9m\,\sigma(|C|-1)),\qquad"
+186,5.1. Mô hình và các chiến lược được so sánh,1,"M>\max(0.6,\;0.9m\,\sigma(|C|-1)),\qquad"
+187,5.1. Mô hình và các chiến lược được so sánh,1,\sigma(x)=\frac{1}{1+e^{-x}}.
+187,5.1. Mô hình và các chiến lược được so sánh,1,\sigma(x)=\frac{1}{1+e^{-x}}.
+190,5.1. Mô hình và các chiến lược được so sánh,1.5,"Khi cụm chỉ có một câu, điều kiện là `1.5 × cosine > 0.6`. Hiện thực giữ phép so sánh `>` và cách dùng `sigmoid(size−1)` theo mã nguồn công b"
+190,5.1. Mô hình và các chiến lược được so sánh,0.6,"Khi cụm chỉ có một câu, điều kiện là `1.5 × cosine > 0.6`. Hiện thực giữ phép so sánh `>` và cách dùng `sigmoid(size−1)` theo mã nguồn công bố [3]. Tài liệu"
+190,5.1. Mô hình và các chiến lược được so sánh,1, 0.6`. Hiện thực giữ phép so sánh `>` và cách dùng `sigmoid(size−1)` theo mã nguồn công bố [3]. Tài liệu đối chiếu trong dự án ghi nhận công thức bài báo dùng `sigmoi
+190,5.1. Mô hình và các chiến lược được so sánh,3,o sánh `>` và cách dùng `sigmoid(size−1)` theo mã nguồn công bố [3]. Tài liệu đối chiếu trong dự án ghi nhận công thức bài báo dùng `sigmoid(size)`; vì vậy báo cáo xá
+194,5.2. Dataset,2020,"XQuAD được Artetxe, Ruder và Yogatama công bố năm 2020, gồm các context và câu hỏi–đáp án dịch chuyên nghiệp từ một phần SQuAD v1.1. Nhóm sử dụng bản tiến"
+194,5.2. Dataset,1,"ontext và câu hỏi–đáp án dịch chuyên nghiệp từ một phần SQuAD v1.1. Nhóm sử dụng bản tiếng Việt từ kho chính thức [7, 8], cố định tại commit `7d30520c717524000f0d9d2f"
+194,5.2. Dataset,7," phần SQuAD v1.1. Nhóm sử dụng bản tiếng Việt từ kho chính thức [7, 8], cố định tại commit `7d30520c717524000f0d9d2f9c10a069acd9d285`. Bản chuyển đổi trong dự án giữ "
+194,5.2. Dataset,8,"ần SQuAD v1.1. Nhóm sử dụng bản tiếng Việt từ kho chính thức [7, 8], cố định tại commit `7d30520c717524000f0d9d2f9c10a069acd9d285`. Bản chuyển đổi trong dự án giữ giấ"
+194,5.2. Dataset,7,"ụng bản tiếng Việt từ kho chính thức [7, 8], cố định tại commit `7d30520c717524000f0d9d2f9c10a069acd9d285`. Bản chuyển đổi trong dự án giữ giấy phép CC BY-SA 4.0 và t"
+194,5.2. Dataset,4.0,a069acd9d285`. Bản chuyển đổi trong dự án giữ giấy phép CC BY-SA 4.0 và thông tin nguồn.
+198,5.2. Dataset,50,| Context gốc (`paragraph`) | Dev | 50 | 233 | 10 |
+198,5.2. Dataset,233,| Context gốc (`paragraph`) | Dev | 50 | 233 | 10 |
+198,5.2. Dataset,10,| Context gốc (`paragraph`) | Dev | 50 | 233 | 10 |
+199,5.2. Dataset,190,| Context gốc (`paragraph`) | Test | 190 | 957 | 38 |
+199,5.2. Dataset,957,| Context gốc (`paragraph`) | Test | 190 | 957 | 38 |
+199,5.2. Dataset,38,| Context gốc (`paragraph`) | Test | 190 | 957 | 38 |
+200,5.2. Dataset,10,| Ghép theo bài (`article`) | Dev | 10 | 233 | 10 |
+200,5.2. Dataset,233,| Ghép theo bài (`article`) | Dev | 10 | 233 | 10 |
+200,5.2. Dataset,10,| Ghép theo bài (`article`) | Dev | 10 | 233 | 10 |
+201,5.2. Dataset,38,| Ghép theo bài (`article`) | Test | 38 | 957 | 38 |
+201,5.2. Dataset,957,| Ghép theo bài (`article`) | Test | 38 | 957 | 38 |
+201,5.2. Dataset,38,| Ghép theo bài (`article`) | Test | 38 | 957 | 38 |
+203,5.2. Dataset,240,"Toàn bộ có 240 context, 1.190 câu hỏi và 48 bài nguồn. Dev/test được chia theo title với seed `utc-rag-xquad-vi-v1"
+203,5.2. Dataset,1.190,"Toàn bộ có 240 context, 1.190 câu hỏi và 48 bài nguồn. Dev/test được chia theo title với seed `utc-rag-xquad-vi-v1`; mọi context "
+203,5.2. Dataset,48,"Toàn bộ có 240 context, 1.190 câu hỏi và 48 bài nguồn. Dev/test được chia theo title với seed `utc-rag-xquad-vi-v1`; mọi context và câu hỏi của"
+205,5.2. Dataset,233,"ạy XQuAD test, theo README và cấu hình mã nguồn hiện có. Dev gồm 233 câu hỏi được tách riêng để phục vụ phát triển và kiểm tra pipeline; không có artifact ghi nhận một "
+205,5.2. Dataset,957,"XQuAD dev, nên báo cáo không tuyên bố đã tune bằng dev. Test gồm 957 câu hỏi không được dùng để chọn lại threshold/weight trong lần rà soát này. Phân tích bổ sung là hậ"
+207,5.2. Dataset,39,"xt là một tài liệu; độ dài trên toàn bộ dữ liệu nằm trong khoảng 39–763 đơn vị khoảng trắng, trung vị 155. Ở góc nhìn `article`, năm context cùng title được ghép theo "
+207,5.2. Dataset,763,"là một tài liệu; độ dài trên toàn bộ dữ liệu nằm trong khoảng 39–763 đơn vị khoảng trắng, trung vị 155. Ở góc nhìn `article`, năm context cùng title được ghép theo thứ "
+207,5.2. Dataset,155,"bộ dữ liệu nằm trong khoảng 39–763 đơn vị khoảng trắng, trung vị 155. Ở góc nhìn `article`, năm context cùng title được ghép theo thứ tự nguồn; độ dài 496–2.169, trung "
+207,5.2. Dataset,496,"cle`, năm context cùng title được ghép theo thứ tự nguồn; độ dài 496–2.169, trung vị 804,5. Văn bản ghép không phải bài Wikipedia đầy đủ và không bảo đảm các trích đoạn"
+207,5.2. Dataset,2.169,", năm context cùng title được ghép theo thứ tự nguồn; độ dài 496–2.169, trung vị 804,5. Văn bản ghép không phải bài Wikipedia đầy đủ và không bảo đảm các trích đoạn vốn n"
+207,5.2. Dataset,"804,5","ng title được ghép theo thứ tự nguồn; độ dài 496–2.169, trung vị 804,5. Văn bản ghép không phải bài Wikipedia đầy đủ và không bảo đảm các trích đoạn vốn nằm liền nhau."
+219,5.3. Môi trường chạy,3.13.5,| Python | 3.13.5 |
+220,5.3. Môi trường chạy,6.1.0,| sentence-transformers | 6.1.0 |
+221,5.3. Môi trường chạy,2.14.1,| PyTorch | 2.14.1 |
+222,5.3. Môi trường chạy,2.5.4,| NumPy | 2.5.4 |
+223,5.3. Môi trường chạy,1.9.1,| scikit-learn | 1.9.1 |
+226,5.3. Môi trường chạy,5,"| top-k | 5; báo Evidence Recall@3, Evidence Recall@5 và MRR@5 |"
+226,5.3. Môi trường chạy,3,"| top-k | 5; báo Evidence Recall@3, Evidence Recall@5 và MRR@5 |"
+226,5.3. Môi trường chạy,5,"| top-k | 5; báo Evidence Recall@3, Evidence Recall@5 và MRR@5 |"
+226,5.3. Môi trường chạy,5,"| top-k | 5; báo Evidence Recall@3, Evidence Recall@5 và MRR@5 |"
+236,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,190,**Kịch bản A — context gốc:** lập chỉ mục 190 tài liệu test và truy xuất cho 957 câu hỏi. Thiết lập này đánh giá khi dữ liệu đã được nguồn chia t
+236,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,957, — context gốc:** lập chỉ mục 190 tài liệu test và truy xuất cho 957 câu hỏi. Thiết lập này đánh giá khi dữ liệu đã được nguồn chia thành context tương đối ngắn.
+238,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,38,"**Kịch bản B — văn bản ghép dài:** lập chỉ mục 38 tài liệu ghép, vẫn dùng 957 câu hỏi đó. Thiết lập này kiểm tra độ nhạy trước việc thay đổi đơn vị t"
+238,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,957,"n B — văn bản ghép dài:** lập chỉ mục 38 tài liệu ghép, vẫn dùng 957 câu hỏi đó. Thiết lập này kiểm tra độ nhạy trước việc thay đổi đơn vị tài liệu và tăng độ dài đầu v"
+242,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1,"**Bước 1 — Chuẩn bị nhãn chuẩn.** Mỗi câu hỏi gồm nội dung câu hỏi, đáp án nguồn, ID tài liệu và gold_eviden"
+244,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,2,**Bước 2 — Phân đoạn và lập chỉ mục.** Chạy Max–Min và Ours riêng biệt trên cùng tập tài liệu. Mỗi chunk đượ
+246,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,3,**Bước 3 — Truy xuất theo câu hỏi.** Encode câu hỏi và tính cosine similarity giữa vector câu hỏi với vector
+246,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"k trong corpus của từng phương pháp. Sắp xếp giảm dần và lấy top-5; khi bằng điểm, giữ thứ tự corpus ổn định. Hệ thống không dùng ID tài liệu chuẩn để giới hạn phạm v"
+248,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,4,**Bước 4 — Đối chiếu với bằng chứng chuẩn.** Một chunk hợp lệ phải đồng thời thuộc đúng tài liệu đã gán nhãn
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,**Bước 5 — Tính điểm từng câu hỏi.** Gọi r là thứ hạng của chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 n
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,câu hỏi.** Gọi r là thứ hạng của chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,3,.** Gọi r là thứ hạng của chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ tro
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1, r là thứ hạng của chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,3,"hạng của chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba đ"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"a chunk hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1," hợp lệ đầu tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"u tiên trong top-5. Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0. Trong be"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5," Hit@3 bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0. Trong benchmark này, Eviden"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1,"bằng 1 nếu r ≤ 3; Hit@5 bằng 1 nếu r ≤ 5; reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0. Trong benchmark này, Evidence Reca"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5," reciprocal rank@5 bằng 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0. Trong benchmark này, Evidence Recall@k là trung bình Hit@k trên các câu hỏi"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,0," 1/r. Nếu không có chunk hợp lệ trong top-5, cả ba điểm đều bằng 0. Trong benchmark này, Evidence Recall@k là trung bình Hit@k trên các câu hỏi; MRR@5 là trung bình r"
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"này, Evidence Recall@k là trung bình Hit@k trên các câu hỏi; MRR@5 là trung bình reciprocal rank@5."
+250,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,bình Hit@k trên các câu hỏi; MRR@5 là trung bình reciprocal rank@5.
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1960,"thực nghiệm: câu hỏi “Trường A được thành lập năm nào?”, đáp án “1960”, evidence “Trường A được thành lập vào năm 1960.” Nếu Max–Min có chunk đúng tài liệu chứa đủ evide"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1960," nào?”, đáp án “1960”, evidence “Trường A được thành lập vào năm 1960.” Nếu Max–Min có chunk đúng tài liệu chứa đủ evidence ở hạng 4, điểm Hit@3, Hit@5 và reciprocal ran"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,4,"960.” Nếu Max–Min có chunk đúng tài liệu chứa đủ evidence ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng "
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,3,"x–Min có chunk đúng tài liệu chứa đủ evidence ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm l"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"ó chunk đúng tài liệu chứa đủ evidence ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1;"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5," chứa đủ evidence ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng h"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,0,"nce ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưn"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1," ở hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng O"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,"0,25","hạng 4, điểm Hit@3, Hit@5 và reciprocal rank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,2,"ank@5 lần lượt là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có thứ hạng tốt hơn ở ví dụ này. Chunk ở"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1," là 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có thứ hạng tốt hơn ở ví dụ này. Chunk ở tài liệu khác"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1," 0; 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có thứ hạng tốt hơn ở ví dụ này. Chunk ở tài liệu khác ch"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,"0,50"," 1; 0,25. Nếu Ours đưa chunk hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có thứ hạng tốt hơn ở ví dụ này. Chunk ở tài liệu khác chỉ có t"
+252,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"k hợp lệ lên hạng 2, ba điểm là 1; 1; 0,50. Hai bên cùng hit top-5, nhưng Ours có thứ hạng tốt hơn ở ví dụ này. Chunk ở tài liệu khác chỉ có thông tin tương tự không "
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,6,**Bước 6 — Tổng hợp và so sánh ghép cặp.** Lặp quy trình trên cùng 957 câu hỏi cho cả hai phương pháp. Ở con
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,957,"Bước 6 — Tổng hợp và so sánh ghép cặp.** Lặp quy trình trên cùng 957 câu hỏi cho cả hai phương pháp. Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,832,"ng 957 câu hỏi cho cả hai phương pháp. Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu,"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"ho cả hai phương pháp. Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,832,"ơng pháp. Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,957,"pháp. Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,"86,94%","Ở context gốc, Max–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết quả từng"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,879,"ax–Min có 832 câu hit top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết quả từng câu hỏi để x"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,"91,85%","it top-5, tương ứng 832/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết quả từng câu hỏi để xác định câu nào chỉ mộ"
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,47,"2/957 = 86,94%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết quả từng câu hỏi để xác định câu nào chỉ một bên hit và tính "
+254,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,"4,91","4%; Ours có 879 câu, tương ứng 91,85%. Chênh lệch là 47 câu, hay 4,91 điểm phần trăm. Lưu kết quả từng câu hỏi để xác định câu nào chỉ một bên hit và tính khoảng tin cậy"
+256,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,7,**Bước 7 — Phân biệt lỗi và chi phí.** Nếu không có chunk nào trong toàn bộ chỉ mục chứa đủ evidence ở đúng 
+256,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"ghi evidence_split. Nếu chunk hợp lệ tồn tại nhưng không lên top-5, ghi ranking_miss. Tỷ lệ bảo toàn evidence kiểm tra sự tồn tại của chunk hợp lệ ở bất kỳ thứ hạng n"
+256,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5," nào, còn lượng context đo tổng số đơn vị khoảng trắng trong top-5, tính cả overlap. Phân tích này giúp phân biệt mất bằng chứng do phân đoạn với thất bại xếp hạng, đ"
+258,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,9,rieval.py; các đường dẫn artifact được dẫn ở tài liệu tham khảo [9–10].
+258,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,10,eval.py; các đường dẫn artifact được dẫn ở tài liệu tham khảo [9–10].
+273,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,38,"Khoảng tin cậy được tính bằng bootstrap ghép cặp theo 38 bài nguồn, 5.000 lần, seed 2026, lấy percentile 95% của chênh lệch Ours trừ Max–Min. Đây là phân tí"
+273,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5.000,"ảng tin cậy được tính bằng bootstrap ghép cặp theo 38 bài nguồn, 5.000 lần, seed 2026, lấy percentile 95% của chênh lệch Ours trừ Max–Min. Đây là phân tích khám phá trên "
+273,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,2026," tính bằng bootstrap ghép cặp theo 38 bài nguồn, 5.000 lần, seed 2026, lấy percentile 95% của chênh lệch Ours trừ Max–Min. Đây là phân tích khám phá trên tập hiện có, kh"
+273,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,95%,"ghép cặp theo 38 bài nguồn, 5.000 lần, seed 2026, lấy percentile 95% của chênh lệch Ours trừ Max–Min. Đây là phân tích khám phá trên tập hiện có, không thay thế việc đá"
+275,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5.7,"Phân tích hậu nghiệm tại mục 5.7 áp cùng trần 512/1024 tokenizer token lên top-5 đã lưu, giữ nguyên thứ hạng và chunk. Phân tích này"
+275,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,512,"Phân tích hậu nghiệm tại mục 5.7 áp cùng trần 512/1024 tokenizer token lên top-5 đã lưu, giữ nguyên thứ hạng và chunk. Phân tích này không thay thế t"
+275,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,1024,"Phân tích hậu nghiệm tại mục 5.7 áp cùng trần 512/1024 tokenizer token lên top-5 đã lưu, giữ nguyên thứ hạng và chunk. Phân tích này không thay thế thí ng"
+275,5.4. Kịch bản thử nghiệm và cách so sánh với bài báo,5,"nghiệm tại mục 5.7 áp cùng trần 512/1024 tokenizer token lên top-5 đã lưu, giữ nguyên thứ hạng và chunk. Phân tích này không thay thế thí nghiệm fixed-budget trên toà"
+279,5.5. Kết quả thực nghiệm,30," chính dưới đây giữ nguyên số liệu từ CSV/JSON của lần chạy ngày 30/10/2026 [9, 10]. Nhóm đã tính lại chỉ số từ các kết quả từng câu hỏi để kiểm tra tính nhất quán. Cá"
+279,5.5. Kết quả thực nghiệm,10,"ính dưới đây giữ nguyên số liệu từ CSV/JSON của lần chạy ngày 30/10/2026 [9, 10]. Nhóm đã tính lại chỉ số từ các kết quả từng câu hỏi để kiểm tra tính nhất quán. Các p"
+279,5.5. Kết quả thực nghiệm,2026," dưới đây giữ nguyên số liệu từ CSV/JSON của lần chạy ngày 30/10/2026 [9, 10]. Nhóm đã tính lại chỉ số từ các kết quả từng câu hỏi để kiểm tra tính nhất quán. Các phân t"
+279,5.5. Kết quả thực nghiệm,9,"đây giữ nguyên số liệu từ CSV/JSON của lần chạy ngày 30/10/2026 [9, 10]. Nhóm đã tính lại chỉ số từ các kết quả từng câu hỏi để kiểm tra tính nhất quán. Các phân tích"
+279,5.5. Kết quả thực nghiệm,10," giữ nguyên số liệu từ CSV/JSON của lần chạy ngày 30/10/2026 [9, 10]. Nhóm đã tính lại chỉ số từ các kết quả từng câu hỏi để kiểm tra tính nhất quán. Các phân tích bổ "
+279,5.5. Kết quả thực nghiệm,5.7," câu hỏi để kiểm tra tính nhất quán. Các phân tích bổ sung ở mục 5.7–5.9 được tính riêng từ artifact đã lưu [11], không chạy lại chunking hoặc thay dữ liệu test."
+279,5.5. Kết quả thực nghiệm,5.9," hỏi để kiểm tra tính nhất quán. Các phân tích bổ sung ở mục 5.7–5.9 được tính riêng từ artifact đã lưu [11], không chạy lại chunking hoặc thay dữ liệu test."
+279,5.5. Kết quả thực nghiệm,11,"n tích bổ sung ở mục 5.7–5.9 được tính riêng từ artifact đã lưu [11], không chạy lại chunking hoặc thay dữ liệu test."
+281,5.5. Kết quả thực nghiệm,3,| Đầu vào | Chiến lược | Số chunk | Evidence Recall@3 | Evidence Recall@5 | MRR@5 |
+281,5.5. Kết quả thực nghiệm,5,ào | Chiến lược | Số chunk | Evidence Recall@3 | Evidence Recall@5 | MRR@5 |
+281,5.5. Kết quả thực nghiệm,5,ến lược | Số chunk | Evidence Recall@3 | Evidence Recall@5 | MRR@5 |
+283,5.5. Kết quả thực nghiệm,583,"| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |"
+283,5.5. Kết quả thực nghiệm,"81,61%","| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |"
+283,5.5. Kết quả thực nghiệm,"86,94%","| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |"
+283,5.5. Kết quả thực nghiệm,832,"| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |"
+283,5.5. Kết quả thực nghiệm,957,"| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |"
+283,5.5. Kết quả thực nghiệm,"0,7421","| Context gốc | Max–Min | 583 | 81,61% | 86,94% (832/957) | 0,7421 |"
+284,5.5. Kết quả thực nghiệm,226,"| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |"
+284,5.5. Kết quả thực nghiệm,"87,98%","| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |"
+284,5.5. Kết quả thực nghiệm,"91,85%","| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |"
+284,5.5. Kết quả thực nghiệm,879,"| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |"
+284,5.5. Kết quả thực nghiệm,957,"| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |"
+284,5.5. Kết quả thực nghiệm,"0,8062","| Context gốc | Ours | 226 | 87,98% | 91,85% (879/957) | 0,8062 |"
+285,5.5. Kết quả thực nghiệm,556,"| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |"
+285,5.5. Kết quả thực nghiệm,"80,56%","| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |"
+285,5.5. Kết quả thực nghiệm,"85,27%","| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |"
+285,5.5. Kết quả thực nghiệm,816,"| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |"
+285,5.5. Kết quả thực nghiệm,957,"| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |"
+285,5.5. Kết quả thực nghiệm,"0,7259","| Văn bản ghép dài | Max–Min | 556 | 80,56% | 85,27% (816/957) | 0,7259 |"
+286,5.5. Kết quả thực nghiệm,191,"| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |"
+286,5.5. Kết quả thực nghiệm,"73,67%","| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |"
+286,5.5. Kết quả thực nghiệm,"80,56%","| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |"
+286,5.5. Kết quả thực nghiệm,771,"| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |"
+286,5.5. Kết quả thực nghiệm,957,"| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |"
+286,5.5. Kết quả thực nghiệm,"0,6543","| Văn bản ghép dài | Ours | 191 | 73,67% | 80,56% (771/957) | 0,6543 |"
+288,5.5. Kết quả thực nghiệm,5,"| Đầu vào | Chênh lệch Evidence Recall@5, Ours − Max–Min | Khoảng tin cậy bootstrap 95% |"
+288,5.5. Kết quả thực nghiệm,95%,"ệch Evidence Recall@5, Ours − Max–Min | Khoảng tin cậy bootstrap 95% |"
+290,5.5. Kết quả thực nghiệm,"4,91","| Context gốc | +4,91 điểm phần trăm | [+2,49; +7,45] |"
+290,5.5. Kết quả thực nghiệm,"2,49","| Context gốc | +4,91 điểm phần trăm | [+2,49; +7,45] |"
+290,5.5. Kết quả thực nghiệm,"7,45","| Context gốc | +4,91 điểm phần trăm | [+2,49; +7,45] |"
+291,5.5. Kết quả thực nghiệm,"4,70","| Văn bản ghép dài | −4,70 điểm phần trăm | [−8,24; −1,32] |"
+291,5.5. Kết quả thực nghiệm,"8,24","| Văn bản ghép dài | −4,70 điểm phần trăm | [−8,24; −1,32] |"
+291,5.5. Kết quả thực nghiệm,"1,32","| Văn bản ghép dài | −4,70 điểm phần trăm | [−8,24; −1,32] |"
+293,5.5. Kết quả thực nghiệm,0,"Cả hai khoảng không chứa 0 trong phân tích hiện tại, nhưng chiều chênh lệch đổi theo cách tổ chức tài liệu. Vì vậy, kết quả kh"
+295,5.5. Kết quả thực nghiệm,5, vào | Chiến lược | Độ dài chunk trung bình | Độ dài context top-5 trung bình | Bảo toàn evidence |
+297,5.5. Kết quả thực nghiệm,"56,90","| Context gốc | Max–Min | 56,90 | 361,20 | 98,85% |"
+297,5.5. Kết quả thực nghiệm,"361,20","| Context gốc | Max–Min | 56,90 | 361,20 | 98,85% |"
+297,5.5. Kết quả thực nghiệm,"98,85%","| Context gốc | Max–Min | 56,90 | 361,20 | 98,85% |"
+298,5.5. Kết quả thực nghiệm,"153,57","| Context gốc | Ours | 153,57 | 783,85 | 100% |"
+298,5.5. Kết quả thực nghiệm,"783,85","| Context gốc | Ours | 153,57 | 783,85 | 100% |"
+298,5.5. Kết quả thực nghiệm,100%,"| Context gốc | Ours | 153,57 | 783,85 | 100% |"
+299,5.5. Kết quả thực nghiệm,"59,66","| Văn bản ghép dài | Max–Min | 59,66 | 386,55 | 98,85% |"
+299,5.5. Kết quả thực nghiệm,"386,55","| Văn bản ghép dài | Max–Min | 59,66 | 386,55 | 98,85% |"
+299,5.5. Kết quả thực nghiệm,"98,85%","| Văn bản ghép dài | Max–Min | 59,66 | 386,55 | 98,85% |"
+300,5.5. Kết quả thực nghiệm,"194,08","| Văn bản ghép dài | Ours | 194,08 | 977,40 | 100% |"
+300,5.5. Kết quả thực nghiệm,"977,40","| Văn bản ghép dài | Ours | 194,08 | 977,40 | 100% |"
+300,5.5. Kết quả thực nghiệm,100%,"| Văn bản ghép dài | Ours | 194,08 | 977,40 | 100% |"
+302,5.5. Kết quả thực nghiệm,5,"Đơn vị độ dài là khoảng trắng, có tính nội dung lặp. Context top-5 của Ours lớn hơn khoảng 2,17 lần ở context gốc và 2,53 lần ở văn bản ghép dài. Do vậy, tăng Recall "
+302,5.5. Kết quả thực nghiệm,"2,17","ắng, có tính nội dung lặp. Context top-5 của Ours lớn hơn khoảng 2,17 lần ở context gốc và 2,53 lần ở văn bản ghép dài. Do vậy, tăng Recall trong kịch bản A chưa đồng ng"
+302,5.5. Kết quả thực nghiệm,"2,53"," Context top-5 của Ours lớn hơn khoảng 2,17 lần ở context gốc và 2,53 lần ở văn bản ghép dài. Do vậy, tăng Recall trong kịch bản A chưa đồng nghĩa với hiệu quả cao hơn t"
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5,"Trong cấu hình top-5 chunk hiện tại, Ours có Evidence Recall@5 cao hơn trên context gốc, nhưng đồng thời sử dụng lượng c"
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5,"Trong cấu hình top-5 chunk hiện tại, Ours có Evidence Recall@5 cao hơn trên context gốc, nhưng đồng thời sử dụng lượng context lớn hơn đáng kể. Có 81 câu chỉ Ours"
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",81,"t gốc, nhưng đồng thời sử dụng lượng context lớn hơn đáng kể. Có 81 câu chỉ Ours hit và 34 câu chỉ Max–Min hit, chênh lệch ròng 47 câu. MRR@5 cũng cao hơn. Nhiều conte"
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",34,"sử dụng lượng context lớn hơn đáng kể. Có 81 câu chỉ Ours hit và 34 câu chỉ Max–Min hit, chênh lệch ròng 47 câu. MRR@5 cũng cao hơn. Nhiều context vốn ngắn khiến Ours "
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",47,"ó 81 câu chỉ Ours hit và 34 câu chỉ Max–Min hit, chênh lệch ròng 47 câu. MRR@5 cũng cao hơn. Nhiều context vốn ngắn khiến Ours có thể giữ phần lớn hoặc toàn bộ context"
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5," Ours hit và 34 câu chỉ Max–Min hit, chênh lệch ròng 47 câu. MRR@5 cũng cao hơn. Nhiều context vốn ngắn khiến Ours có thể giữ phần lớn hoặc toàn bộ context; chưa thể "
+306,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5.7, cho chất lượng xác định boundary. Kết quả dưới trần token ở mục 5.7 cho thấy cần xét cả ngân sách context khi so sánh.
+308,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",127,"**Trên văn bản ghép dài, Ours kém hơn về cả Recall và MRR.** Có 127 câu chỉ Max–Min hit và 82 câu chỉ Ours hit, chênh lệch ròng là 45 câu có lợi cho Max–Min. Ours tạo "
+308,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",82,"urs kém hơn về cả Recall và MRR.** Có 127 câu chỉ Max–Min hit và 82 câu chỉ Ours hit, chênh lệch ròng là 45 câu có lợi cho Max–Min. Ours tạo ít chunk hơn nhưng mỗi chu"
+308,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",45,"7 câu chỉ Max–Min hit và 82 câu chỉ Ours hit, chênh lệch ròng là 45 câu có lợi cho Max–Min. Ours tạo ít chunk hơn nhưng mỗi chunk lớn hơn, trong khi lượng context truy"
+312,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5, nằm trọn trong chunk nào | Có chunk đủ evidence nhưng trượt top-5 |
+314,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",11,| Context gốc | Max–Min | 11 | 114 |
+314,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",114,| Context gốc | Max–Min | 11 | 114 |
+315,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",0,| Context gốc | Ours | 0 | 78 |
+315,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",78,| Context gốc | Ours | 0 | 78 |
+316,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",11,| Văn bản ghép dài | Max–Min | 11 | 130 |
+316,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",130,| Văn bản ghép dài | Max–Min | 11 | 130 |
+317,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",0,| Văn bản ghép dài | Ours | 0 | 186 |
+317,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",186,| Văn bản ghép dài | Ours | 0 | 186 |
+319,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",186,"s giữ được bằng chứng trong cả hai kịch bản. Với văn bản dài, cả 186 câu miss của Ours thuộc nhóm xếp hạng: bằng chứng tồn tại trong chunk nhưng chunk đó không vào top-"
+319,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5,"ạng: bằng chứng tồn tại trong chunk nhưng chunk đó không vào top-5. Đây là điều quan sát được trực tiếp, cho thấy bảo toàn bằng chứng và truy xuất đúng bằng chứng là "
+321,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",5.8,g vector hoặc tạo lặp trong context. Phân tích tokenizer tại mục 5.8 đo được nhiều chunk Ours vượt giới hạn 128 token của cấu hình SentenceTransformer đang lưu. Truncat
+321,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",128,ích tokenizer tại mục 5.8 đo được nhiều chunk Ours vượt giới hạn 128 token của cấu hình SentenceTransformer đang lưu. Truncation là một cơ chế có thể góp phần giải thíc
+323,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",240," tokenizer được encode; dependency challenge set có văn bản trên 240 đơn vị; ablation bỏ overlap, bỏ penalty và chỉ dùng độ dài; cuối cùng là đánh giá câu trả lời bằng "
+325,"5.6. Đánh giá: tốt, chưa tốt và nguyên nhân",38," được suy ra tự động, có câu hỏi trùng và nhãn đáng nghi; chỉ có 38 nhóm bài nguồn test; dữ liệu ghép không phải văn bản dài tự nhiên hoàn chỉnh; benchmark không có nh"
+329,5.7. Phân tích trần token trên top-5 đã lưu,5,"c211226b894fcb81acc59f3b34ba3efd5f42. Với mỗi câu hỏi, duyệt top-5 đã lưu theo thứ hạng gốc, nối nguyên chunk bằng hai ký tự xuống dòng và dừng trước chunk đầu tiên l"
+329,5.7. Phân tích trần token trên top-5 đã lưu,512," hai ký tự xuống dòng và dừng trước chunk đầu tiên làm vượt trần 512 hoặc 1024 token. Không cắt chunk, không bỏ qua chunk quá dài để lấy chunk sau, không bổ sung ứng vi"
+329,5.7. Phân tích trần token trên top-5 đã lưu,1024,"ự xuống dòng và dừng trước chunk đầu tiên làm vượt trần 512 hoặc 1024 token. Không cắt chunk, không bỏ qua chunk quá dài để lấy chunk sau, không bổ sung ứng viên ngoài t"
+329,5.7. Phân tích trần token trên top-5 đã lưu,5,"chunk quá dài để lấy chunk sau, không bổ sung ứng viên ngoài top-5 và không dùng evidence để chọn context. Token budget chỉ tính nội dung context, không gồm special t"
+331,5.7. Phân tích trần token trên top-5 đã lưu,0," MRR@budget dùng nghịch đảo hạng của chunk hợp lệ đầu tiên, bằng 0 nếu không có. Vì chỉ giữ tiền tố của top-5, thứ hạng các chunk được chọn không đổi. Cùng trần không"
+331,5.7. Phân tích trần token trên top-5 đã lưu,5,"hợp lệ đầu tiên, bằng 0 nếu không có. Vì chỉ giữ tiền tố của top-5, thứ hạng các chunk được chọn không đổi. Cùng trần không có nghĩa cùng số token thực dùng; giới hạn"
+331,5.7. Phân tích trần token trên top-5 đã lưu,5,". Cùng trần không có nghĩa cùng số token thực dùng; giới hạn top-5 có thể ngăn Max–Min sử dụng hết ngân sách. Kết quả là chẩn đoán “top-5 có trần token”, không phải p"
+331,5.7. Phân tích trần token trên top-5 đã lưu,5,"hể ngăn Max–Min sử dụng hết ngân sách. Kết quả là chẩn đoán “top-5 có trần token”, không phải phép so sánh fixed-budget đầy đủ trên toàn ranking. Không tính khoảng ti"
+335,5.7. Phân tích trần token trên top-5 đã lưu,512,"| Context gốc | Max–Min | 512 | 85,58% | 0,7391 | 368,26 |"
+335,5.7. Phân tích trần token trên top-5 đã lưu,"85,58%","| Context gốc | Max–Min | 512 | 85,58% | 0,7391 | 368,26 |"
+335,5.7. Phân tích trần token trên top-5 đã lưu,"0,7391","| Context gốc | Max–Min | 512 | 85,58% | 0,7391 | 368,26 |"
+335,5.7. Phân tích trần token trên top-5 đã lưu,"368,26","| Context gốc | Max–Min | 512 | 85,58% | 0,7391 | 368,26 |"
+336,5.7. Phân tích trần token trên top-5 đã lưu,1024,"| Context gốc | Max–Min | 1024 | 86,94% | 0,7421 | 432,84 |"
+336,5.7. Phân tích trần token trên top-5 đã lưu,"86,94%","| Context gốc | Max–Min | 1024 | 86,94% | 0,7421 | 432,84 |"
+336,5.7. Phân tích trần token trên top-5 đã lưu,"0,7421","| Context gốc | Max–Min | 1024 | 86,94% | 0,7421 | 432,84 |"
+336,5.7. Phân tích trần token trên top-5 đã lưu,"432,84","| Context gốc | Max–Min | 1024 | 86,94% | 0,7421 | 432,84 |"
+337,5.7. Phân tích trần token trên top-5 đã lưu,512,"| Context gốc | Ours | 512 | 85,16% | 0,7875 | 414,14 |"
+337,5.7. Phân tích trần token trên top-5 đã lưu,"85,16%","| Context gốc | Ours | 512 | 85,16% | 0,7875 | 414,14 |"
+337,5.7. Phân tích trần token trên top-5 đã lưu,"0,7875","| Context gốc | Ours | 512 | 85,16% | 0,7875 | 414,14 |"
+337,5.7. Phân tích trần token trên top-5 đã lưu,"414,14","| Context gốc | Ours | 512 | 85,16% | 0,7875 | 414,14 |"
+338,5.7. Phân tích trần token trên top-5 đã lưu,1024,"| Context gốc | Ours | 1024 | 91,22% | 0,8050 | 879,26 |"
+338,5.7. Phân tích trần token trên top-5 đã lưu,"91,22%","| Context gốc | Ours | 1024 | 91,22% | 0,8050 | 879,26 |"
+338,5.7. Phân tích trần token trên top-5 đã lưu,"0,8050","| Context gốc | Ours | 1024 | 91,22% | 0,8050 | 879,26 |"
+338,5.7. Phân tích trần token trên top-5 đã lưu,"879,26","| Context gốc | Ours | 1024 | 91,22% | 0,8050 | 879,26 |"
+339,5.7. Phân tích trần token trên top-5 đã lưu,512,"| Ghép dài | Max–Min | 512 | 83,59% | 0,7218 | 379,50 |"
+339,5.7. Phân tích trần token trên top-5 đã lưu,"83,59%","| Ghép dài | Max–Min | 512 | 83,59% | 0,7218 | 379,50 |"
+339,5.7. Phân tích trần token trên top-5 đã lưu,"0,7218","| Ghép dài | Max–Min | 512 | 83,59% | 0,7218 | 379,50 |"
+339,5.7. Phân tích trần token trên top-5 đã lưu,"379,50","| Ghép dài | Max–Min | 512 | 83,59% | 0,7218 | 379,50 |"
+340,5.7. Phân tích trần token trên top-5 đã lưu,1024,"| Ghép dài | Max–Min | 1024 | 85,27% | 0,7259 | 463,17 |"
+340,5.7. Phân tích trần token trên top-5 đã lưu,"85,27%","| Ghép dài | Max–Min | 1024 | 85,27% | 0,7259 | 463,17 |"
+340,5.7. Phân tích trần token trên top-5 đã lưu,"0,7259","| Ghép dài | Max–Min | 1024 | 85,27% | 0,7259 | 463,17 |"
+340,5.7. Phân tích trần token trên top-5 đã lưu,"463,17","| Ghép dài | Max–Min | 1024 | 85,27% | 0,7259 | 463,17 |"
+341,5.7. Phân tích trần token trên top-5 đã lưu,512,"| Ghép dài | Ours | 512 | 63,64% | 0,5975 | 395,00 |"
+341,5.7. Phân tích trần token trên top-5 đã lưu,"63,64%","| Ghép dài | Ours | 512 | 63,64% | 0,5975 | 395,00 |"
+341,5.7. Phân tích trần token trên top-5 đã lưu,"0,5975","| Ghép dài | Ours | 512 | 63,64% | 0,5975 | 395,00 |"
+341,5.7. Phân tích trần token trên top-5 đã lưu,"395,00","| Ghép dài | Ours | 512 | 63,64% | 0,5975 | 395,00 |"
+342,5.7. Phân tích trần token trên top-5 đã lưu,1024,"| Ghép dài | Ours | 1024 | 78,16% | 0,6491 | 901,28 |"
+342,5.7. Phân tích trần token trên top-5 đã lưu,"78,16%","| Ghép dài | Ours | 1024 | 78,16% | 0,6491 | 901,28 |"
+342,5.7. Phân tích trần token trên top-5 đã lưu,"0,6491","| Ghép dài | Ours | 1024 | 78,16% | 0,6491 | 901,28 |"
+342,5.7. Phân tích trần token trên top-5 đã lưu,"901,28","| Ghép dài | Ours | 1024 | 78,16% | 0,6491 | 901,28 |"
+344,5.7. Phân tích trần token trên top-5 đã lưu,512,"Ở trần 512 token, context gốc cho 819/957 hit với Max–Min và 815/957 với Ours; chênh lệch nhỏ này chưa được ki"
+344,5.7. Phân tích trần token trên top-5 đã lưu,819,"Ở trần 512 token, context gốc cho 819/957 hit với Max–Min và 815/957 với Ours; chênh lệch nhỏ này chưa được kiểm định thống kê. Trên văn "
+344,5.7. Phân tích trần token trên top-5 đã lưu,957,"Ở trần 512 token, context gốc cho 819/957 hit với Max–Min và 815/957 với Ours; chênh lệch nhỏ này chưa được kiểm định thống kê. Trên văn bản "
+344,5.7. Phân tích trần token trên top-5 đã lưu,815,"Ở trần 512 token, context gốc cho 819/957 hit với Max–Min và 815/957 với Ours; chênh lệch nhỏ này chưa được kiểm định thống kê. Trên văn bản ghép dài, số hit tương "
+344,5.7. Phân tích trần token trên top-5 đã lưu,957,"Ở trần 512 token, context gốc cho 819/957 hit với Max–Min và 815/957 với Ours; chênh lệch nhỏ này chưa được kiểm định thống kê. Trên văn bản ghép dài, số hit tương ứng "
+344,5.7. Phân tích trần token trên top-5 đã lưu,800,"c kiểm định thống kê. Trên văn bản ghép dài, số hit tương ứng là 800 và 609. Ở trần 1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR"
+344,5.7. Phân tích trần token trên top-5 đã lưu,609,"định thống kê. Trên văn bản ghép dài, số hit tương ứng là 800 và 609. Ở trần 1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên c"
+344,5.7. Phân tích trần token trên top-5 đã lưu,1024,"ê. Trên văn bản ghép dài, số hit tương ứng là 800 và 609. Ở trần 1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên context gốc vẫ"
+344,5.7. Phân tích trần token trên top-5 đã lưu,832," hit tương ứng là 800 và 609. Ở trần 1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên context gốc vẫn cao hơn ở Ours trong hai "
+344,5.7. Phân tích trần token trên top-5 đã lưu,873,"ơng ứng là 800 và 609. Ở trần 1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên context gốc vẫn cao hơn ở Ours trong hai mức trầ"
+344,5.7. Phân tích trần token trên top-5 đã lưu,816,"1024 token, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên context gốc vẫn cao hơn ở Ours trong hai mức trần, nên không đồng nhất kết luậ"
+344,5.7. Phân tích trần token trên top-5 đã lưu,748,"ken, context gốc cho 832 và 873 hit; văn bản ghép dài cho 816 và 748 hit. MRR trên context gốc vẫn cao hơn ở Ours trong hai mức trần, nên không đồng nhất kết luận Recal"
+344,5.7. Phân tích trần token trên top-5 đã lưu,11,"uan sát, không chứng minh cơ chế nhân quả hoặc ưu thế tổng quát [11]."
+348,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,5.7,"Đo độ dài tất cả chunk đã lưu bằng tokenizer snapshot nêu ở mục 5.7, không truncation và có special tokens. Trung bình, trung vị, cực đại và tỷ lệ vượt 128 được tính t"
+348,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,128,"à có special tokens. Trung bình, trung vị, cực đại và tỷ lệ vượt 128 được tính theo chunk, không theo câu hỏi. sentence_bert_config.json của snapshot ghi max_seq_length"
+348,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,128,"u hỏi. sentence_bert_config.json của snapshot ghi max_seq_length=128; tokenizer có thể có model_max_length khác, nên không dùng giới hạn tokenizer chung để thay cho cấu"
+348,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,11,ác số sau mô tả độ dài dưới snapshot cục bộ được ghi hash trong [11].
+350,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,128,| Đầu vào | Chiến lược | TB token | Trung vị | Lớn nhất | Chunk >128 | Tỷ lệ |
+352,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"70,28","| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |"
+352,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,54,"| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |"
+352,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,493,"| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |"
+352,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,76,"| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |"
+352,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,583,"| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |"
+352,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"13,04%","| Context gốc | Max–Min | 70,28 | 54 | 493 | 76/583 | 13,04% |"
+353,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"186,03","| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |"
+353,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,187,"| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |"
+353,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,333,"| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |"
+353,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,196,"| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |"
+353,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,226,"| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |"
+353,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"86,73%","| Context gốc | Ours | 186,03 | 187 | 333 | 196/226 | 86,73% |"
+354,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"73,60","| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |"
+354,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,57,"| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |"
+354,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,493,"| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |"
+354,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,80,"| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |"
+354,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,556,"| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |"
+354,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"14,39%","| Ghép dài | Max–Min | 73,60 | 57 | 493 | 80/556 | 14,39% |"
+355,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"234,26","| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |"
+355,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,233,"| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |"
+355,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,414,"| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |"
+355,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,187,"| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |"
+355,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,191,"| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |"
+355,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,"97,91%","| Ghép dài | Ours | 234,26 | 233 | 414 | 187/191 | 97,91% |"
+357,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,128,Kết quả đo cho thấy tỷ lệ chunk Ours vượt 128 token cao hơn Max–Min ở cả hai cách tổ chức đầu vào. Nếu encode theo cấu hình SentenceTransformer 1
+357,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,128,"ch tổ chức đầu vào. Nếu encode theo cấu hình SentenceTransformer 128 token, các chuỗi vượt giới hạn sẽ bị cắt trước khi biểu diễn. Tuy nhiên, độ dài vượt giới hạn không"
+357,5.8. Phân tích độ dài tokenizer và nguy cơ truncation,11, tra offset và chạy đối chứng có kiểm soát để xác định tác động [11].
+361,5.9. Chẩn đoán vi phạm ranh giới dependency,0,"comparison.json. Có ba ranh giới dương tính: case_001 tại vị trí 0, case_007 và case_011 tại vị trí 4; vị trí được đánh số từ 0. case_012 là tài liệu đối chứng ngoại "
+361,5.9. Chẩn đoán vi phạm ranh giới dependency,4,"ơng tính: case_001 tại vị trí 0, case_007 và case_011 tại vị trí 4; vị trí được đánh số từ 0. case_012 là tài liệu đối chứng ngoại lệ với danh sách dependency rỗng, k"
+361,5.9. Chẩn đoán vi phạm ranh giới dependency,0,"trí 0, case_007 và case_011 tại vị trí 4; vị trí được đánh số từ 0. case_012 là tài liệu đối chứng ngoại lệ với danh sách dependency rỗng, không tăng mẫu số. Không tự"
+365,5.9. Chẩn đoán vi phạm ranh giới dependency,2,"| Max–Min | 2 | 3 | 66,67% |"
+365,5.9. Chẩn đoán vi phạm ranh giới dependency,3,"| Max–Min | 2 | 3 | 66,67% |"
+365,5.9. Chẩn đoán vi phạm ranh giới dependency,"66,67%","| Max–Min | 2 | 3 | 66,67% |"
+366,5.9. Chẩn đoán vi phạm ranh giới dependency,0,"| Ours | 0 | 3 | 0,00% |"
+366,5.9. Chẩn đoán vi phạm ranh giới dependency,3,"| Ours | 0 | 3 | 0,00% |"
+366,5.9. Chẩn đoán vi phạm ranh giới dependency,"0,00%","| Ours | 0 | 3 | 0,00% |"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,16,"văn của case_001, case_007, case_011 và case_012 lần lượt chỉ là 16, 228, 205 và 216 đơn vị khoảng trắng. Do đó không testcase nào kích hoạt nhánh trên 240 có dependen"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,228,"của case_001, case_007, case_011 và case_012 lần lượt chỉ là 16, 228, 205 và 216 đơn vị khoảng trắng. Do đó không testcase nào kích hoạt nhánh trên 240 có dependency pe"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,205,"ase_001, case_007, case_011 và case_012 lần lượt chỉ là 16, 228, 205 và 216 đơn vị khoảng trắng. Do đó không testcase nào kích hoạt nhánh trên 240 có dependency penalty"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,216,", case_007, case_011 và case_012 lần lượt chỉ là 16, 228, 205 và 216 đơn vị khoảng trắng. Do đó không testcase nào kích hoạt nhánh trên 240 có dependency penalty. Kết q"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,240,n vị khoảng trắng. Do đó không testcase nào kích hoạt nhánh trên 240 có dependency penalty. Kết quả 0/3 của Ours phản ánh hành vi của chiến lược đầy đủ trên các mẫu nhỏ
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,0,"case nào kích hoạt nhánh trên 240 có dependency penalty. Kết quả 0/3 của Ours phản ánh hành vi của chiến lược đầy đủ trên các mẫu nhỏ, không chứng minh tác dụng riêng"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,3,"se nào kích hoạt nhánh trên 240 có dependency penalty. Kết quả 0/3 của Ours phản ánh hành vi của chiến lược đầy đủ trên các mẫu nhỏ, không chứng minh tác dụng riêng c"
+368,5.9. Chẩn đoán vi phạm ranh giới dependency,11,"m văn bản trên MAX, annotation đáng tin cậy và ablation penalty [11]."
+374,5.10. Tổng hợp đánh đổi và khả năng tái lập,"98,85%","| Bảo toàn evidence | 98,85% ở cả hai | 100% ở cả hai |"
+374,5.10. Tổng hợp đánh đổi và khả năng tái lập,100%,"| Bảo toàn evidence | 98,85% ở cả hai | 100% ở cả hai |"
+375,5.10. Tổng hợp đánh đổi và khả năng tái lập,5,| Độ dài chunk và context top-5 | Nhỏ hơn | Lớn hơn |
+376,5.10. Tổng hợp đánh đổi và khả năng tái lập,5,"| Evidence Recall@5 trên context gốc | 86,94% | 91,85% |"
+376,5.10. Tổng hợp đánh đổi và khả năng tái lập,"86,94%","| Evidence Recall@5 trên context gốc | 86,94% | 91,85% |"
+376,5.10. Tổng hợp đánh đổi và khả năng tái lập,"91,85%","| Evidence Recall@5 trên context gốc | 86,94% | 91,85% |"
+377,5.10. Tổng hợp đánh đổi và khả năng tái lập,5,"| Evidence Recall@5 trên văn bản ghép dài | 85,27% | 80,56% |"
+377,5.10. Tổng hợp đánh đổi và khả năng tái lập,"85,27%","| Evidence Recall@5 trên văn bản ghép dài | 85,27% | 80,56% |"
+377,5.10. Tổng hợp đánh đổi và khả năng tái lập,"80,56%","| Evidence Recall@5 trên văn bản ghép dài | 85,27% | 80,56% |"
+379,5.10. Tổng hợp đánh đổi và khả năng tái lập,0,| Overlap động | Không thêm | Giữ 0–2 câu |
+379,5.10. Tổng hợp đánh đổi và khả năng tái lập,2,| Overlap động | Không thêm | Giữ 0–2 câu |
+381,5.10. Tổng hợp đánh đổi và khả năng tái lập,0,eval ranking là hai mục tiêu khác nhau: Ours có evidence_split = 0 nhưng vẫn có 78 ranking_miss ở context gốc và 186 ở văn bản ghép dài. Giả thuyết vector của chunk n
+381,5.10. Tổng hợp đánh đổi và khả năng tái lập,78, hai mục tiêu khác nhau: Ours có evidence_split = 0 nhưng vẫn có 78 ranking_miss ở context gốc và 186 ở văn bản ghép dài. Giả thuyết vector của chunk nhỏ tập trung hơn
+381,5.10. Tổng hợp đánh đổi và khả năng tái lập,186,"evidence_split = 0 nhưng vẫn có 78 ranking_miss ở context gốc và 186 ở văn bản ghép dài. Giả thuyết vector của chunk nhỏ tập trung hơn cần thí nghiệm nhân quả, không đư"
+383,5.10. Tổng hợp đánh đổi và khả năng tái lập,2026,âu hỏi. Không có lấy mẫu ngẫu nhiên nên seed không áp dụng; seed 2026 và 5.000 lượt chỉ thuộc bootstrap gốc.
+383,5.10. Tổng hợp đánh đổi và khả năng tái lập,5.000,Không có lấy mẫu ngẫu nhiên nên seed không áp dụng; seed 2026 và 5.000 lượt chỉ thuộc bootstrap gốc.
+385,5.10. Tổng hợp đánh đổi và khả năng tái lập,3,"chiếu với JSON/CSV: số tài liệu, câu hỏi, chunk, Evidence Recall@3/@5, MRR@5, độ dài chunk/context và bảo toàn evidence. Việc bổ sung phân tích không thay threshold, "
+385,5.10. Tổng hợp đánh đổi và khả năng tái lập,5,"ếu với JSON/CSV: số tài liệu, câu hỏi, chunk, Evidence Recall@3/@5, MRR@5, độ dài chunk/context và bảo toàn evidence. Việc bổ sung phân tích không thay threshold, wei"
+385,5.10. Tổng hợp đánh đổi và khả năng tái lập,5,"JSON/CSV: số tài liệu, câu hỏi, chunk, Evidence Recall@3/@5, MRR@5, độ dài chunk/context và bảo toàn evidence. Việc bổ sung phân tích không thay threshold, weight, im"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,16,"Ngày 16/11/2026, nhóm bổ sung nghiên cứu độ nhạy gồm 180 cấu hình Ours trên 233 câu hỏi dev, tổ chức theo 5"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,11,"Ngày 16/11/2026, nhóm bổ sung nghiên cứu độ nhạy gồm 180 cấu hình Ours trên 233 câu hỏi dev, tổ chức theo 50 c"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,2026,"Ngày 16/11/2026, nhóm bổ sung nghiên cứu độ nhạy gồm 180 cấu hình Ours trên 233 câu hỏi dev, tổ chức theo 50 contex"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,180,"Ngày 16/11/2026, nhóm bổ sung nghiên cứu độ nhạy gồm 180 cấu hình Ours trên 233 câu hỏi dev, tổ chức theo 50 context gốc hoặc 10 văn bản ghép thuộc cùng 10 "
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,233,"2026, nhóm bổ sung nghiên cứu độ nhạy gồm 180 cấu hình Ours trên 233 câu hỏi dev, tổ chức theo 50 context gốc hoặc 10 văn bản ghép thuộc cùng 10 bài nguồn. Hai góc nhìn"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,50,"độ nhạy gồm 180 cấu hình Ours trên 233 câu hỏi dev, tổ chức theo 50 context gốc hoặc 10 văn bản ghép thuộc cùng 10 bài nguồn. Hai góc nhìn dùng cùng câu hỏi, không phả"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,10,"hình Ours trên 233 câu hỏi dev, tổ chức theo 50 context gốc hoặc 10 văn bản ghép thuộc cùng 10 bài nguồn. Hai góc nhìn dùng cùng câu hỏi, không phải 466 mẫu độc lập. N"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,10,"dev, tổ chức theo 50 context gốc hoặc 10 văn bản ghép thuộc cùng 10 bài nguồn. Hai góc nhìn dùng cùng câu hỏi, không phải 466 mẫu độc lập. Nghiên cứu thử trọng số fina"
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,466,"ộc cùng 10 bài nguồn. Hai góc nhìn dùng cùng câu hỏi, không phải 466 mẫu độc lập. Nghiên cứu thử trọng số final score, MIN/TARGET/MAX, ngưỡng semantic drop, hai ngưỡng "
+389,5.11. Nghiên cứu bổ sung về lựa chọn tham số,81,"p, độ chính xác làm tròn và ablation; có lưới kết hợp định trước 81 cấu hình. Không gian thử và tiêu chí được lưu trước khi chạy trong `evaluation/results/parameter_st"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,5,"Tiêu chí chính là trung bình Evidence Recall@5 của hai góc nhìn dev; tiêu chí phụ là trung bình MRR@5. Cấu hình mặc định đạt lần lượt 96,35% và 0,"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,5,"ce Recall@5 của hai góc nhìn dev; tiêu chí phụ là trung bình MRR@5. Cấu hình mặc định đạt lần lượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"96,35%","tiêu chí phụ là trung bình MRR@5. Cấu hình mặc định đạt lần lượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử th"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,8251","hụ là trung bình MRR@5. Cấu hình mặc định đạt lần lượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử theo tiêu ch"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,120,"Cấu hình mặc định đạt lần lượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử theo tiêu chí này. Trong nhóm trọ"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,60,"ặc định đạt lần lượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử theo tiêu chí này. Trong nhóm trọng số, se"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"97,00%"," đạt lần lượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử theo tiêu chí này. Trong nhóm trọng số, semantic/size"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,8363","ượt 96,35% và 0,8251. Chỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử theo tiêu chí này. Trong nhóm trọng số, semantic/size = 0,5/0,3"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,180,"hỉ giảm MIN từ 120 xuống 60 đạt 97,00% và 0,8363, cao nhất trong 180 cấu hình đã thử theo tiêu chí này. Trong nhóm trọng số, semantic/size = 0,5/0,3 đạt Recall@5 trung "
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,5","h đã thử theo tiêu chí này. Trong nhóm trọng số, semantic/size = 0,5/0,3 đạt Recall@5 trung bình 96,78%; các penalty được thử đồng hạng. Chỉ giảm ngưỡng semantic drop t"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,3"," thử theo tiêu chí này. Trong nhóm trọng số, semantic/size = 0,5/0,3 đạt Recall@5 trung bình 96,78%; các penalty được thử đồng hạng. Chỉ giảm ngưỡng semantic drop từ 0,"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,5,"chí này. Trong nhóm trọng số, semantic/size = 0,5/0,3 đạt Recall@5 trung bình 96,78%; các penalty được thử đồng hạng. Chỉ giảm ngưỡng semantic drop từ 0,30 xuống 0,20"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"96,78%","g nhóm trọng số, semantic/size = 0,5/0,3 đạt Recall@5 trung bình 96,78%; các penalty được thử đồng hạng. Chỉ giảm ngưỡng semantic drop từ 0,30 xuống 0,20 đạt 96,57%. Đây l"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,30","các penalty được thử đồng hạng. Chỉ giảm ngưỡng semantic drop từ 0,30 xuống 0,20 đạt 96,57%. Đây là điểm trên dữ liệu dùng lựa chọn, chưa phải xác nhận độc lập về cải th"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,20"," được thử đồng hạng. Chỉ giảm ngưỡng semantic drop từ 0,30 xuống 0,20 đạt 96,57%. Đây là điểm trên dữ liệu dùng lựa chọn, chưa phải xác nhận độc lập về cải thiện tổng qu"
+391,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"96,57%"," đồng hạng. Chỉ giảm ngưỡng semantic drop từ 0,30 xuống 0,20 đạt 96,57%. Đây là điểm trên dữ liệu dùng lựa chọn, chưa phải xác nhận độc lập về cải thiện tổng quát."
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,4","Với semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng g"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,4","Với semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc n"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,0,"Với semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc nhìn. Cấu hình mặc định c"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,2","Với semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc nhìn. Cấu hình mặc định chỉ có"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,4","Với semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc nhìn. Cấu hình mặc định chỉ có một "
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,6","Với semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc nhìn. Cấu hình mặc định chỉ có một ứng v"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,8"," semantic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc nhìn. Cấu hình mặc định chỉ có một ứng viên r"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"1,2","ntic/size = 0,4/0,4, sáu mức risk penalty 0; 0,2; 0,4; 0,6; 0,8; 1,2 tạo cùng chunk và cùng điểm retrieval ở từng góc nhìn. Cấu hình mặc định chỉ có một ứng viên risk t"
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,6","trong paragraph dev. Vì vậy dữ liệu hiện tại chưa đủ để xác định 0,6 là penalty tối ưu. Các ngưỡng overlap cũng có cấu hình đồng hạng Recall hoặc tốt hơn về MRR; không "
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,30","ấu hình đồng hạng Recall hoặc tốt hơn về MRR; không thể tuyên bố 0,30/0,55 và tối đa hai câu là lựa chọn tối ưu duy nhất."
+393,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,55","nh đồng hạng Recall hoặc tốt hơn về MRR; không thể tuyên bố 0,30/0,55 và tối đa hai câu là lựa chọn tối ưu duy nhất."
+395,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,4","Các hệ số 0,4/0,4/0,6 ban đầu biểu diễn ưu tiên bằng nhau cho hai tín hiệu chuẩn hóa và một penalty lớn hơn đóng "
+395,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,4","Các hệ số 0,4/0,4/0,6 ban đầu biểu diễn ưu tiên bằng nhau cho hai tín hiệu chuẩn hóa và một penalty lớn hơn đóng góp "
+395,5.11. Nghiên cứu bổ sung về lựa chọn tham số,"0,6","Các hệ số 0,4/0,4/0,6 ban đầu biểu diễn ưu tiên bằng nhau cho hai tín hiệu chuẩn hóa và một penalty lớn hơn đóng góp tối "
+403,6. Kết luận,957,"Trên 957 câu hỏi test, Ours đạt Evidence Recall@5 91,85% khi dùng context gốc, cao hơn Max–Min 4,91 điểm phầ"
+403,6. Kết luận,5,"Trên 957 câu hỏi test, Ours đạt Evidence Recall@5 91,85% khi dùng context gốc, cao hơn Max–Min 4,91 điểm phần trăm. Khi ghép thành văn bản dài, Ours "
+403,6. Kết luận,"91,85%","Trên 957 câu hỏi test, Ours đạt Evidence Recall@5 91,85% khi dùng context gốc, cao hơn Max–Min 4,91 điểm phần trăm. Khi ghép thành văn bản dài, Ours đạt 80,"
+403,6. Kết luận,"4,91","t Evidence Recall@5 91,85% khi dùng context gốc, cao hơn Max–Min 4,91 điểm phần trăm. Khi ghép thành văn bản dài, Ours đạt 80,56%, thấp hơn Max–Min 4,70 điểm phần trăm. "
+403,6. Kết luận,"80,56%","ax–Min 4,91 điểm phần trăm. Khi ghép thành văn bản dài, Ours đạt 80,56%, thấp hơn Max–Min 4,70 điểm phần trăm. Ours bảo toàn evidence theo nhãn hiện tại nhưng sử dụng lượn"
+403,6. Kết luận,"4,70","m. Khi ghép thành văn bản dài, Ours đạt 80,56%, thấp hơn Max–Min 4,70 điểm phần trăm. Ours bảo toàn evidence theo nhãn hiện tại nhưng sử dụng lượng context top-5 lớn hơn"
+403,6. Kết luận,5,toàn evidence theo nhãn hiện tại nhưng sử dụng lượng context top-5 lớn hơn và có nhiều lỗi xếp hạng ở kịch bản văn bản dài.
+405,6. Kết luận,5,"o toàn evidence và retrieval trên context gốc trong cấu hình top-5 đi kèm lượng context lớn hơn, trong khi lợi thế retrieval đảo chiều trên văn bản ghép dài. Phân tíc"
+417,7. Tài liệu tham khảo,9,"9. Dự án utc_rag. *Kết quả XQuAD tiếng Việt — context gốc, tập test*. [CSV](evaluation/results/xquad_"
+418,7. Tài liệu tham khảo,10,"10. Dự án utc_rag. *Kết quả XQuAD tiếng Việt — văn bản ghép dài, tập test*. [CSV](evaluation/results/x"
+420,7. Tài liệu tham khảo,11,11. Dự án utc_rag. Phân tích hậu nghiệm phục vụ rà soát báo cáo (30/10/2026). Script: scripts/audit_re
+420,7. Tài liệu tham khảo,30,11. Dự án utc_rag. Phân tích hậu nghiệm phục vụ rà soát báo cáo (30/10/2026). Script: scripts/audit_report_evidence.py. Artifact và hướng dẫn: evaluation/results/repor
+420,7. Tài liệu tham khảo,10, Dự án utc_rag. Phân tích hậu nghiệm phục vụ rà soát báo cáo (30/10/2026). Script: scripts/audit_report_evidence.py. Artifact và hướng dẫn: evaluation/results/report_a
+420,7. Tài liệu tham khảo,2026, án utc_rag. Phân tích hậu nghiệm phục vụ rà soát báo cáo (30/10/2026). Script: scripts/audit_report_evidence.py. Artifact và hướng dẫn: evaluation/results/report_audit/
+422,7. Tài liệu tham khảo,9,"Các mục [9–10] là artifact thực nghiệm nội bộ, không phải bài báo đã công bố. Mô tả triển khai được đối chiếu "
+422,7. Tài liệu tham khảo,10,"Các mục [9–10] là artifact thực nghiệm nội bộ, không phải bài báo đã công bố. Mô tả triển khai được đối chiếu với"

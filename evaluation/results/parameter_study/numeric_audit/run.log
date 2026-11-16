@@ -1,0 +1,158 @@
+{
+  "tokenizer": [
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "chunks": 583,
+      "mean": 70.2795883361921,
+      "median": 54,
+      "max": 493,
+      "over_128": 76,
+      "fraction_over_128": 0.13036020583190394
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "chunks": 226,
+      "mean": 186.03097345132744,
+      "median": 187.0,
+      "max": 333,
+      "over_128": 196,
+      "fraction_over_128": 0.8672566371681416
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "chunks": 556,
+      "mean": 73.59532374100719,
+      "median": 57.0,
+      "max": 493,
+      "over_128": 80,
+      "fraction_over_128": 0.14388489208633093
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "chunks": 191,
+      "mean": 234.26178010471205,
+      "median": 233,
+      "max": 414,
+      "over_128": 187,
+      "fraction_over_128": 0.9790575916230366
+    }
+  ],
+  "budgets": [
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "budget": 512,
+      "questions": 957,
+      "hits": 819,
+      "evidence_recall": 0.8557993730407524,
+      "mrr": 0.739063044235458,
+      "mean_context_tokens": 368.2580982236155,
+      "mean_selected_chunks": 4.551724137931035,
+      "empty_contexts": 0
+    },
+    {
+      "view": "paragraph",
+      "method": "Max-Min",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 832,
+      "evidence_recall": 0.8693834900731452,
+      "mrr": 0.7421455938697318,
+      "mean_context_tokens": 432.83594566353185,
+      "mean_selected_chunks": 5,
+      "empty_contexts": 0
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "budget": 512,
+      "questions": 957,
+      "hits": 815,
+      "evidence_recall": 0.851619644723093,
+      "mrr": 0.7875304771856496,
+      "mean_context_tokens": 414.13584117032394,
+      "mean_selected_chunks": 2.284221525600836,
+      "empty_contexts": 0
+    },
+    {
+      "view": "paragraph",
+      "method": "Ours",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 873,
+      "evidence_recall": 0.9122257053291536,
+      "mrr": 0.8049634273772205,
+      "mean_context_tokens": 879.2601880877743,
+      "mean_selected_chunks": 4.7220480668756535,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "budget": 512,
+      "questions": 957,
+      "hits": 800,
+      "evidence_recall": 0.8359456635318704,
+      "mrr": 0.7217868338557993,
+      "mean_context_tokens": 379.5015673981191,
+      "mean_selected_chunks": 4.379310344827586,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Max-Min",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 816,
+      "evidence_recall": 0.8526645768025078,
+      "mrr": 0.7259491466388018,
+      "mean_context_tokens": 463.17032392894464,
+      "mean_selected_chunks": 4.998955067920585,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "budget": 512,
+      "questions": 957,
+      "hits": 609,
+      "evidence_recall": 0.6363636363636364,
+      "mrr": 0.5975269940787182,
+      "mean_context_tokens": 395.00417972831764,
+      "mean_selected_chunks": 1.7408568443051202,
+      "empty_contexts": 0
+    },
+    {
+      "view": "article",
+      "method": "Ours",
+      "budget": 1024,
+      "questions": 957,
+      "hits": 748,
+      "evidence_recall": 0.7816091954022989,
+      "mrr": 0.6490595611285266,
+      "mean_context_tokens": 901.2758620689655,
+      "mean_selected_chunks": 3.889237199582027,
+      "empty_contexts": 0
+    }
+  ],
+  "dependency": [
+    {
+      "method": "Max-Min",
+      "annotated_documents": 4,
+      "annotated_dependency_boundaries": 3,
+      "violations": 2,
+      "rate": 0.6666666666666666
+    },
+    {
+      "method": "Ours",
+      "annotated_documents": 4,
+      "annotated_dependency_boundaries": 3,
+      "violations": 0,
+      "rate": 0.0
+    }
+  ]
+}

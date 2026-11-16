@@ -1,0 +1,3458 @@
+{
+  "created_utc": "2026-11-16T14:15:39.171046+00:00",
+  "data": "XQuAD.vi dev only: 233 identical question IDs, 10 source titles, two document views",
+  "primary": "Equal-weight mean of paragraph/article dev Evidence Recall@5",
+  "secondary": "Equal-weight mean dev MRR@5; retain all tied configurations",
+  "interpretation": "Sensitivity and small joint grid; not exhaustive or unique global optimization. Two views reuse the same questions and are not independent replications. New exploratory study after historical test results were already seen; does not retrospectively establish how original defaults were selected.",
+  "weights": "semantic+size fixed at 0.8; nonnegative penalty. Only relative score weights matter.",
+  "unchanged": "Production src/baselines, historical test results, labels, model length, rule matcher, optional-cut branch",
+  "grid": {
+    "cdd476acb6137": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "default",
+        "joint",
+        "maximum",
+        "minimum",
+        "overlap_cap",
+        "overlap_thresholds",
+        "semantic_drop",
+        "size_rounding",
+        "size_scale",
+        "target",
+        "weights"
+      ]
+    },
+    "cb8b221e7b806": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.8,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cbddce00d8381": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.8,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c684bf4c40296": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.8,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c452a3c735f35": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.8,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c344aa8c48d78": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.8,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cc81aa680d386": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.8,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c4db52c087a6b": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.1,
+        "size_weight": 0.7,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cfb8742ae2a99": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.1,
+        "size_weight": 0.7,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c7612688acdd0": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.1,
+        "size_weight": 0.7,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c65061d8ba901": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.1,
+        "size_weight": 0.7,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "ca2ab0b8daba8": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.1,
+        "size_weight": 0.7,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "ca6b1b270ad0e": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.1,
+        "size_weight": 0.7,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cfe6e34cc9418": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cc16a476979a2": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c3a045c4bd00e": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cd4be02b0a564": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint",
+        "weights"
+      ]
+    },
+    "c13fa87de5f45": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c2f45ee7d5c28": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c463dc385955c": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.3,
+        "size_weight": 0.5,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c48c2f9e2e813": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.3,
+        "size_weight": 0.5,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cb01d8cf126f9": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.3,
+        "size_weight": 0.5,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c6e2e6641b6cd": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.3,
+        "size_weight": 0.5,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c087a67f22292": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.3,
+        "size_weight": 0.5,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c0440b34bcadc": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.3,
+        "size_weight": 0.5,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c1fce3e78a7ec": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_without_risk",
+        "weights"
+      ]
+    },
+    "cc9a992fadcc8": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cfa3644506301": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c2f0a9372612e": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c4cdebf79c8c2": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c2c4a44e5fd11": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.5,
+        "size_weight": 0.3,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cea38c0237dc9": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.5,
+        "size_weight": 0.3,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c99d1e8ca13a2": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.5,
+        "size_weight": 0.3,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c63d5ff74598a": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.5,
+        "size_weight": 0.3,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c8ac2e8bbbd7a": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.5,
+        "size_weight": 0.3,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c1dbc6b0dc5c6": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.5,
+        "size_weight": 0.3,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c5e15fd505243": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "ccef96f750324": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c105d69d2fc11": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c0c7b7159f5d8": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint",
+        "weights"
+      ]
+    },
+    "ce15a9e03f608": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cafb8f5c26293": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "cbe0b11850276": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.7,
+        "size_weight": 0.1,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "ce000fb0bb146": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.7,
+        "size_weight": 0.1,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "ce310de6da181": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.7,
+        "size_weight": 0.1,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c93735405b2f6": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.7,
+        "size_weight": 0.1,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c3bed1c7319d4": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.7,
+        "size_weight": 0.1,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c9878582cf659": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.7,
+        "size_weight": 0.1,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c38256e8a66e0": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.8,
+        "size_weight": 0.0,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c031495a10e9c": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.8,
+        "size_weight": 0.0,
+        "risk_weight": 0.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c288652663737": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.8,
+        "size_weight": 0.0,
+        "risk_weight": 0.4,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c4a1fb73861cc": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.8,
+        "size_weight": 0.0,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c3fdba0540338": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.8,
+        "size_weight": 0.0,
+        "risk_weight": 0.8,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c4f0e75a594b9": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.8,
+        "size_weight": 0.0,
+        "risk_weight": 1.2,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "weights"
+      ]
+    },
+    "c3f3fd94a6633": {
+      "parameters": {
+        "minimum": 60,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "minimum"
+      ]
+    },
+    "c583facee3cd7": {
+      "parameters": {
+        "minimum": 90,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "minimum"
+      ]
+    },
+    "ce023a1aa29b9": {
+      "parameters": {
+        "minimum": 150,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "minimum"
+      ]
+    },
+    "ca3d85d016a2c": {
+      "parameters": {
+        "minimum": 120,
+        "target": 140,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "target"
+      ]
+    },
+    "ca6bd618db484": {
+      "parameters": {
+        "minimum": 120,
+        "target": 160,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "target"
+      ]
+    },
+    "c34049c6db906": {
+      "parameters": {
+        "minimum": 120,
+        "target": 200,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "target"
+      ]
+    },
+    "c919560c60b34": {
+      "parameters": {
+        "minimum": 120,
+        "target": 220,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "target"
+      ]
+    },
+    "ccdcf86de5c60": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 200,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "maximum"
+      ]
+    },
+    "ceba6b2e9abd5": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 280,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "maximum"
+      ]
+    },
+    "c133ef9d76f59": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "maximum"
+      ]
+    },
+    "c95cf9059f3d0": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 360,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "maximum"
+      ]
+    },
+    "c3dd58e696b15": {
+      "parameters": {
+        "minimum": 60,
+        "target": 90,
+        "maximum": 120,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "size_scale"
+      ]
+    },
+    "cd693802de1b7": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint",
+        "size_scale"
+      ]
+    },
+    "c67e4d90adfe6": {
+      "parameters": {
+        "minimum": 100,
+        "target": 150,
+        "maximum": 200,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "size_scale"
+      ]
+    },
+    "cd05a73ef6d4e": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint",
+        "size_scale"
+      ]
+    },
+    "c9059324de7e7": {
+      "parameters": {
+        "minimum": 200,
+        "target": 300,
+        "maximum": 400,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "size_scale"
+      ]
+    },
+    "c0b691dca6147": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.0,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "cbd2b72a6a6bf": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.1,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "c5fa627b282f6": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.2,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "cd7c5c2b4af02": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.25,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "ce6d97e548f55": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.35,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "c50ac8e5dd249": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.4,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "cec3c7a5ff17f": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.5,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "cb6a850bfe7fb": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.6,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "semantic_drop"
+      ]
+    },
+    "ca8a25e315341": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 3.0,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_without_optional_cut",
+        "semantic_drop"
+      ]
+    },
+    "c0b8555f4651f": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.0,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cdfced0692cbe": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.0,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cc7b7d0ba36c2": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.0,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cda596691f71d": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.0,
+        "overlap_high": 0.85,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "ca144f9b108b0": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint",
+        "overlap_thresholds"
+      ]
+    },
+    "cbfb20137cf00": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cd2e1adbe4c11": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "ca21524693a60": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.85,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "c2a53cd793051": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cd6c5ea0c2cb5": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "c42722f86dc72": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.85,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cff6b80866e2a": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "c13dade1018d8": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint",
+        "overlap_thresholds"
+      ]
+    },
+    "c899856d5dd0d": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.85,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_thresholds"
+      ]
+    },
+    "cde7aac7f09f6": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 1,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_cap"
+      ]
+    },
+    "c894176608490": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 3,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "overlap_cap"
+      ]
+    },
+    "c85cc74df2678": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": 0,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_without_overlap",
+        "fixed_overlap"
+      ]
+    },
+    "cd4fe47c38ac1": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": 1,
+        "size_rounding": 2
+      },
+      "families": [
+        "fixed_overlap"
+      ]
+    },
+    "c776f6033206f": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": 2,
+        "size_rounding": 2
+      },
+      "families": [
+        "fixed_overlap"
+      ]
+    },
+    "c968751ed59e5": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": 3,
+        "size_rounding": 2
+      },
+      "families": [
+        "fixed_overlap"
+      ]
+    },
+    "c339f6ea49d1b": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": null
+      },
+      "families": [
+        "size_rounding"
+      ]
+    },
+    "c1e952dd16a32": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 1
+      },
+      "families": [
+        "size_rounding"
+      ]
+    },
+    "c77f4344b2fe4": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 3
+      },
+      "families": [
+        "size_rounding"
+      ]
+    },
+    "c20461a742f44": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.0,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_without_size"
+      ]
+    },
+    "c4eeef60e5126": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_without_semantic_score"
+      ]
+    },
+    "c0d12cedb4091": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.0,
+        "size_weight": 0.4,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_size_only_score"
+      ]
+    },
+    "cf40ac86c1564": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.0,
+        "risk_weight": 0.0,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "ablation_semantic_only_score"
+      ]
+    },
+    "cfbf87fbc8d11": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c90a33c8b0861": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cd78a554769e3": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cfca7f36846ae": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c46817982acf2": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c086b75c93bfc": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c2130354b4fd4": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c99fcde5d3107": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c5fb8f1840834": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c9707ec943eba": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cb439b1f13bfa": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c58d70f7b2ff9": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c98b9bc74160f": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ca9ec83936451": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c639a0e98350c": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ccf150ce17b38": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c59aaeb7cc9d1": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cfd11543426d8": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ce64259baea33": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c814b9c37fd2c": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cc41a7ce99404": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c77fd36efdfdf": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ca040c9265230": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cbda97f505448": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cf7e01bae68ee": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c5a8faec293b4": {
+      "parameters": {
+        "minimum": 80,
+        "target": 120,
+        "maximum": 160,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c3c62101fd48f": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cd8e049fa0d34": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ce781b9b2d1cf": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c308fff61768c": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cc3fcf6213ff9": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c3d89fd47901c": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c04c7d5f0dd18": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c2dca33f9880f": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cc1b5a0567d89": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c1d4d12fcfa42": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c6d0b21e7c6af": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c9b34d5f8d375": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c1e13e993c52d": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c18ee793c333a": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c8dcf5e29db17": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c8505f2d5a477": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c3d2ee00c5580": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c8f31c9fffd77": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ccc998cb34577": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c88094b8ef038": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c5377aca4b624": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c61b87b1170dc": {
+      "parameters": {
+        "minimum": 120,
+        "target": 180,
+        "maximum": 240,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cc7a0a6313e47": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c93aa66928733": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c003cf5590f6b": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c94e4b64627b4": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c44565bc22b98": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "caeb0071ec02c": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c9b6c23608821": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c6c00ae044b05": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cb1aca674a4a9": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.15,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cbc9ef9a9d0c8": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c38344b6992c6": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cf733d1b44fd1": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "ca975ca08943c": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c2056de1463c2": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c6939241461c3": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c9608d747b084": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c9b16f42d9c0b": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.3,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c854e22a589f9": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c8793625d92b5": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c8257a06aa4bc": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.15,
+        "overlap_high": 0.4,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c59e79e672388": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c47d3fef217c7": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "cdeba6733716d": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.3,
+        "overlap_high": 0.55,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "caa964b4ad97f": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.2,
+        "size_weight": 0.6,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c79387f7a00e0": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.4,
+        "size_weight": 0.4,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    },
+    "c1aa451177cb2": {
+      "parameters": {
+        "minimum": 160,
+        "target": 240,
+        "maximum": 320,
+        "semantic_weight": 0.6,
+        "size_weight": 0.2,
+        "risk_weight": 0.6,
+        "drop": 0.45,
+        "overlap_low": 0.45,
+        "overlap_high": 0.7,
+        "overlap_cap": 2,
+        "fixed_overlap": null,
+        "size_rounding": 2
+      },
+      "families": [
+        "joint"
+      ]
+    }
+  },
+  "retrieval_k": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "llm": null,
+  "threads": 4
+}

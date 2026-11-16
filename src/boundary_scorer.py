@@ -6,6 +6,12 @@ MIN_TOKENS = 120
 TARGET_TOKENS = 180
 MAX_TOKENS= 240
 
+# Selected by mean dev Recall@5 in the weight grid. Risk penalties tied;
+# retain 0.6. This is the single production scoring configuration.
+SIZE_WEIGHT = 0.3
+SEMANTIC_WEIGHT = 0.5
+DEPENDENCY_WEIGHT = 0.6
+
 def calculate_size_score(token_count):
     if token_count < MIN_TOKENS or token_count > MAX_TOKENS:
         return 0.0
@@ -42,15 +48,15 @@ def calculate_boundary_semantic_drop(boundary: CandidateBoundary) -> float | Non
 def normalize_semantic_drops(semantic_drops: list[CandidateBoundary]) -> list[float]:
     if not semantic_drops:
         return []
-    
+
     drop_values = [calculate_boundary_semantic_drop(boundary) for boundary in semantic_drops]
 
-    valid_drops = [drop for drop in drop_values 
+    valid_drops = [drop for drop in drop_values
                    if drop is not None]
 
     if not valid_drops:
         return [0.0 for _ in drop_values]
-    
+
     min_drop = min(valid_drops)
     max_drop = max(valid_drops)
 
@@ -71,14 +77,14 @@ def normalize_semantic_drops(semantic_drops: list[CandidateBoundary]) -> list[fl
 def score_boundaries(boundaries: list[CandidateBoundary]) -> list[float]:
 
     valid_indices = [
-        i 
+        i
         for i, boundary in enumerate(boundaries)
         if MIN_TOKENS <= boundary.token_count <= MAX_TOKENS
     ]
     if not valid_indices:
         return [float('-inf') for _ in boundaries]
 
-    
+
     valid_boundaries = [
         boundaries[i]
         for i in valid_indices
@@ -105,13 +111,11 @@ def score_boundaries(boundaries: list[CandidateBoundary]) -> list[float]:
         semantic_score = semantic_scores[semantic_index]
 
         final_score = (
-            0.4 * size_score
-            + 0.4 * semantic_score
-            - 0.6 * dependency_score
+            SIZE_WEIGHT * size_score
+            + SEMANTIC_WEIGHT * semantic_score
+            - DEPENDENCY_WEIGHT * dependency_score
         )
 
         scores[boundary_index] = final_score
 
     return scores
-
-    

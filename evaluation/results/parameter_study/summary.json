@@ -1,0 +1,253 @@
+{
+  "default_config_id": "cdd476acb6137",
+  "default": {
+    "config_id": "cdd476acb6137",
+    "families": "default;joint;maximum;minimum;overlap_cap;overlap_thresholds;semantic_drop;size_rounding;size_scale;target;weights",
+    "minimum": 120,
+    "target": 180,
+    "maximum": 240,
+    "semantic_weight": 0.4,
+    "size_weight": 0.4,
+    "risk_weight": 0.6,
+    "drop": 0.3,
+    "overlap_low": 0.3,
+    "overlap_high": 0.55,
+    "overlap_cap": 2,
+    "fixed_overlap": null,
+    "size_rounding": 2,
+    "mean_recall_at_5": 0.9635193133047211,
+    "mean_mrr_at_5": 0.8251072961373391,
+    "mean_context_words": 857.9120171673819
+  },
+  "tested_configurations": 180,
+  "distinct_corpora": 141,
+  "best_config_ids": [
+    "c3f3fd94a6633"
+  ],
+  "best": {
+    "config_id": "c3f3fd94a6633",
+    "families": "minimum",
+    "minimum": 60,
+    "target": 180,
+    "maximum": 240,
+    "semantic_weight": 0.4,
+    "size_weight": 0.4,
+    "risk_weight": 0.6,
+    "drop": 0.3,
+    "overlap_low": 0.3,
+    "overlap_high": 0.55,
+    "overlap_cap": 2,
+    "fixed_overlap": null,
+    "size_rounding": 2,
+    "mean_recall_at_5": 0.9699570815450644,
+    "mean_mrr_at_5": 0.8363018597997138,
+    "mean_context_words": 811.3690987124464
+  },
+  "by_family": {
+    "ablation_semantic_only_score": {
+      "configurations": 2,
+      "best_config_id": "cf40ac86c1564",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8348712446351931,
+      "default_tied_on_primary": true
+    },
+    "ablation_size_only_score": {
+      "configurations": 2,
+      "best_config_id": "cdd476acb6137",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "ablation_without_optional_cut": {
+      "configurations": 2,
+      "best_config_id": "cdd476acb6137",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "ablation_without_overlap": {
+      "configurations": 2,
+      "best_config_id": "cdd476acb6137",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "ablation_without_risk": {
+      "configurations": 2,
+      "best_config_id": "c1fce3e78a7ec",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "ablation_without_semantic_score": {
+      "configurations": 2,
+      "best_config_id": "cdd476acb6137",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "ablation_without_size": {
+      "configurations": 2,
+      "best_config_id": "c20461a742f44",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8348712446351931,
+      "default_tied_on_primary": true
+    },
+    "default": {
+      "configurations": 1,
+      "best_config_id": "cdd476acb6137",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "fixed_overlap": {
+      "configurations": 5,
+      "best_config_id": "cd4fe47c38ac1",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8373748211731045,
+      "default_tied_on_primary": true
+    },
+    "joint": {
+      "configurations": 81,
+      "best_config_id": "c0c7b7159f5d8",
+      "best_mean_recall_at_5": 0.9656652360515021,
+      "best_mean_mrr_at_5": 0.8310443490701002,
+      "default_tied_on_primary": false
+    },
+    "maximum": {
+      "configurations": 5,
+      "best_config_id": "ccdcf86de5c60",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8395207439198855,
+      "default_tied_on_primary": true
+    },
+    "minimum": {
+      "configurations": 4,
+      "best_config_id": "c3f3fd94a6633",
+      "best_mean_recall_at_5": 0.9699570815450644,
+      "best_mean_mrr_at_5": 0.8363018597997138,
+      "default_tied_on_primary": false
+    },
+    "overlap_cap": {
+      "configurations": 3,
+      "best_config_id": "cde7aac7f09f6",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8361230329041487,
+      "default_tied_on_primary": true
+    },
+    "overlap_thresholds": {
+      "configurations": 15,
+      "best_config_id": "ca21524693a60",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8428469241773963,
+      "default_tied_on_primary": true
+    },
+    "semantic_drop": {
+      "configurations": 10,
+      "best_config_id": "c5fa627b282f6",
+      "best_mean_recall_at_5": 0.9656652360515021,
+      "best_mean_mrr_at_5": 0.8277896995708154,
+      "default_tied_on_primary": false
+    },
+    "size_rounding": {
+      "configurations": 4,
+      "best_config_id": "c1e952dd16a32",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8263590844062947,
+      "default_tied_on_primary": true
+    },
+    "size_scale": {
+      "configurations": 6,
+      "best_config_id": "cdd476acb6137",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8251072961373391,
+      "default_tied_on_primary": true
+    },
+    "target": {
+      "configurations": 5,
+      "best_config_id": "ca6bd618db484",
+      "best_mean_recall_at_5": 0.9635193133047211,
+      "best_mean_mrr_at_5": 0.8368741058655222,
+      "default_tied_on_primary": true
+    },
+    "weights": {
+      "configurations": 54,
+      "best_config_id": "c1dbc6b0dc5c6",
+      "best_mean_recall_at_5": 0.9678111587982832,
+      "best_mean_mrr_at_5": 0.8321173104434907,
+      "default_tied_on_primary": false
+    }
+  },
+  "note": "Dev winners are selected estimates, not independent confirmation or proof of a global optimum.",
+  "default_adapter_matches_original_on_all_60_dev_documents": true,
+  "provenance": {
+    "python": "3.13.5",
+    "packages": {
+      "torch": "2.14.1",
+      "numpy": "2.5.4",
+      "sentence-transformers": "6.1.0",
+      "transformers": "5.20.1",
+      "scikit-learn": "1.9.1"
+    },
+    "device": "cpu",
+    "max_seq_length": 128,
+    "seed": 2026,
+    "script_sha256": "9da82387070bf6df435d47abec5f7d2cc1d0b587171c3b0a6d2159bda038d5f4",
+    "inputs_sha256": {
+      "data\\benchmark\\xquad_vi\\paragraph\\dev\\documents.json": "93492fc1ae8d754e04a5aade55fb687e722a4269458ea96976459168c08a69d1",
+      "data\\benchmark\\xquad_vi\\paragraph\\dev\\questions.json": "a09d82ddb4763be3dc3bd8a164437669cc8ae032409c5bf963d92ecca15b7515",
+      "data\\benchmark\\xquad_vi\\article\\dev\\documents.json": "ffdee8546a8e67e7436365014626efb9b03fb07cb63e95323af831cf3e5cf2de",
+      "data\\benchmark\\xquad_vi\\article\\dev\\questions.json": "8806a8b48b5be398e0b271e540aac759fdeabe10ff7091c32b56626df3e8a3be"
+    },
+    "model_snapshot": "C:\\Users\\Acer\\.cache\\huggingface\\hub\\models--sentence-transformers--paraphrase-multilingual-MiniLM-L12-v2\\snapshots\\e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+    "model_files_sha256": {
+      "1_Pooling\\config.json": "4be450dde3b0273bb9787637cfbd28fe04a7ba6ab9d36ac48e92b11e350ffc23",
+      "config.json": "6300193cb75e01cf80c96decef7187dfb33094d97cc1490b7ead6ff134476e4e",
+      "config_sentence_transformers.json": "b8c64b5cece00d8424b4896ea75b512b6008576088497609dfeb6bd63e6d36b8",
+      "model.safetensors": "eaa086f0ffee582aeb45b36e34cdd1fe2d6de2bef61f8a559a1bbc9bd955917b",
+      "modules.json": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460",
+      "sentence_bert_config.json": "70f4448f31320443fe3557cacea5abf2dcc4915dda8c80646bec9f3bb0aa5a1f",
+      "special_tokens_map.json": "378eb3bf733eb16e65792d7e3fda5b8a4631387ca04d2015199c4d4f22ae554d",
+      "tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+      "tokenizer_config.json": "5036ea374ffedd706e3bef33e2e0d6953cb868ef8a490e76e32ba0faa37a6b9b"
+    },
+    "source_sha256_before": {
+      "src\\baseline_chunker.py": "e2cc7f05be2bfbfa9d939a23839f3213899fe8a721cd46613b96d7edfdd18763",
+      "src\\boundary.py": "3e020d88140b34f4d5128067c3ec25154b860a24f032826629953fb5ae549011",
+      "src\\boundary_scorer.py": "f0285e7dd35374f6beffb7137efe67ff0c5cfe80399d26c17f3f938869090f92",
+      "src\\dependency_rules.py": "f734672a59290b4c129c2d2327786672ba43be87a43f088c5d432b7fc469d6fd",
+      "src\\dynamic_overlap.py": "66d4105508c80699daa69045f8a4880fdab5d683d090ff74f1b7468891784336",
+      "src\\rag\\__init__.py": "4e4ed7ef8e03e0249a5e464a911081fbf3e12e29fe14c4db4174fd58fd98ec5f",
+      "src\\rag\\embedder.py": "24354d5432395808bf8917866dc761c0fa6445987d822caf1048085d47f77fad",
+      "src\\rag\\llm_client.py": "dcefcfd4872c89952588994893e8412648fcc6513739dbf7cf5284ee87c51bc8",
+      "src\\rag\\rag_pipeline.py": "9e146448201c3e72c5b18494687f75186f8ce3446fd633021559842c9be13d82",
+      "src\\rag\\retriever.py": "2ee9393200d69fde9b677edf28b5bf7a3fb038c8ef79169a438d01dc02bd35ba",
+      "src\\semantic_chunker.py": "d58cb87743ff0ac3839c3e2112389fbd74e69057e67b2731db37f3eec51697db",
+      "src\\semantic_similarity.py": "0bb1605f8a7b08398c66af1943984636016ca6b2f5a3c540aacb86421c4fd5a9",
+      "src\\sentence_splitter.py": "a10b906387d17c34121f82aacdd8aead8df1a43774ef59d196f0511c1927a2da",
+      "baselines\\__init__.py": "946dbbc5c5c849a4d94c6fa8cb0765f258eb2be84063b4c2fad71b0425cde20f",
+      "baselines\\llamaindex_semantic_chunker.py": "1c8908879169d4ab91358b6a6b33a73ef1c43fb5c9c4badc4243400fa621ba47",
+      "baselines\\maxmin_semantic_chunker.py": "b1bb3f9f0048725a139c3a01441a66df0c1ca69c68de5798343deffd517a6249"
+    },
+    "source_sha256_after": {
+      "src\\baseline_chunker.py": "e2cc7f05be2bfbfa9d939a23839f3213899fe8a721cd46613b96d7edfdd18763",
+      "src\\boundary.py": "3e020d88140b34f4d5128067c3ec25154b860a24f032826629953fb5ae549011",
+      "src\\boundary_scorer.py": "f0285e7dd35374f6beffb7137efe67ff0c5cfe80399d26c17f3f938869090f92",
+      "src\\dependency_rules.py": "f734672a59290b4c129c2d2327786672ba43be87a43f088c5d432b7fc469d6fd",
+      "src\\dynamic_overlap.py": "66d4105508c80699daa69045f8a4880fdab5d683d090ff74f1b7468891784336",
+      "src\\rag\\__init__.py": "4e4ed7ef8e03e0249a5e464a911081fbf3e12e29fe14c4db4174fd58fd98ec5f",
+      "src\\rag\\embedder.py": "24354d5432395808bf8917866dc761c0fa6445987d822caf1048085d47f77fad",
+      "src\\rag\\llm_client.py": "dcefcfd4872c89952588994893e8412648fcc6513739dbf7cf5284ee87c51bc8",
+      "src\\rag\\rag_pipeline.py": "9e146448201c3e72c5b18494687f75186f8ce3446fd633021559842c9be13d82",
+      "src\\rag\\retriever.py": "2ee9393200d69fde9b677edf28b5bf7a3fb038c8ef79169a438d01dc02bd35ba",
+      "src\\semantic_chunker.py": "d58cb87743ff0ac3839c3e2112389fbd74e69057e67b2731db37f3eec51697db",
+      "src\\semantic_similarity.py": "0bb1605f8a7b08398c66af1943984636016ca6b2f5a3c540aacb86421c4fd5a9",
+      "src\\sentence_splitter.py": "a10b906387d17c34121f82aacdd8aead8df1a43774ef59d196f0511c1927a2da",
+      "baselines\\__init__.py": "946dbbc5c5c849a4d94c6fa8cb0765f258eb2be84063b4c2fad71b0425cde20f",
+      "baselines\\llamaindex_semantic_chunker.py": "1c8908879169d4ab91358b6a6b33a73ef1c43fb5c9c4badc4243400fa621ba47",
+      "baselines\\maxmin_semantic_chunker.py": "b1bb3f9f0048725a139c3a01441a66df0c1ca69c68de5798343deffd517a6249"
+    },
+    "embedding_cache": "Real single-sentence encode, unbounded process-local cache. Unique chunks batch encoded once.",
+    "no_test_data_or_llm": true
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "warning": "Selected comparisons on the same dev; no multiple-search correction or independent confirmation. Resample 10 source titles jointly across both views; never count views as independent questions.",
+  "comparisons": {
+    "best_tested": {
+      "config_id": "c3f3fd94a6633",
+      "hit_at_5": {
+        "delta": 0.006437768240343348,
+        "ci95": [
+          -0.002262700534759358,
+          0.01680672268907563
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.011194563662374823,
+        "ci95": [
+          -0.0021577719155844153,
+          0.024583419421487604
+        ]
+      }
+    },
+    "ablation_semantic_only_score": {
+      "config_id": "cf40ac86c1564",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          -0.006276150627615063,
+          0.00646551724137931
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.009763948497854079,
+        "ci95": [
+          0.00010297661481467965,
+          0.021641091853407998
+        ]
+      }
+    },
+    "ablation_size_only_score": {
+      "config_id": "cdd476acb6137",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "ablation_without_optional_cut": {
+      "config_id": "cdd476acb6137",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "ablation_without_overlap": {
+      "config_id": "cdd476acb6137",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "ablation_without_risk": {
+      "config_id": "c1fce3e78a7ec",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "ablation_without_semantic_score": {
+      "config_id": "cdd476acb6137",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "ablation_without_size": {
+      "config_id": "c20461a742f44",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          -0.006276150627615063,
+          0.00646551724137931
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.009763948497854079,
+        "ci95": [
+          0.00010297661481467965,
+          0.021641091853407998
+        ]
+      }
+    },
+    "default": {
+      "config_id": "cdd476acb6137",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "fixed_overlap": {
+      "config_id": "cd4fe47c38ac1",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          -0.006355932203389831,
+          0.0063025210084033615
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.01226752503576538,
+        "ci95": [
+          -0.005579718125518738,
+          0.028571794496487113
+        ]
+      }
+    },
+    "joint": {
+      "config_id": "c0c7b7159f5d8",
+      "hit_at_5": {
+        "delta": 0.002145922746781116,
+        "ci95": [
+          -0.0045045045045045045,
+          0.008658008658008658
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.005937052932761087,
+        "ci95": [
+          -0.001725746983336525,
+          0.016667572463768102
+        ]
+      }
+    },
+    "maximum": {
+      "config_id": "ccdcf86de5c60",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          -0.008583690987124463,
+          0.008547008547008548
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.014413447782546496,
+        "ci95": [
+          0.0018110777396389548,
+          0.026869893136626827
+        ]
+      }
+    },
+    "minimum": {
+      "config_id": "c3f3fd94a6633",
+      "hit_at_5": {
+        "delta": 0.006437768240343348,
+        "ci95": [
+          -0.002262700534759358,
+          0.01680672268907563
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.011194563662374823,
+        "ci95": [
+          -0.0021577719155844153,
+          0.024583419421487604
+        ]
+      }
+    },
+    "overlap_cap": {
+      "config_id": "cde7aac7f09f6",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.011015736766809728,
+        "ci95": [
+          -3.62479158650763e-05,
+          0.02561594202898551
+        ]
+      }
+    },
+    "overlap_thresholds": {
+      "config_id": "ca21524693a60",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          -0.006355932203389831,
+          0.0063025210084033615
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.017739628040057225,
+        "ci95": [
+          0.004129455906799658,
+          0.0301974067473641
+        ]
+      }
+    },
+    "semantic_drop": {
+      "config_id": "c5fa627b282f6",
+      "hit_at_5": {
+        "delta": 0.002145922746781116,
+        "ci95": [
+          0.0,
+          0.00641025641025641
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.002682403433476395,
+        "ci95": [
+          -0.0009461426491994178,
+          0.007943544487427462
+        ]
+      }
+    },
+    "size_rounding": {
+      "config_id": "c1e952dd16a32",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0012517882689556511,
+        "ci95": [
+          0.0,
+          0.0037553648068669536
+        ]
+      }
+    },
+    "size_scale": {
+      "config_id": "cdd476acb6137",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "target": {
+      "config_id": "ca6bd618db484",
+      "hit_at_5": {
+        "delta": 0.0,
+        "ci95": [
+          -0.008928571428571428,
+          0.008403361344537815
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.011766809728183121,
+        "ci95": [
+          -0.001970057720057718,
+          0.026321465163934396
+        ]
+      }
+    },
+    "weights": {
+      "config_id": "c1dbc6b0dc5c6",
+      "hit_at_5": {
+        "delta": 0.004291845493562232,
+        "ci95": [
+          0.0,
+          0.010460251046025104
+        ]
+      },
+      "reciprocal_rank_at_5": {
+        "delta": 0.007010014306151645,
+        "ci95": [
+          0.00022515015015015012,
+          0.017236467236467237
+        ]
+      }
+    }
+  }
+}
