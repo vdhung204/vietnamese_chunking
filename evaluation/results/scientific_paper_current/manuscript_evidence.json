@@ -1,0 +1,30 @@
+{
+  "manuscript_sha256": "c6ee544b8bbd9d0518d9d35b2872759cf129a8bbac101d92ec9d5845b906ede3",
+  "manuscript": "BAO_CAO.md",
+  "structure_reference": "https://link.springer.com/article/10.1007/s10791-025-09638-7",
+  "production_parameters": {
+    "minimum": 120,
+    "target": 180,
+    "maximum": 240,
+    "semantic_weight": 0.5,
+    "size_weight": 0.3,
+    "risk_weight": 0.6,
+    "drop": 0.3,
+    "overlap_low": 0.3,
+    "overlap_high": 0.55,
+    "overlap_cap": 2,
+    "fixed_overlap": null,
+    "size_rounding": 2
+  },
+  "current_test_outputs": true,
+  "evidence_inputs_sha256": {
+    "evaluation\\results\\scientific_paper_current\\protocol.json": "6907cf4afcd2d3b9ff9c2d38da2b938afd03dd881eced3d5c47f4a4becf40aa1",
+    "evaluation\\results\\scientific_paper_current\\diagnostics.json": "234e474b221d17ed12b7b0c325b32ea17a64d924d9c243d04d319d0517a5d7e2",
+    "evaluation\\results\\parameter_study\\aggregate.csv": "86c7df52b2ec490914ebd5e0928490c069972c7c87fbe65e4ce78de817e2e081",
+    "evaluation\\results\\parameter_study\\summary.json": "9e0b842289847c3827f4003ea68d3e7cf4f77ed0191a1991a0075cb6387ddbd9",
+    "evaluation\\results\\scientific_paper_current\\xquad_vi_paragraph_test\\rag_comparison.json": "503c356e75053cd8665853c8d750deebf4e93ca6d5d01a003c652067ccfb926f",
+    "evaluation\\results\\scientific_paper_current\\xquad_vi_article_test\\rag_comparison.json": "4497dd5b7b2ab2c5a68dc6c0ec4d7365f922b8c8479a5be04ba72695e81d8a4d",
+    "evaluation\\results\\scientific_paper_current\\xquad_vi_paragraph_test\\rag_statistical_summary.json": "033f8a442fd961f639180c765c9a78d96b9b09377ee8a48cfbce9bd3192258b4",
+    "evaluation\\results\\scientific_paper_current\\xquad_vi_article_test\\rag_statistical_summary.json": "a041ea961526e3bdce717fc311c8113f70c507956415fa962da78bfc9cb1dafa"
+  }
+}
